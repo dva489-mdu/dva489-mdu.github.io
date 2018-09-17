@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA456</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header nobreak">
+        <h2>Cross Site Request Forgery</h2>
+
+        <p>
+            <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)">Cross Site Request Forgery
+                (CSRF)</a>
+            is an attack where a user is tricked by an attacker into performing
+            a request to a site where the user is authenticated. This is possible due to the automatic passing
+            of authorization information in every request done by, e.g., cookie-based sessions. CSRF attacks
+            target state changing actions since the attacker has no way of getting the reply. As an example,
+            the victim can be tricked into involuntary posting (e.g., free iPhone ads!)
+        </p>
+
+        <p>
+            Unless protection mechanisms are in place it suffices that the victim visits a malicious site for the CSRF
+            attack to take place. Social engineering is frequently part of CSRF attack, e.g., by sending malicious
+            links or links to malicious sites or even ask the user to google for a special promo code.
+
+        </p>
+
+        <h3>The attack</h3>
+
+        <p>
+            In Squeak! there is no protection against CSRF attacks leaving the application wide open. The goal is to
+            trick an authenticated user into posting the URL to the attack page. If other authenticated users click
+            the URL they too will be victims of the CSRF.
+        </p>
+
+        <p>
+            A first attempt at creating a CSRF attack would be to create a page with an AJAX call to
+            <code>https://localhost:8000/squeak</code>. Fortunately, it's not that simple. Such attack attempt is
+            thwarted by the <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy"></a>
+            Policy (SOP)
+            that prevents cross-site AJAX, i.e., AJAX requests from one domain to another.
+        </p>
+        <p>
+            Your first task is to try to craft a homepage that performs a CSRF attack against authenticated Squeak!
+            users. When visiting the page an authenticated Squeak! users should involuntarily post a link to the
+            attack page. The attack is illustrated below. First, <em>M. Sch&ouml;nfinkel</em> signs in to Squeak! (left).
+            Second, <em>M. Sch&ouml;nfinkel</em> is tricked into visiting a malicious site while signed in to Squeak! (mid).
+            Third, the malicious site has successfully used posted as <em>M. Sch&ouml;nfinkel</em> in Squeak! (right). The post
+            contains a link to the malicious site. If any other user clicks the link they, too, become victims of the
+            CSRF attack.
+        </p>
+
+        <div class="row">
+            <div class="col-md-4"><a href="csrf-attack-large.html"><img src="csrf/csrf-schonfinkel-logged-in.png" class="img-responsive"></a></div>
+            <div class="col-md-4"><a href="csrf-attack-large.html"><img src="csrf/csrf-schonfinkel-tricked.png" class="img-responsive"></a></div>
+            <div class="col-md-4"><a href="csrf-attack-large.html"><img src="csrf/csrf-schonfinkel-posted.png" class="img-responsive"></a></div>
+
+        </div>
+
+        <h3>Protecting the application</h3>
+
+        <p>
+            The attack is made possible since cookies are always sent along with every request to a given domain,
+            regardless if the request originates from the domain itself. There are several ways to prevent
+            CSRF attack with different properties, strengths, and weaknesses. See the
+            OWASP <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet">Cross-Site Request Forgery Cheat Sheet</a>
+            for more information.
+        </p>
+
+        <p>
+            Your second task is to implement protection based on CSRF tokens. Associate each session with a randomly
+            generated
+            CSRF token, embed the token in a hidden token field in the squeak form, and verify that the token passed
+            with
+            the request corresponds to CSRF token of the session. Do you need to protect the <code>/signin</code>,
+            <code>/signup</code> and <code>/signout</code> endpoints in the same way?
+
+        </p>
+
+        <h3>Attack report</h3>
+        <p>
+            Write a short attack report detailing the attack and your countermeasures.
+        </p>
+    </div>
+</div>
+
+</body>
+
+
+</html>

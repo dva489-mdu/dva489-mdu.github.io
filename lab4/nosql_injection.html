@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA456</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header nobreak">
+        <h2>NoSQL injection</h2>
+
+        <p>
+            <a href="https://www.owasp.org/index.php/SQL_Injection">SQL Injection</a> is a common injection attack
+            that allows the attacker to inject SQL queries into (the backend of) an application. SQL injection attacks
+            are dangerous since they may lead to loss or modification of data. NoSQL injection attacks NoSQL injection
+            attacks are analogous attacks from NoSQL databases such as <a href="https://www.mongodb.com/">MongoDB</a>.
+            The common denominator of the attacks are queries created from user input without proper sanitation.
+        </p>
+
+
+        <h3>The attack</h3>
+
+        <p>
+            In Squeak! there are three situations where queries are constructed from user provided input.
+        </p>
+
+        <ol>
+            <li>Password handling: the username and the password for signing up and signing in.</li>
+            <li>Session handling: validating and invalidating sessions.</li>
+            <li>Squeak handling: posting and retrieving squeaks.</li>
+        </ol>
+
+        <p>
+            Each of these provides attack possibilities! See
+            <a href="https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html">hacking nodejs and mongodb</a>
+            for a primer into NoSQL injection. Your first task is to perform NoSQL attacks to at least
+        </p>
+
+        <ol>
+            <li>bypass the authentication by providing a specially crafted username and password.</li>
+            <li>hijack a session by providing a specially crafted session identifier.</li>
+            <li>destroy the session database by providing a specially crafted session identifier.</li>
+            <li>retrieve other users private messages by providing a specially crafted username.</li>
+        </ol>
+
+        <p>
+            Further variations are possible. How many ways of exploiting the application can you find?
+        </p>
+
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Observe!</h4>
+            <p>
+                It's not necessarily possible that the attacks can be done from the application itself. However,
+                an attacker is not constrained to using the provided client only! To execute the above attacks
+                you might have to use the <a href="https://developers.google.com/web/tools/chrome-devtools/console/">JavaScript Console</a>
+                or to use an extension like <a href="https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg">EditThisCookie</a>
+                to edit the session cookie.
+            </p>
+        </div>
+
+        <h3>Protecting the application</h3>
+
+        <p>
+            Some of the above attacks rely on the interaction between NoSQL injection and insufficient password handling.
+            Which of the attacks would be prevented by a properly implemented salt and hash password regime?
+        </p>
+
+        <p>
+            Even though some of the injection attacks can be prevented by other security measures the fundamental
+            injection vulnerability. To do this we must validate the input to ensure that no queries are let through.
+            See the OWASP <a href="https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet">Input Validation Cheat Sheet</a>
+            for information. Pay extra attention on the part on
+            <a href="https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet#Whitelisting_vs_blacklisting">whitelisting vs blacklisting</a>
+            and note that session identifiers and user-names are prime examples of input that can easily be constrained using a whitelist.
+            Identify all places where input validation is needed, implement appropriate validators and demonstrate that
+            the attacks are indeed stopped.
+        </p>
+
+
+
+        <h3>Attack report</h3>
+        <p>
+            Write a short attack report detailing the attack and your countermeasures.
+        </p>
+    </div>
+</div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA456</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+
+    <div class="page-header nobreak">
+        <h2>Stored XSS</h2>
+
+        <p>
+            <a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">Cross-site Scripting</a> (XSS) attacks
+            are
+            code injection attacks where data is injected into the web application
+            in such a way it is executed on the victim's machine. The malicious content is frequently JavaScript but
+            is certainly not limited to it. Any content, e.g., Flash, that is executed on the victim's machine can be
+            used. In this attack, however, we will focus on JavaScript injection.
+        </p>
+
+        <p>
+            This time we will use a stored XSS attack to steal the session cookie! A stored XSS attack is a particular
+            form of XSS attack relying on the attacker being able to inject content
+            that is later served back to users without filtering or escaping. We will access the cookies via
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie">document.cookie</a>
+            and sends it along with the username to a remote paste server.
+        </p>
+
+
+        <h3>The attack</h3>
+
+        <p>
+            In Squeak! you have the ability to post
+            squeaks that. If you implemented Squeak! according to the specification, the posts are not filtered and not
+            escaped, which leaves the application wide open for XSS attacks. If you implemented filtering or escaping,
+            well done - now turn it off for the attack to work!
+        </p>
+        <p>
+            Your first task is to try to craft a squeak that opens an alert window by injecting
+            <code>&#x3C;script&#x3E;alert(&#x27;Owned&#x27;);&#x3C;/script&#x3E;</code>. This should be really
+            straightforward.
+            After you have successfully done so the browser will reload the page and the alert should be visible. Any
+            subsequent reload of the page should also trigger the alert, e.g., when another user logs in as illustrated below,
+            where <em>M. Sch&ouml;nfinkel</em> gets owned by an attack previously posted by <em>L. E. J. Brouwer</em>.
+            First, <em>L. E. J. Brouwer</em> posts the attack (upper left, masked). Then,
+            <em>M. Sch&ouml;nfinkel</em> logs in (upper right), gets owned (lower left) and gets into
+            the application, where he can see the message left by <em>L. E. J. Brouwer</em> (lower right).
+        </p>
+
+
+        <div class="row">
+            <div class="col-md-6"><a href="stored-xss-attack-large.html"><img src="stored_xss/squeak-attack-brouwer.png" class="img-responsive"></a></div>
+            <div class="col-md-6"><a href="stored-xss-attack-large.html"><img src="stored_xss/squeak-attack-logging-in.png" class="img-responsive"></a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><a href="stored-xss-attack-large.html"><img src="stored_xss/squeak-attack-active.png" class="img-responsive"></a></div>
+            <div class="col-md-6"><a href="stored-xss-attack-large.html"><img src="stored_xss/squeak-attack-logged-in.png" class="img-responsive"></a></div>
+        </div>
+
+        <p>
+            Your second task is to device attack code that steals
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie">document.cookie</a>
+            and sends it along with the username to <code>https://dva446.herokuapp.com/store/ID</code>,
+            where you can select a unique ID (in order to not interfere with the other users). Any content
+            in the body of a POST will be added to the ID, which can be viewed using GET to the very same
+            address. Use this to steal the session of one of your users!
+        </p>
+
+
+        <h3>Protecting the application</h3>
+
+        <p>
+            The attack is made possible since the application allows unescaped untrusted data into an HTML element.
+            Your third task is to implement protection against stored XSS in the application. You will do this in
+            two ways.
+        </p>
+
+        <h4>#1: Escape all untrusted data</h4>
+        <p>
+            Read the OWASP <a href="https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet">XSS Prevention Cheat Sheet</a>
+            to understand where and when escaping is needed. Escaping is notoriously difficult to get right. Instead of
+            relying on your own escaping we are going to use one of the popular templating engines: <a href="https://mustache.github.io/">Mustache</a>.
+            Mustache automatically escapes all data when generating pages.
+        </p>
+        <p>
+            Reimplement your application using <a href="https://mustache.github.io/">Mustache</a>. This should
+            be relatively straightforward since the templating functionality we implemented is compatible with
+            Mustache. Use <a href="https://www.npmjs.com/package/mustache-express">mustache-express</a> to use
+            Mustache with Express.js. The Express.js home page contains a
+            guide on how to <a href="https://expressjs.com/en/guide/using-template-engines.html">use template engines</a>.
+            Note: it seems that <em>mustache-express</em> requires templates to be named <code>.mustache</code> in
+            order for it to find them.
+        </p>
+
+        <h4>#2: Protect the session cookie</h4>
+        <p>
+            Make sure that the session cookie is secure by setting the attribute <em>HttpOnly</em>, which causes the
+            cookie to be inaccessible from JavaScript. Further, set the attribute <em>Secure</em>, which causes the
+            cookie to only be set if transferred over SSL. Read more about attributes that can be set using
+            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie">Set Cookie</a>.
+        </p>
+
+        <h3>Attack report</h3>
+        <p>
+            Write a short attack report detailing the attack and your countermeasures.
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>

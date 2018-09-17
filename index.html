@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA446</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/print.css" rel="stylesheet" media="print">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+
+    <div class="page-header nobreak">
+        <h2>DVA446 - Applied cybersecurity, 2018 </h2>
+
+        <div class="well hidden-print">
+            <ul>
+                <li><strong>2018-09-17</strong> Laboration 4 available</li>
+                <li><strong>2018-09-11</strong> Laboration 3 available</li>
+                <li><strong>2018-09-07</strong> Laboration 2 available</li>
+                <li><strong>2018-08-29</strong> Initial version</li>
+            </ul>
+        </div>
+
+        <p>
+            The course is split into two parts. The first part corresponding to roughly 4 credits consists of
+            practical application development, attacks and analysis. The second part consists of an excursion into
+            future protection mechanisms: taint tracking and information flow control.
+        </p>
+
+        <p>
+            If you are not familiar with web development already, this course expects you to be able to get the required
+            knowledge yourselves. There will be links to resources to aid you in this process, and the laboration guides
+            link to the different used elements, frameworks and libraries. In short, the course expects you to be
+            mature knowledge seeking programmers!
+        </p>
+
+
+        <p>
+            <strong>Time outline</strong>. The course consists of 4 compulsory laborations, 1 compulsory exercise and 2
+            optional laborations (called excursions) provided
+            as extra material for the interested student. Initially
+            only the first laboration is available. The successive parts will be made available (at the latest) on the
+            due date of the preceding part. The intended schedule is as follows.
+        </p>
+
+        <ul>
+            <li>Laboration 1: September 3 to September 24 (3 weeks)</li>
+            <li>Laboration 2: September 24 to October 22 (4 weeks)</li>
+            <li>Laboration 3: October 22 to November 19 (4 weeks)</li>
+            <li>Laboration 4: November 19 to December 17 (4 weeks)</li>
+            <li>Exercise : December 17 to 21 and January 6 to January 18 (3 weeks)</li>
+        </ul>
+
+    </div>
+
+    <div class="page-header nobreak">
+        <h2>Part 1: Security Practice</h2>
+        <p>
+            Part 1 consists of four laborations with associated attacks. Each of the four parts should be equivalent to
+            roughly 1 credit, corresponding to about 3 days of work. You are going to develop the applications to
+            attack yourselves. In order to gain full understanding of the attacks its important to understand the
+            workings of the applications. To help you on the way there are relatively detailed laboration guides,
+            with online example solutions. You are free to take inspiration from the example solutions in terms of the
+            content they server, including HTML, CSS, JavaScript, etc. Indeed, the laboration guides expect you
+            to examine and reverse engineer their solutions. Feel free to take inspiration, or reuse and improve!
+        </p>
+
+        <br>
+
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Example solutions</h4>
+            <p>
+                You are allowed to use any information you can get from the example solutions, including the code
+                if you manage to successfully exploit them. I've made an effort to secure them, but there are no
+                guarantees!
+            </p>
+        </div>
+
+        <p>
+            Since you will be attacking your own web applications there is a risk that the code you write is not
+            vulnerable to attack. The laboration guides try to alleviate this problem by guiding you towards a
+            believable solution containing common security flaws. The intention is that, if you follow thi instructions
+            closely without adding additional security measures of your own, you should end up with an application
+            open to selected attacks.
+        </p>
+
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Early protection</h4>
+            <p>
+                Abstain from prematurely hardening your application! This removes the fun of successfully attacking the
+                application!
+            </p>
+        </div>
+
+    </div>
+    <div class="page-header nobreak">
+
+        <!-- LAB: My first web app -->
+        <div class="list-group">
+
+            <a href="lab1/my_first_web_app.html" class="list-group-item">
+                <span class="date">Development</span>
+
+                <h4 class="list-group-item-heading">My first web application</h4>
+
+                <p class="list-group-item-text">
+                    HTTP server creation, serving static content, passing information to the server, creating a simple
+                    web application.
+                </p>
+
+                <br>
+
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+
+                <dl class="dl-horizontal">
+                    <dt>The Tangled Web</dt>
+                    <dd>Chapter 1: Security in the world of web applications</dd>
+                    <dd>Chapter 2 (23 - 36]: It starts with a URL</dd>
+                    <dd>Chapter 3 (41 - 58]: HyperText Transfer Protocol</dd>
+
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Tutorials</dt>
+                    <dd><a href="https://javascript.info/">The Modern JavaScript Tutorial</a> (javascript.info)</dd>
+                    <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML">Introduction
+                        to HTML</a> (MDN)
+                    </dd>
+                    <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS">Learn to style HTML using CSS</a>
+                        (MDN)
+                    </dd>
+                    <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript">JavaScript</a> (MDN)</dd>
+
+                    <dd><a href="https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/">Anatomy of an HTTP
+                        Transaction
+                    </a> (node.js)
+                    </dd>
+                </dl>
+
+
+                <dl class="dl-horizontal">
+                    <dt>References</dt>
+                    <dd><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">Standard
+                        built-in objects</a> (MDN)
+                    </dd>
+
+                </dl>
+            </div>
+
+        </div>
+
+        <div class="list-group">
+
+            <!-- Attack: Denial of Service -->
+
+            <a href="lab1/denial_of_service.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">Denial of Service</h4>
+
+                <p class="list-group-item-text">
+                    Trying to crash the web application.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+                <dl class="dl-horizontal">
+                    <dt>Resources</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Denial_of_Service">Denial of Service</a> (OWASP)</dd>
+                </dl>
+            </div>
+
+        </div>
+
+        <div class="list-group">
+
+            <!-- Attack: Reflected XSS -->
+
+            <a href="lab1/reflected_xss.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">Reflected XSS</h4>
+
+                <p class="list-group-item-text">
+                    Non-persistent XSS. Remote code execution.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+
+                <dl class="dl-horizontal">
+                    <dt>The Tangled Web</dt>
+                    <dd>Chapter 4 (69 - 80]: HyperText Markup Language</dd>
+                    <dd>Chapter 6: Browser-Side Scripts</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Tutorials</dt>
+                    <dd><a href="https://excess-xss.com/">Excess XSS</a> part on Reflected XSS</dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Videos</dt>
+                    <dd><a href="https://www.youtube.com/watch?v=M_nIIcKTxGk">What is Cross Site Scritping</a>
+                    </dd>
+                    <dd>
+                        <a href="https://www.youtube.com/watch?v=dFci82qwXA0">Non Persistent XSS</a>
+                    </dd>
+                </dl>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- Hand in: Submission 1 -->
+        <div class="list-group">
+
+            <div class="list-group-item">
+                <span class="date">Hand in</span>
+
+                <h4 class="list-group-item-heading">Submission 1</h4>
+
+                <p class="list-group-item-text">
+                    Submission 1 consists of two attack reports that should be handed in together with the corresponding
+                    code.
+                </p>
+
+                <br>
+
+                <ul>
+                    <li>The unpatched code of <em>My first web application</em></li>
+                    <li>The patched code of <em>My first web application</em></li>
+                    <li>The report of the <a href="lab1/denial_of_service.html">Denial of Service</a> attack</li>
+                    <li>The report of the <a href="lab1/reflected_xss.html">Reflected XSS</a> attack</li>
+                </ul>
+
+                <p>
+                    Submission 1 is due <strong>September 24</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="page-header nobreak">
+
+
+        <!-- LAB: My first authenticated web application -->
+        <div class="list-group ">
+
+            <a href="lab2/my_first_authenticated_web_app.html" class="list-group-item">
+                <span class="date">September 24</span>
+
+                <h4 class="list-group-item-heading">My first authenticated web application </h4>
+
+                <p class="list-group-item-text">
+                    Creating a home environment monitor, dynamic web applications, authentication and authorization,
+                    session
+                    management.
+                </p>
+
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+
+                <dl class="dl-horizontal">
+                    <dt>The Tangled Web</dt>
+                    <dd>Chapter 3 (60 - 67]: Cookies, HTTP authentication and SSL</dd>
+
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd><a href="https://www.cs.cornell.edu/fbs/publications/chptr.AuthPeople.pdf">Authentication for
+                        People</a>, Fred B. Schneider
+                    </dd>
+                    <dd><a href="https://www.cs.cornell.edu/fbs/publications/chptr.DAC.pdf">Access Control</a>, Fred B.
+                        Schneider
+                    </dd>
+                    <dd><a href="https://docs.microsoft.com/en-us/previous-versions/tn-archive/cc512578(v=technet.10)">It&apos;s
+                        Me, and Here&apos;s My Proof: Why Identity and Authentication Must Remain Distinct</a>, Steve
+                        Riley
+                    </dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">Cookies</a> (MDN)</dd>
+                    <dd><a href="https://www.ietf.org/rfc/rfc2965.txt">HTTP State Management Mechanism</a> (RFC 2965)
+                    </dd>
+                    <dd><a href="https://www.owasp.org/index.php/Category:Access_Control">Access Control</a> (OWASP)
+                    </dd>
+                    <dd><a href="http://www.steves-internet-guide.com/ssl-certificates-explained/">SSL and SSL
+                        Certificates Explained</a>
+                    </dd>
+
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Tutorials</dt>
+                    <dd><a href="https://contextneutral.com/story/creating-an-https-server-with-nodejs-and-express">Creating
+                        an HTTPs server with Node.js and Express</a></dd>
+
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Videos</dt>
+                    <dd><a href="https://www.youtube.com/watch?v=MT7X17ZRo1U">User Authentication</a> (MIT
+                        OpenCourseWare)
+                    </dd>
+                </dl>
+
+            </div>
+
+
+        </div>
+
+        <!-- Attack: stealing the password file -->
+        <div class="list-group">
+
+            <a href="lab2/stealing_password_file.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">Stealing the password file</h4>
+
+                <p class="list-group-item-text">
+                    Path traversal attacks, input validation, secure password storing.
+                </p>
+
+            </a>
+            <div class="list-group-item">
+                <br>
+
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd><a href="https://lasec.epfl.ch/~oechslin/publications/crypto03.pdf">Making a Faster
+                        Cryptanalytic Time-Memory
+                        Trade-Of</a></dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Path_Traversal">Path Traversal</a> (OWASP)</dd>
+                    <dd><a href="https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet">Input Validation Cheat
+                        Sheet</a> (OWASP)
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Tutorials</dt>
+                    <dd>
+                        <a href="https://nakedsecurity.sophos.com/2013/11/20/serious-security-how-to-store-your-users-passwords-safely/">Serious
+                            Security: How to store your users&apos; passwords safely</a></dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Videos</dt>
+                    <dd><a href="https://www.youtube.com/watch?v=Vryo30qK9Qk">Explained! Rainbow Tables</a></dd>
+            </div>
+        </div>
+
+        <!-- Attack: session theft -->
+        <div class="list-group">
+
+            <a href="lab2/session_theft.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">Session hijacking</h4>
+
+                <p class="list-group-item-text">
+                    Session prediction, session expiration, session id generation
+                </p>
+
+            </a>
+            <div class="list-group-item">
+                <br>
+
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd><a href="http://www.cgisecurity.com/lib/SessionIDs.pdf">Brute-Force Exploitation of Web
+                        Application Session IDs</a></dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Session_Prediction">Session Prediction</a> (OWASP)</dd>
+                </dl>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hand in: Submission 2 -->
+        <div class="list-group">
+
+            <div class="list-group-item">
+                <span class="date">Hand in</span>
+
+                <h4 class="list-group-item-heading">Submission 2</h4>
+
+                <p class="list-group-item-text">
+                    Submission 2 consists of two attack reports that should be handed in together with the corresponding
+                    code.
+                </p>
+
+                <br>
+
+                <ul>
+                    <li>The unpatched code of <em>My first authenticated web application</em></li>
+                    <li>The patched code of <em>My first authenticated web application</em></li>
+                    <li>The report of the <a href="lab2/stealing_password_file.html">Stealing the password file</a>
+                        attack
+                    </li>
+                    <li>The report of the <a href="lab2/session_theft.html">Session hijacking</a> attack</li>
+                </ul>
+
+                <p>
+                    Submission 2 is due <strong>October 22</strong>
+                </p>
+
+            </div>
+
+            <div class="list-group-item">
+                <p>
+                    Laboration 2 touches on three of the most critical web application security risks according to the
+                    <a href="https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project">OWASP Top Ten Project</a>.
+                    For more information on those attack categories see, e.g., the following resources.
+                </p>
+
+                <dl class="dl-horizontal">
+                    <dt>Books</dt>
+                    <dd>
+                        <a href="https://www.wiley.com/en-se/Cryptography+Engineering:+Design+Principles+and+Practical+Applications+-p-9781118080917">Cryptography
+                            Engineering</a>, Ferguson, Schneier, Kohno, Chapter 5: Hash functions, Chapter 9: Generating
+                        Randomness, Chapter 19: PKI Reality, Chapter 21: Storing Secrets
+                    </dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd><a href="https://pdos.csail.mit.edu/papers/webauth:sec10.pdf">Dos and Don&apos;ts of Client
+                        Authentication on the Web</a></dd>
+                    <dd>
+                        <a href="https://www.blackhat.com/docs/us-16/materials/us-16-Sivakorn-HTTP-Cookie-Hijacking-In-The-Wild-Security-And-Privacy-Implications-wp.pdf">
+                            HTTP Cookie Hijacking in the Wild: Security and
+                            Privacy Implications
+                        </a></dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>OWASP Top 10, 2017</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Authentication">A2-Broken
+                        Authentication</a></dd>
+                    <dd><a href="https://www.owasp.org/index.php/Top_10-2017_A3-Sensitive_Data_Exposure">A3-Sensitive
+                        Data Exposure</a></dd>
+                    <dd><a href="https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control">A5-Broken Access
+                        Control</a></dd>
+                </dl>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="page-header nobreak">
+
+
+        <!-- LAB: My first collaboration platform -->
+        <div class="list-group">
+
+            <a href="lab3/my_first_social_media_app.html" class="list-group-item">
+                <span class="date">October 22</span>
+
+                <h4 class="list-group-item-heading">My first social media web application</h4>
+
+                <p class="list-group-item-text">
+                    Express.js, using and creating middleware, multi-user, user registration, user-created content.
+                </p>
+
+                <br>
+            </a>
+
+            <div class="list-group-item">
+                <br>
+                <dl class="dl-horizontal">
+                    <dt>Express.js</dt>
+                    <dd><a href="http://expressjs.com/en/starter/installing.html">Installing</a>
+                    </dd>
+                    <dd><a href="http://expressjs.com/en/starter/hello-world.html">Hello world example</a>
+                    </dd>
+                    <dd><a href="http://expressjs.com/en/starter/static-files.html">Serving static files in Express</a>
+                    </dd>
+
+                    <dd><a href="http://expressjs.com/en/guide/routing.html">Routing</a></dd>
+                    <dd><a href="http://expressjs.com/en/guide/writing-middleware.html">Writing middleware for use in
+                        Express apps
+                    </a></dd>
+                    <dd><a href="http://expressjs.com/en/guide/using-middleware.html">Using middleware</a></dd>
+                </dl>
+            </div>
+
+        </div>
+
+        <!-- Attack: stored XSS -->
+        <div class="list-group">
+
+            <a href="lab3/stored_xss.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">Stored XSS</h4>
+
+                <p class="list-group-item-text">
+                    Session theft, secure and httponly cookies.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+                <dl class="dl-horizontal">
+                    <dt>The Tangled Web</dt>
+                    <dd>Chapter 6: Browser-Side Scripts</dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd><a href="https://crypto.stanford.edu/cs155/papers/CSS.pdf">Cross Site Scripting Explained </a>
+                    </dd>
+                    <dd><a href="https://ben-stock.de/wp-content/uploads/domxss.pdf">25 Million Flows Later -
+                        Large-scale Detection of
+                        DOM-based XSS</a></dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Session_hijacking_attack">Session hijacking attack</a>
+                    </dd>
+                    <dd><a href="https://www.owasp.org/index.php/HttpOnly">HttpOnly</a> cookie flag</dd>
+                    <dd><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">Cookies</a> (MDN)</dd>
+                </dl>
+
+
+                <dl class="dl-horizontal">
+                    <dt>Videos</dt>
+                    <dd><a href="https://www.youtube.com/playlist?list=PL1A2CSdiySGIRec2pvDMkYNi3iRO89Zot">Cross Site
+                        Scripting Tutorials</a></dd>
+                </dl>
+            </div>
+
+        </div>
+
+        <!-- Attack: Cross Site Request Forgery -->
+        <div class="list-group">
+
+            <a href="lab3/csrf.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">Cross Site Request Forgery</h4>
+
+                <p class="list-group-item-text">
+                    Tricking users to perform unwanted actions.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+                <dl class="dl-horizontal">
+                    <dt>The Tangled Web</dt>
+                    <dd>Chapter 6: Browser-Side Scripts</dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd><a href="https://seclab.stanford.edu/websec/csrf/csrf.pdf">Robust Defenses for Cross-Site
+                        Request Forgery</a></dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)">Cross-Site Request
+                        Forgery (CSRF)</a> (OWASP)
+                    </dd>
+                    <dd>
+                        <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet">CSRF
+                            Prevention Cheat Sheet</a> (OWASP)
+                    </dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Video Tutorial</dt>
+                    <dd><a href="https://www.troyhunt.com/understanding-csrf-video-tutorial/">Understanding CSRF, the
+                        video tutorial edition</a></dd>
+                </dl>
+
+            </div>
+
+        </div>
+
+        <!-- Attack: Denial of Service -->
+        <div class="list-group">
+
+            <a href="lab3/redos.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">ReDoS: Regular Expression Denial of Service</h4>
+
+                <p class="list-group-item-text">
+                    Crafting regular expressions with exponential execution time behavior.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd>
+                        <a href="https://www.usenix.org/conference/12th-usenix-security-symposium/denial-service-algorithmic-complexity-attacks">Denial
+                            of Service via Algorithmic Complexity Attacks</a></dd>
+                    <dd><a href="http://people.cs.vt.edu/fservant/papers/Davis_Coghlan_Servant_Lee_FSE18.pdf">The Impact
+                        of Regular Expression Denial of Service (ReDoS) in
+                        Practice: An Empirical Study at the Ecosystem Scale</a></dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS">Regular
+                        expression Denial of Service - ReDoS</a> (OWASP)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Hand in: Submission 3 -->
+        <div class="list-group">
+
+            <div class="list-group-item">
+                <span class="date">Hand in</span>
+
+                <h4 class="list-group-item-heading">Submission 3</h4>
+
+                <p class="list-group-item-text">
+                    Submission 3 consists of three attack reports that should be handed in together with the
+                    corresponding
+                    code.
+                </p>
+
+                <br>
+
+                <ul>
+                    <li>The unpatched code of <em>My first social media web application</em></li>
+                    <li>The patched code of <em>My first social media web application</em></li>
+                    <li>The report of the <a href="lab3/stored_xss.html">Stored XSS</a> attack</li>
+                    <li>The report of the <a href="lab3/csrf.html">Cross-Site Request Forgery</a> attack</li>
+                    <li>The report of the <a href="lab3/redos.html">ReDoS: Regular Expression Denial of Service</a>
+                        attack
+                    </li>
+
+                </ul>
+
+                <p>
+                    Submission 3 is due <strong>November 19</strong>
+                </p>
+            </div>
+
+            <div class="list-group-item">
+                <p>
+                    Laboration 3 touches on two of the most critical web application security risks according to the
+                    <a href="https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project">OWASP Top Ten Project</a>.
+                    For more information on those attack categories see, e.g., the following resources.
+                </p>
+
+
+                <dl class="dl-horizontal">
+                    <dt>OWASP Top 10, 2017</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Top_10-2017_A7-Cross-Site_Scripting_(XSS)">A7-Cross-Site
+                        Scripting</a></dd>
+                    <dd>
+                        <a href="https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities">A9-Using
+                            Components with Known Vulnerabilities</a></dd>
+                </dl>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="page-header nobreak">
+
+
+        <!-- LAB: Multi-tiered web applications -->
+        <div class="list-group">
+
+            <a href="lab4/my_first_multi_tiered_web_application.html" class="list-group-item">
+                <span class="date">November 19</span>
+
+                <h4 class="list-group-item-heading">My first multi-tiered web application</h4>
+
+                <p class="list-group-item-text">
+                    Connecting the backend to 3rd party services; nosql databases.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+                <dl class="dl-horizontal">
+                    <dt>MongoDB</dt>
+
+                    <dd><a href="https://docs.mongodb.com/manual/reference/">Reference manual</a>
+                    </dd>
+                    <dd><a href="http://mongodb.github.io/node-mongodb-native/3.1/api/">API</a> reference
+                    </dd>
+
+                    <dd><a href="https://docs.mongodb.com/manual/core/security-scram/">SCRAM</a> authentication</dd>
+
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="http://exploringjs.com/es6/ch_async.html">Asynchronous programming (background)</a>
+                        (exploringjs.com)
+                    </dd>
+                    <dd><a href="http://exploringjs.com/es6/ch_promises.html#ch_promises">Promises for asynchronous
+                        programming</a> (exploringjs.com)
+                    </dd>
+                    <dd><a href="https://eloquentjavascript.net/11_async.html">Asynchronous Programming</a>
+                        (eloquentjavascript.net)
+                    </dd>
+                    <dd><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises">Using
+                        promises</a> (MDN)
+                    </dd>
+                </dl>
+            </div>
+
+
+        </div>
+
+        <!-- Attack: NoSQL injection -->
+        <div class="list-group">
+
+            <a href="lab4/nosql_injection.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">NoSQL injection</h4>
+
+                <p class="list-group-item-text">
+                    Bypassing authentication and authorization; destroying the database.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html">Hacking node.js
+                        and MongoDB</a>
+                    </dd>
+                    <dd><a href="https://blog.websecurify.com/2014/08/attacks-nodejs-and-mongodb-part-to.html">Attacking
+                        node.js and MongoDB</a></dd>
+                    <dd><a href="https://media.blackhat.com/bh-us-11/Sullivan/BH_US_11_Sullivan_Server_Side_WP.pdf">Server-Side
+                        JavaScript Injection</a></dd>
+                    <dd>
+                        <a href="https://docs.mongodb.com/manual/faq/fundamentals/#how-does-mongodb-address-sql-or-query-injection">How
+                            does MongoDB address SQL or Query injection?</a></dd>
+                </dl>
+
+
+            </div>
+        </div>
+
+        <!-- Attack: User impersonation -->
+        <div class="list-group">
+
+            <a href="lab4/cookie_integrity.html" class="list-group-item">
+                <span class="date">Attack</span>
+
+                <h4 class="list-group-item-heading">Cookie integrity attacks</h4>
+
+                <p class="list-group-item-text">
+                    User impersonation; data theft.
+                </p>
+
+            </a>
+
+            <div class="list-group-item">
+                <br>
+                <dl class="dl-horizontal">
+                    <dt>Books</dt>
+                    <dd>
+                        <a href="https://www.wiley.com/en-se/Cryptography+Engineering:+Design+Principles+and+Practical+Applications+-p-9781118080917">Cryptography
+                            Engineering</a>, Ferguson, Schneier, Kohno, Chapter 6: Message Authentication Codes
+                    </dd>
+                    <dd>
+                        <a href="https://www.abortz.net/papers/session-integrity.pdf">Origin Cookies: Session Integrity
+                            for Web Applications</a>
+                    </dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Articles</dt>
+                    <dd><a href="https://www.usenix.org/system/files/conference/usenixsecurity15/sec15-paper-zheng.pdf">Cookies
+                        Lack Integrity: Real-World Implications</a></dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt>Key Topics</dt>
+                    <dd><a href="http://www.brunton-spall.co.uk/post/2012/11/08/securing-web-cookies-with-signatures/">Securing
+                        Web Cookies With Signatures</a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+
+        <!-- Hand in: Submission 4 -->
+        <div class="list-group">
+
+            <div class="list-group-item">
+                <span class="date">Hand in</span>
+
+                <h4 class="list-group-item-heading">Submission 4</h4>
+
+                <p class="list-group-item-text">
+                    Submission 4 consists of two attack reports that should be handed in together with the
+                    corresponding
+                    code.
+                </p>
+
+                <br>
+
+                <ul>
+                    <li>The unpatched code of <em>My first multi-tiered web application</em></li>
+                    <li>The patched code of <em>My first multi-tiered web application</em></li>
+                    <li>The report of the <a href="lab4/nosql_injection.html">NoSQL injection</a> attack</li>
+                    <li>The report of the <a href="lab4/cookie_integrity.html">User impersonation</a> attack</li>
+                </ul>
+
+                <p>
+                    Submission 4 is due <strong>December 17</strong>
+                </p>
+            </div>
+
+            <div class="list-group-item">
+                <p>
+                    Laboration 4 touches on the most critical web application security risk according to the
+                    <a href="https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project">OWASP Top Ten Project</a>.
+                    For more information on those attack categories see, e.g., the following resources.
+                </p>
+
+
+                <dl class="dl-horizontal">
+                    <dt>OWASP Top 10, 2017</dt>
+                    <dd><a href="https://www.owasp.org/index.php/Top_10-2017_A1-Injection">A1-Injection</a></dd>
+
+                </dl>
+            </div>
+
+        </div>
+
+        <div class="list-group">
+
+            <a href="lab5/squeak_again.html" class="list-group-item disabled">
+
+                <h4 class="list-group-item-heading">Excursion: Squeak</h4>
+
+                <p class="list-group-item-text">
+                    Building Squeak using popular frameworks: express.js, mustache.js, passport.js. OpenID Connect via
+                    Google.
+                </p>
+
+            </a>
+
+            <div class="list-group-item disabled">
+                <strong>Observe!</strong> Excursions are not mandatory and need not be handed in.
+            </div>
+        </div>
+
+        <div class="list-group">
+
+            <a href="lab5/squeak_again.html" class="list-group-item disabled">
+
+                <h4 class="list-group-item-heading">Excursion: @home </h4>
+
+                <p class="list-group-item-text">
+                    Build @home using popular frameworks: express.js, mustache.js, passport.js. Authenticate the
+                    client to web services; JSON Web Tokens, CORS, and SOP.
+                </p>
+
+            </a>
+
+            <div class="list-group-item disabled">
+                <strong>Observe!</strong> Excursions are not mandatory and need not be handed in.
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="page-header nobreak">
+        <h2>Part 2: Security Research</h2>
+
+
+        <div class="list-group">
+
+
+            <div class="list-group-item disabled">
+                <span class="date">December 17</span>
+
+                <h4 class="list-group-item-heading">Taint tracking</h4>
+
+                <p>
+                    Basics of taint tracking. Protected trusted code from untrusted data.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="list-group">
+
+            <div class="list-group-item disabled">
+                <span class="date">December 17</span>
+
+                <h4 class="list-group-item-heading">Information flow control</h4>
+
+                <p>
+                    Basics of information flow control. Untrusted code and sensitive data.
+                </p>
+
+            </div>
+
+
+        </div>
+
+        <div class="list-group">
+
+            <div class="list-group-item disabled">
+                <span class="date">Exercise</span>
+
+                <h4 class="list-group-item-heading">Taint tracking and information flow control</h4>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="page-header nobreak">
+        <h2>Examination</h2>
+
+        <p>
+            The examination consists of two parts.
+        </p>
+
+        <ul>
+            <li>Laborations, 4 credits</li>
+            <li>Exercise, 1 credit</li>
+        </ul>
+
+        <p>
+            The four laborations follow the same structure abd are examined as detailed in submission 1 to 4. Each
+            submission contains two or more attack reports. The reports should contain a short explanation on how the
+            attack works in general and in your application in particular, how you protect your application and
+            why this stops the attack. I expect each attack report to be around 1 to 2 pages. The reports can be written
+            in Swedish or English. The language and grammar of the reports will not influence passing as long they can
+            be
+            understood.
+        </p>
+
+    </div>
+
+    <div class="page-header nobreak">
+        <h2>Contact</h2>
+
+        <p>
+            Course responsible and examiner
+        </p>
+        <address>
+            <a href="http://www.es.mdh.se/staff/2976-Daniel__Hedin"><strong>Daniel Hedin</strong></a><br>
+            Email: daniel.hedin "at" mdh.se<br>
+            Office: U1-106 <br>
+        </address>
+    </div>
+
+
+</div>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA456</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header nobreak">
+        <h2>CSRF attack agains Squeak!</h2>
+
+
+        <p>
+            First, <em>M. Sch&ouml;nfinkel</em> signs in to Squeak! and is presented with the main page.
+        </p>
+
+
+        <div><a href="csrf-attack-large.html"><img src="csrf/csrf-schonfinkel-logged-in.png" class="img-responsive"></a>
+        </div>
+
+        <p>
+            Second, <em>M. Sch&ouml;nfinkel</em> is tricked into visiting a malicious site while signed in to Squeak!.
+        </p>
+
+        <div><img src="csrf/csrf-schonfinkel-tricked.png" class="img-responsive"></div>
+
+        <p>
+            Third, the malicious site has successfully used posted as <em>M. Sch&ouml;nfinkel</em> in Squeak!. The post
+            contains a link to the malicious site. If any other user clicks the link they, too, become victims of the
+            CSRF attack.
+        </p>
+
+        <div><img src="csrf/csrf-schonfinkel-posted.png" class="img-responsive"></div>
+
+
+    </div>
+</div>
+
+</body>
+
+
+</html>
