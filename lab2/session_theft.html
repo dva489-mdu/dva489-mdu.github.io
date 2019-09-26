@@ -67,13 +67,13 @@
 
         <ol>
             <li>To improve the quality of the session identifier it should be randomized. Follow the suggestions given by
-                the OWASP cheat sheet on <a href="https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Session_ID_Properties">session ID properties</a>.
+                the OWASP cheat sheet on <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-properties">session ID properties</a>.
                 You can use the node.js <a href="https://nodejs.org/dist/latest-v8.x/docs/api/crypto.html">crypto</a>
                 library to generate the session identifier.
             </li>
             <li>
                 To reduce the attack window sessions should expire. Implement some kind of session expiration following
-                the OWASP cheat sheet on <a href="https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Session_Expiration">session expiration</a>.
+                the OWASP cheat sheet on <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-expiration">session expiration</a>.
                 Server-side session expiration is the most important!
             </li>
         </ol>
