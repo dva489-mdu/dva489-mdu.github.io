@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA446</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+    <link href="../css/prism.css" rel="stylesheet">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header nobreak">
+        <h2>Information security</h2>
+
+        <p>
+            In the setting of information flow security confidentiality and integrity are two key notions.
+            In this setting,
+            confidentiality means prohibiting secret or otherwise sensitive data from falling into the wrong hands
+            while integrity means prohibiting illicit modification of application and user data.
+            For instance, the <a href="../lab2/stealing_password_file.html">password file theft attack</a> is an example of
+            a breach of confidentiality; the secret contents of the password file was transferred to the attacker
+            by means of a path traversal attack.  Dually, the <a href="../lab4/cookie_integrity.html">cookie integrity attack</a>,
+            and the <a href="../lab4/nosql_injection.html">NoSQL injection attack</a> are both examples of integrity breaches;
+            untrusted information was allowed to enter the application and was used to make decisions in the program
+            without further validation. In fact, the remainder of the attacks in this course can all be interpreted
+            in terms of confidentiality and integrity.
+        </p>
+
+        <p>
+            The most prevalent method for ensuring both confidentiality and integrity is access control. Access control
+            assigns each user access right to every object of the system. The access right typically entails reading and writing
+            permissions controlling the confidentiality and integrity aspects. Systems secured using access control puts
+            an implicit trust in the user (whether its a human user or a program) not to misbehave once access has been
+            granted. As has been illustrated time and time again such trust is frequently misplaced, in particular when
+            the user is a program, that may contain bugs that allows an attacker to trick the program into doing
+            unintended things. The initial four labs of this course illustrates the problem in a concise way. For this
+            reason there is a growing realization that access control is not enough.
+        </p>
+
+        <h4>New kid on the block: information-flow security</h4>
+        <p>
+            Information flow security is a relatively new and active area of research. Unlike access control,
+            information flow security does not simply relinquish the information after access has been granted,
+            but continues to track how the information flows through the program during program execution focusing
+            on the flow between sources and sinks. To ensure confidentiality information originating from sensitive
+            sources (such as the password file) must be prevented from reaching attacker readable sinks (such as the
+            reply from the web server). Dually, to ensure integrity information originating from untrusted (attacker
+            controlled) sinks must be prevented from influencing the execution of the application (without proper
+            validation).
+        </p>
+
+        <p>
+            Information flow control can be enforced either statically (i.e., at compile time) or dynamically (i.e., at
+            runtime). A popular method for static enforcement is via an information-flow type system. The type system
+            guarantees that all well-typed programs are free from dangerous information flows. The popularity of
+            dynamic languages like JavaScript has recently spurred an interest in dynamic information flow tracking, due
+            to the difficulties involved in retrofitting a static type system on such languages. Dynamic information-flow
+            tracking is similar to the dynamic typing present in, e.g., JavaScript. Instead only associating values
+            with a runtime type values are also associated with a runtime security label. This label tracks the
+            sensitivity of the value: its confidentiality, integrity or both. As the values flow through the program
+            during the execution the security labels flow with them and are updated to reflect the computation of the
+            program. This can be done in several ways leading to different notions of information-flow security with
+            different security guarantees. On one extreme we find <em>taint tracking</em> with with relatively efficient
+            enforcement, and on the other we find <em>full information-flow tracking</em> with more expensive enforcement.
+        </p>
+
+
+        <h3>Exercise 1</h3>
+
+            <p>
+                Write a short text, where you interpret the attacks of the course in terms of confidentiality and integrity.
+            </p>
+
+
+
+
+<script src="../js/prism.js"></script>
+
+</body>
+</html>

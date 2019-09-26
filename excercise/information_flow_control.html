@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA456</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header nobreak">
+        <h2>Dynamic information-flow tracking</h2>
+
+        <p>
+            As was illustrated in the <a href="taint_tracking.html">dynamic taint tracking</a> exercise,
+            taint tracking can be a valuable tool for prohibiting
+            dangerous information flows in trusted programs. However, even trusted programs would still
+            be susceptible to attacks relying on implicit flows. In case the program can be modified by the attacks
+            as in the case with XSS taint tracking is easy to circumvent. The solution to this problem is
+            to start tracking implicit flows in addition to explicit flows.
+        </p>
+
+        <h4>Tracking implicit flows</h4>
+        <p>
+            Tracking of implicit flows is typically done by associating a security level to the control flow. The
+            label is frequently named the label of the <em>program counter</em> or <em>pc</em> for short. The idea
+            is to raise the level of the pc to the level of the controlling expression in branches and loops,
+            i.e., in the code which execution is controlled by the expression. Using JSFlow in full information-flow
+            tracking mode we can inspect the label of the pc by printing. Consider the following example.
+        </p>
+        <pre>var x = lbl(true, 'secret');
+
+if (x) print(true); else print(false);</pre>
+
+        <p>
+            Executing the program gives the following output, where the label of the pc of the <code>print</code>
+            function is showed to the left of the output. This shows that the body of the conditional, i.e.,
+            the <em>then</em> and the <em>else</em> is executed with the label of the pc set to the label of the
+            controlling expression. The label is <code>secret</code> and we say that the body of the conditional is
+            executed under <em>secret control</em>.
+        </p>
+        <pre>(&lt;secret&gt;):true_<>
+</pre>
+
+        <h4>Preventing dangerous flows</h4>
+        <p>
+            To prevent dangerous implicit flows
+            side effects below the security level of the pc are disallowed, and causes execution to halt with a
+            runtime security error. A side effect is below the security level of the pc if the value of the target of
+            the side effect has a label that is less secret than the label of the pc. This definition presupposes an ordering
+            on the security labels of the value, but such ordering exists naturally. Remember that JSFlow associates a
+            set of security labels with each value; combining two labeled values resulted in a value with both labels.
+            The natural ordering is, thus, subset inclusion, and writing below the pc means writing to a a target
+            whose label does not include the labels of the pc. Let us return to the boolean leak of the
+            <a href="taint_tracking.html">dynamic taint tracking</a> exercise.
+        </p>
+
+        <pre>var x = lbl(true, 'secret');
+var y;
+
+if (x) y = true; else y = false;
+
+print(x);
+print(y);</pre>
+        <p>
+            If we run the example with full information-flow tracking turned on we get the following result.
+        </p>
+
+        <pre>Ecma.prototype.DefineOwnProperty: security context &lt;secret&gt; not below existing value label <> for property y
+
+
+monitor stack trace:
+implicit.js:4:11
+    true
+</pre>
+        <p>
+            JSFlow tells us it has detected a potentially dangerous flow on line 4 of the program, where the <code>y</code>
+            is assigned the value <code>true</code> under secret control. To remedy the situation we can upgrade the
+            label of the value of <code>y</code> before writing to it under secret control. This could be done with
+            the <code>lbl</code> function, but that would presuppose that we knew the label of the controlling expression
+            statically. This is not always the case, and for this reason JSFlow provides an <code>upg</code> function
+            that upgrades a value to the label of another value. The modified program becomes.
+        </p>
+        <pre>var x = lbl(true, 'secret');
+var y = upg(undefined, x);
+
+if (x) y = true; else y = false;
+
+print(x);
+print(y);
+</pre>
+        <p>
+            Now, the label of <code>y</code> is upgraded to the label of <code>x</code> before entering the secret context
+            and the assignment is allowed.
+        </p>
+
+        <p>
+            Preventing side effects below the label of the pc is known as the <em>no secret upgrades</em> paradigm, and
+            is one (of several) possible ways to handle implicit flows dynamically. Removing the restriction and allowing
+            writes while upgrading the written target may seem like a better choice, but leads to a system that can
+            be bypassed by an attacker. We refer the interested to the suggested literature for more information.
+        </p>
+
+
+        <h3>Exercise 3</h3>
+        <p>
+            Exercise 3 consists of two tasks:
+        </p>
+
+            <ol>
+        <li> Try to solve the following <a href="http://ifc-challenge.appspot.com/">information-flow control challenge</a>, where
+            you are presented with different flawed protection systems that you should try to bypass in a way similar
+            to what you did in  the <a href="taint_tracking.html">dynamic taint tracking exercise</a>.
+        </li>
+        <li>
+            Based on <a href="http://www.cse.chalmers.se/~andrei/synasc16.pdf">Web Application Security using JSFlow</a>
+            and the corresponding <a href="http://www.jsflow.net/SYNASC-2015.html">tutorial page</a> select one of the
+            attacks in the course and explain how information-flow control could be used to prevent the attack.
+        </li>
+    </ol>
+
+        <p>
+            If you are struggling with the <a href="http://ifc-challenge.appspot.com/">information-flow control challenge</a>
+            don't hesitate to ask me or use the available forum!
+        </p>
+
+    </div>
+</div>
+
+</body>
+
+
+</html>
