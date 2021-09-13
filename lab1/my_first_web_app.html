@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,80 +22,64 @@
 
 <body>
 
-<!-- Begin page content -->
-<div class="container">
-    <div class="page-header nobreak">
-        <h2>My first web application</h2>
+    <!-- Begin page content -->
+    <div class="container">
+        <div class="page-header nobreak">
+            <h2>My first web application</h2>
 
-        <p>
-            This laboration introduces modern web development with <a href="https://nodejs.org/en/">node.js</a>. We will
-            cover the following topics: how to
-            serve static files, how to send information back to the server using <a
-                href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET">GET</a>
-            and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a>, and finally, how to
-            build
-            a minimal web application.
-        </p>
-
-
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Warning!</h4>
             <p>
-                The final product of this is a web application intended to be open to attacks. The material presented in
-                this laboration should not be seen as suggestions on how to build secure web applications. On the
-                contrary, we have deliberately chosen some elements to make sure that the application contains security
-                flaws!
+                This laboration introduces modern web development with <a href="https://nodejs.org/en/">node.js</a>. We will cover the following topics: how to serve static files, how to send information back to the server using <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET">GET</a>                and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a>, and finally, how to build a minimal web application.
+            </p>
+
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Warning!</h4>
+                <p>
+                    The final product of this is a web application intended to be open to attacks. The material presented in this laboration should not be seen as suggestions on how to build secure web applications. On the contrary, we have deliberately chosen some elements
+                    to make sure that the application contains security flaws!
+                </p>
+            </div>
+
+
+            <p>
+                After completion of the exercises you are expected to have a working, but flawed, web application.
             </p>
         </div>
 
 
-        <p>
-            After completion of the exercises you are expected to have a working, but flawed, authenticated web
-            application. 
-        </p>
-    </div>
-
-
-    <div class="page-header nobreak">
-        <h2>Setting up</h2>
-        <p>
-            Download and install <a href="https://nodejs.org/en/">node.js</a>. We recommend you select the Long Term
-            Support (LTS) version.
-            Make sure <code>node</code> and <code>npm</code> is available on the command line.
-        </p>
-        <pre>
+        <div class="page-header nobreak">
+            <h2>Setting up</h2>
+            <p>
+                Download and install <a href="https://nodejs.org/en/">node.js</a>. We recommend you select the Long Term Support (LTS) version. Make sure <code>node</code> and <code>npm</code> is available on the command line.
+            </p>
+            <pre>
 $ node -v
-v8.11.1
+v14.17.6
 $ npm -v
-6.0.0</pre>
+6.14.15</pre>
 
 
-    </div>
-    <div class="page-header nobreak">
-        <h2>Creating a web server</h2>
+        </div>
+        <div class="page-header nobreak">
+            <h2>Creating a web server</h2>
 
-        <p>For this lab we will be using the <a href="https://nodejs.org/dist/latest-v8.x/docs/api/http.html">HTTP</a>
-            library
-            that provides support for both HTTP servers and HTTP clients.
-            Implementing support for HTTP/1.1 is complex and error-prone. In particular, the library provides support
-            for
-        </p>
-        <ul>
-            <li>Keepalive session</li>
-            <li>(Efficient) chunked data transfer</li>
-            <li>Rudimentary message parsing</li>
-        </ul>
+            <p>For this lab we will be using the <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html">HTTP</a> library that provides support for both HTTP servers and HTTP clients. Implementing support for HTTP/1.1 is complex and error-prone.
+                In particular, the library provides support for
+            </p>
+            <ul>
+                <li>Keepalive session</li>
+                <li>(Efficient) chunked data transfer</li>
+                <li>Rudimentary message parsing</li>
+            </ul>
 
 
-        <p>The following program creates a server. The
-            <a href="https://nodejs.org/dist/latest-v8.x/docs/api/http.html#http_http_createserver_requestlistener">createServer</a>
-            method takes a callback,
-            a request listener, that is given the incoming request message, <code>req</code>, and the
-            server response, <code>res</code>. The request listener is invoked for every
-            <a href="https://nodejs.org/dist/latest-v8.x/docs/api/http.html#http_event_request">request</a> event.
-        </p>
+            <p>The following program creates a server. The
+                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html#http_http_createserver_options_requestlistener">createServer</a> method takes a callback, a request listener, that is given the incoming request message, <code>req</code>,
+                and the server response, <code>res</code>. The request listener is invoked for every
+                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html#http_event_request">request</a> event.
+            </p>
 
-        <pre><code class="language-javascript">var http = require('http');
+            <pre><code class="language-javascript">var http = require('http');
 
 var server = http.createServer((req, res) => {
   console.log(req.method + " " + req.url + " " + req.httpVersion);
@@ -103,185 +88,175 @@ var server = http.createServer((req, res) => {
 
 server.listen(8000);</code></pre>
 
-        <p>This server listens to port 8000, and prints the method, the url and http version of all incoming requests.
-            In order for the client not to hang, it terminates the request without sending back any information.
-        </p>
-        <p>Save the code to file <code>httpd.js</code> and start it using <code>node httpd.js</code>. Navigate
-            to the server using the URL <a href="http://localhost:8000/">http://localhost:8000/</a>. This should
-            yield a blank page in the browser and the following output from the server.
-        </p>
-        <pre>
+            <p>This server listens to port 8000, and prints the method, the url and http version of all incoming requests. In order for the client not to hang, it terminates the request without sending back any information.
+            </p>
+            <p>Save the code to file <code>httpd.js</code> and start it using <code>node httpd.js</code>. Navigate to the server using the URL <a href="http://localhost:8000/">http://localhost:8000/</a>. This should yield a blank page in the browser and
+                the following output from the server.
+            </p>
+            <pre>
 $ node httpd.js
 GET / 1.1</pre>
 
-        <h3>Exercise 1: Hello World</h3><a name="exercise1"></a>
-        <p>
-            Modify the server to return a "Hello World" page using the
-            <a href="https://nodejs.org/dist/latest-v8.x/docs/api/http.html#http_class_http_serverresponse">server
+            <div class="alert alert-warning" role="alert">
+                <p>
+                    Please use port 8000 in your web application - it makes grading easier if everyone uses the same port.
+                </p>
+            </div>
+
+            <h3>Exercise 1: Hello World</h3>
+            <a name="exercise1"></a>
+            <p>
+                Modify the server to return a "Hello World" page using the
+                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html#http_class_http_serverresponse">server
                 response</a>
-            <code>res</code>. Make sure you set the <a
-                href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type">Content-Type</a>
-            type to <code>text/html</code>
-            and the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">response status code</a> to
-            <code>200</code>.
-            When done your web server should behave similarly to the <a href="https://dva446.herokuapp.com/lab1/exercise1">example
+                <code>res</code>. Make sure you set the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type">Content-Type</a> type to <code>text/html</code> and the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">response status code</a>                to
+                <code>200</code>. When done your web server should behave similarly to the <a href="https://dva446.herokuapp.com/lab1/exercise1">example
             solution</a>.
-        </p>
+            </p>
 
-        <img src="lab1-exercise1.png" class="img-responsive">
+            <img src="lab1-exercise1.png" class="img-responsive">
 
-        <p>
-            Start and test the server by connecting to <a href="http://localhost:8000/">http://localhost:8000/</a>. Does
-            the exact path of the URL matter? Try, e.g.,
-            <a href="http://localhost:8000/does/the/path/matter">http://localhost:8000/does/the/path/matter</a>.
-        </p>
-
-
-    </div>
-    <div class="page-header nobreak">
-
-        <h2>Serving content</h2>
-        <p>
-            The most basic functionality of a web server is to serve content. To request a resource from a web server
-            the <code>GET</code> method is user providing a URL that locates the resource on the server.
-            In the most simple form, a static web server translated the
-            URL to a file in the file system that is returned as the result of the request.
-        </p>
+            <p>
+                Start and test the server by connecting to <a href="http://localhost:8000/">http://localhost:8000/</a>. Does the exact path of the URL matter? Try, e.g.,
+                <a href="http://localhost:8000/does/the/path/matter">http://localhost:8000/does/the/path/matter</a>.
+            </p>
 
 
-        <p>
-            When returning a resource from a web server it is important to let the browser know what kind of resource
-            is being returned. This can be done by specifying a MIME type in the <code>Content-Type</code> response
-            header. A common way for a generic web static web server is to tie file extensions to mime types
-            as exemplified by the following table (non-exhaustive):
-        </p>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th>extension</th>
-                <th>MIME type</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>.html</td>
-                <td>text/html</td>
-            </tr>
-            </tbody>
-            <tbody>
-            <tr>
-                <td>.css</td>
-                <td>text/css</td>
-            </tr>
-            </tbody>
-            <tbody>
-            <tr>
-                <td>.js</td>
-                <td>text/javascript</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h3>Exercise 2: a static web server</h3><a name="exercise2"></a>
-        <p>
-            In this exercise, we will create a web server that serves files from a dedicated directory called
-            <em>public</em>. The file system structure of the web server will be as follows.
-        </p>
-
-        <table class="table table-borderless">
-            <thead>
-            <tr>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>public/</td>
-                <td>Directory with static files served by the static fallback.</td>
-            </tr>
-            <tr>
-                <td>httpd.js</td>
-                <td>The web server implementation.</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>
-            Populate the <em>public</em> directory using the following using the <a href="../resources/public.zip">public.zip</a>
-            archive that contains a <a href="http://getbootstrap.com">Boostrap</a> based page, which we will
-            use as the basis for further development. Visiting the web server should render the page below.
-        </p>
-
-        <img src="lab1-exercise2.png" class="img-responsive">
-
-        <p>
-            In addition to serving static files, the web server should handle request paths that resolve to
-            directories in the following manner:
-        </p>
-
-        <ul>
-            <li>if the directory contains an <code>index.html</code> file, serve the contents of that file</li>
-            <li>if the directory does not contain an <code>index.html</code> file, serve the directory listing</li>
-        </ul>
+        </div>
 
 
-        <p>
-            Start and test the server by connecting to <a href="http://localhost:8000/">http://localhost:8000/</a>.
-            It should behave similarly, to the <a href="https://dva446.herokuapp.com/lab1/exercise2">example solution</a>.
-        </p>
+
+        <div class="page-header nobreak">
+
+            <h2>Serving content</h2>
+            <p>
+                The most basic functionality of a web server is to serve content. To request a resource from a web server the <code>GET</code> method is user providing a URL that locates the resource on the server. In the most simple form, a static web
+                server translates the URL to a file in the file system that is returned as the result of the request.
+            </p>
 
 
-    </div>
-    <!-- -->
-    <div class="page-header nobreak">
-        <h2>Sending information to the server</h2>
+            <p>
+                When returning a resource from a web server it is important to let the browser know what kind of resource is being returned. This can be done by specifying a MIME type in the <code>Content-Type</code> response header. A common way for
+                a generic web static web server is to tie file extensions to mime types as exemplified by the following table (non-exhaustive):
+            </p>
 
-        <p>
-            The <code>GET</code> method is intended to be used to retrieve a resource from the server, e.g.,
-            and html page, a css document or a picture. Requesting a resource using <code>GET</code> should not
-            modify the state of the server; browsers will assume that using <code>GET</code> is idempotent and
-            will freely resubmit requests.
-        </p>
-        <p> In addition to the requested resource, the URL of a <code>GET</code> request may pass information
-            about the request in terms of the query parameters. The query parameters follow a ? at the end of the URL
-            and consists of a &amp; separated sequence of name=value pairs and is sent as part of the request header.
-        </p>
-        <pre>http://localhost:8000/index.html?parameter1=value1&amp;parameter2=value2</pre>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>extension</th>
+                        <th>MIME type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>.html</td>
+                        <td>text/html</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>.css</td>
+                        <td>text/css</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>.js</td>
+                        <td>text/javascript</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <p> Google uses the query string to pass users search queries, which allows linking to a specific search, e.g.,
-            <a href="https://www.google.com/search?q=nodejs">https://www.google.com/search?q=nodejs</a> which
-            represents a Google search for Node.js.
-        </p>
+            <h3>Exercise 2: a static web server</h3>
+            <a name="exercise2"></a>
+            <p>
+                In this exercise, we will create a web server that serves files from a dedicated directory called
+                <em>public</em>. The file system structure of the web server will be as follows.
+            </p>
 
-        <p>
-            The <code>POST</code> method is intended to be used to send information to the server, e.g., submitting
-            a form, placing an order or posting a comment. The main difference between <code>POST</code> and
-            <code>GET</code> is that <code>POST</code> is not supposed to be idempotent and will
-            not be automatically resent by the browser.
-        </p>
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Path</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>public/</td>
+                        <td>Directory with static files served by the static fallback.</td>
+                    </tr>
+                    <tr>
+                        <td>httpd.js</td>
+                        <td>The web server implementation.</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <p>
-            The <code>POST</code> data is sent in the message body, and may be encoded in a number of different ways,
-            including being split up into multiple chunks sent one by one.
-        </p>
+            <p>
+                Populate the <em>public</em> directory using the following using the <a href="../resources/public.zip">public.zip</a> archive that contains a <a href="http://getbootstrap.com">Boostrap</a> based page, which we will use as the basis for
+                further development. Visiting the web server should render the page below.
+            </p>
 
-        <h3>Exercise 3: experimenting with request methods</h3><a name="exercise3"></a>
+            <img src="lab1-exercise2.png" class="img-responsive">
 
-        <p>
-            To experiment with sending and receiving information, we are going to add a form to <code>POST</code>
-            information back to the server.
-        </p>
+            <p>
+                In addition to serving static files, the web server should handle request paths that resolve to directories in the following manner:
+            </p>
 
-        <img src="lab1-exercise3.png" class="img-responsive">
+            <ul>
+                <li>if the directory contains an <code>index.html</code> file, serve the contents of that file</li>
+                <li>if the directory does not contain an <code>index.html</code> file, serve the directory listing</li>
+            </ul>
 
-        <p>
-            Modify <code>index.html</code> file to include a
-            <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form">form</a> to be
-            able to experiment with the POST method.
-        </p>
-        <pre><code class="language-html">&lt;form action=&quot;index.html&quot; method=&quot;POST&quot;&gt;
+
+            <p>
+                Start and test the server by connecting to <a href="http://localhost:8000/">http://localhost:8000/</a>. It should behave similarly, to the <a href="https://dva446.herokuapp.com/lab1/exercise2">example solution</a>.
+            </p>
+
+
+        </div>
+        <!-- -->
+        <div class="page-header nobreak">
+            <h2>Sending information to the server</h2>
+
+            <p>
+                The <code>GET</code> method is intended to be used to retrieve a resource from the server, e.g., and html page, a css document or a picture. Requesting a resource using <code>GET</code> should not modify the state of the server; browsers
+                will assume that using <code>GET</code> is idempotent and will resubmit requests without asking.
+            </p>
+            <p> In addition to the requested resource, the URL of a <code>GET</code> request may pass information about the request in terms of the query parameters. The query parameters follow a ? at the end of the URL and consists of a &amp; separated sequence
+                of name=value pairs and is sent as part of the request header.
+            </p>
+            <pre>http://localhost:8000/index.html?parameter1=value1&amp;parameter2=value2</pre>
+
+            <p>
+                As an example, Google uses the query string to pass users search queries, which allows linking to a specific search, e.g.,
+                <a href="https://www.google.com/search?q=nodejs">https://www.google.com/search?q=nodejs</a> which represents a Google search for Node.js.
+            </p>
+
+            <p>
+                The <code>POST</code> method is intended to be used to send information to the server, e.g., submitting a form, placing an order or posting a comment. The main difference between <code>POST</code> and
+                <code>GET</code> is that <code>POST</code> is not supposed to be idempotent and will not be automatically resent by the browser. Instead, the browser typically asks the user if the form should resubmitted or not.
+            </p>
+
+            <p>
+                The <code>POST</code> data is sent in the message body, and may be encoded in a number of different ways, including being split up into multiple chunks sent one by one.
+            </p>
+
+            <h3>Exercise 3: experimenting with request methods</h3>
+            <a name="exercise3"></a>
+
+            <p>
+                To experiment with sending and receiving information, we are going to add a form to <code>POST</code> information back to the server.
+            </p>
+
+            <img src="lab1-exercise3.png" class="img-responsive">
+
+            <p>
+                Modify <code>index.html</code> file to include a
+                <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form">form</a> to be able to experiment with the POST method.
+            </p>
+            <pre><code class="language-html">&lt;form action=&quot;index.html&quot; method=&quot;POST&quot;&gt;
     &lt;div class=&quot;form-group&quot;&gt;
         &lt;label for=&quot;email&quot;&gt;Email address&lt;/label&gt;
         &lt;input type=&quot;email&quot; name=&quot;email&quot; class=&quot;form-control&quot; id=&quot;email&quot; placeholder=&quot;Enter email&quot;&gt;
@@ -293,231 +268,174 @@ GET / 1.1</pre>
     &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</code></pre>
 
-        <p>
-            When submitted the form sends the values of its <em>named</em> input and button elements to the location
-            specified by
-            the <code>action</code> attribute. If no method and enctype is specified
-            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a> is used and the
-            information
-            is transferred <code>application/x-www-form-urlencoded</code>i.e., as a sequence of key/value pairs stored
-            in the body. Forms are submitted when an <em>input</em> or <em>button</em> element of type
-            <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit">submit</a> is clicked.
-        </p>
-
-        <p>
-            Now modify the static web server to print method, url, content type, and request body on the console.
-            The method and the url are directly accessible on request object, while the request body
-            has to be read from the request object
-            using the fact that it implements
-            <a href="https://nodejs.org/dist/latest-v8.x/docs/api/stream.html#stream_class_stream_readable">Readable
-                Stream</a> with
-            a <em>data</em> and an <em>end</em> event.
-        </p>
-
-
-        <p>
-            Start and test the server by connecting to <a href="http://localhost:8000/">http://localhost:8000/</a>. It
-            should behave similarly to the <a href="https://dva446.herokuapp.com/lab1/exercise3">example
-            solution</a>.
-        </p>
-        <p>
-            Experiment with different query strings. Are they modified by the browser in any way? What about
-            the form data? What happens if you reload the result of posting? Identify how the information the browser
-            sends is made available to the server.
-        </p>
-
-
-        <ul>
-            <li><a href="http://localhost:8000/">http://localhost:8000/</a></li>
-            <li><a href="http://localhost:8000/?name1=value1&name2=value2">http://localhost:8000/?name1=value1&name2=value2"</a>
-            </li>
-            <li>...</li>
-        </ul>
-
-    </div>
-
-
-    <!-- -->
-    <div class="page-header nobreak">
-        <h2>Creating a web application</h2>
-        <p>
-            While a simple web server serves static pages, a web application relies on the generation of dynamic
-            content.
-            The generation can be done on the -de or on the client-side with different benefits. For instance,
-            client-side generation relieves the server from computation, potentially lowering its load, but exposes
-            the content generation and the data needed for the generation. On the other hand, server-side generation
-            allows the application to hide how the content is generated, while potentially imposing a greater load on
-            the server. Further, client-side generation has the benefit of not requiring a reload of the resource
-            to update it to reflect changes - it's simply a matter of updating by querying the data. For this reason,
-            many web applications employ a hybrid of server-side and client-side generation, where the server generates
-            some of the content and the client maintains an updated view of the data by querying the server using, e.g.,
-            <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX">AJAX</a>.
-        </p>
-
-        <h4>Path routing</h4>
-
-        <p>
-            Regardless of whether the content is generated on the server-side or the client-side the resources are
-            located via a URL. This makes the web application more complex than a simple web server. Where the
-            web server translates the request path into a file system location and serves the corresponding file, a web
-            application must handle requests in a more complex way, e.g., by translating the request into
-        </p>
-
-        <ul>
-            <li>a file system path for serving static files, e.g., style sheets</li>
-            <li>a generating function used to generate the response on the server-side</li>
-            <lo>a resource used to dynamically generate (parts of) the application on the client-side</lo>
-        </ul>
-
-        <p>
-            This problem is generally known as routing, and refers to the process of deciding how to handle
-            a request based on the <em>request method</em> and <em>request path</em>.
-        </p>
-
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: decodeURIComponent </h4>
             <p>
-                Under certain circumstances the path the server receives contain
-                <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent-encoded</a> characters. To be able to
-                properly use such paths you must decode them before use. This can be done using the <code>decodeURIComponent</code>
-                on the request path after decoding the url.
+                When submitted the form sends the values of its <em>named</em> input and button elements to the location specified by the <code>action</code> attribute. If no method and enctype is specified
+                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a> is used and the information is transferred <code>application/x-www-form-urlencoded</code>i.e., as a sequence of key/value pairs stored in the body. Forms
+                are submitted when an <em>input</em> or <em>button</em> element of type
+                <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit">submit</a> is clicked.
             </p>
-            <br>
+
+            <p>
+                Now modify the static web server to print method, url, content type, and request body on the console. The method and the url are directly accessible on request object, while the request body has to be read from the request object using the fact that it
+                implements
+                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/stream.html#stream_class_stream_readable">Readable
+                Stream</a> with a <em>data</em> and an <em>end</em> event.
+            </p>
+
+
+            <p>
+                Start and test the server by connecting to <a href="http://localhost:8000/">http://localhost:8000/</a>. It should behave similarly to the <a href="https://dva446.herokuapp.com/lab1/exercise3">example
+            solution</a>.
+            </p>
+            <p>
+                Experiment with different query strings. Are they modified by the browser in any way? What about the form data? What happens if you reload the result of posting? Identify how the information the browser sends is made available to the server.
+            </p>
+
+
+            <ul>
+                <li><a href="http://localhost:8000/">http://localhost:8000/</a></li>
+                <li><a href="http://localhost:8000/?name1=value1&name2=value2">http://localhost:8000/?name1=value1&name2=value2"</a>
+                </li>
+                <li>...</li>
+            </ul>
+
+        </div>
+
+
+        <!-- -->
+        <div class="page-header nobreak">
+            <h2>Creating a web application</h2>
+            <p>
+                While a simple web server serves static pages, a web application relies on the generation of dynamic content. The generation can be done on the server-side or on the client-side with different benefits. For instance, client-side generation relieves the
+                server from computation, potentially lowering its load, but exposes the content generation and the data needed for the generation. On the other hand, server-side generation allows the application to hide how the content is generated, while
+                potentially imposing a greater load on the server. Further, client-side generation has the benefit of not requiring a reload of the resource to update it to reflect changes - it's simply a matter of updating by querying the data. For this
+                reason, many web applications employ a hybrid of server-side and client-side generation, where the server generates some of the content and the client maintains an updated view of the data by querying the server using, e.g.,
+                <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX">AJAX</a>.
+            </p>
+
+            <h4>Path routing</h4>
+
+            <p>
+                Regardless of whether the content is generated on the server-side or the client-side the resources are located via a URL. This makes the web application more complex than a simple web server. Where the web server translates the request path into a file
+                system location and serves the corresponding file, a web application must handle requests in a more complex way, e.g., by translating the request into
+            </p>
+
+            <ul>
+                <li>a file system path for serving static files, e.g., style sheets</li>
+                <li>a generating function used to generate the response on the server-side</li>
+                <lo>a resource used to dynamically generate (parts of) the application on the client-side</lo>
+            </ul>
+
+            <p>
+                This problem is generally known as routing, and refers to the process of deciding how to handle a request based on the <em>request method</em> and <em>request path</em>.
+            </p>
+
+            <h3>Exercise 4: generated content</h3>
+            <a name="exercise4"></a>
+            <p>
+                The goal of this exercise is to create a web application that displays information about the request it received. For simplicity, we will only display the method, the path and the query parameters.
+            </p>
+
+            <img src="lab1-exercise4.png" class="img-responsive">
+
+            <p>
+                Extend the web server of <a href="#exercise2">exercise 2</a> with routing by allowing the association of a method and request path to a handling function. When a request is received use the method and the request path to find the associated
+                function. If such a function exists call it providing the request and the response objects. If no function is associated with the request use the static web server to respond to the request. This is needed in order to keep serving the
+                static parts of the web application.
+            </p>
+
+
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Suggestion: routing table and handler functions</h4>
+                <p>
+                    I suggest that you create a routing table that associates a path with a handler function together with a simple routing function, <code>function route(req, res)</code>, that tries to find the appropriate handler, falling back on the
+                    static server if no handler is found.
+                </p>
+
+                <p>
+                    Let the handler function take the request and response object as parameters, e.g.,
+                    <code>function information(req, res) { ... }</code>. This way the handler has access to the full request and is able to generate an appropriate answer using the response object.
+                </p>
+            </div>
+
+
+            <p>
+                Associate the request path <code>/information</code> for any request method to a function that generates a reply based on an <a href="information.template">html template</a>, where <code>{{name}}</code> marks named holes. Download and
+                place this template into a <em>template</em> directory in your web application, giving the following application structure.
+            </p>
+
+
+
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Path</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>public/</td>
+                        <td>Directory with static files served by the static fallback.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>templates/</strong></td>
+                        <td><strong>Directory with template files. Used to render HTML responses.</strong></td>
+                    </tr>
+                    <tr>
+                        <td>httpd.js</td>
+                        <td>The web server implementation.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+            <p>
+                The intention is to generate the response by loading the template as a string, replace the named holes with the appropriate information using the String method
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace">replace</a> and return the result as the response. Replace the placeholders as follows.
+            </p>
+
+            <ul>
+                <li>replace <code>{{method}}</code> with the request method
+                </li>
+                <li> replace
+                    <code>{{path}}</code> with the request path
+                </li>
+                <li> replace
+                    <code>{{query}}</code> with the query string
+                </li>
+                <li> replace <code>{{queries}}</code> with a sequence of two column table rows, one for each query parameter.
+                </li>
+            </ul>
+
+            <p>
+                You can use <a href="https://nodejs.org/docs/latest/api/url.html#url_url_parse_urlstring_parsequerystring_slashesdenotehost">url.parse</a> function to parse the url to get the request path and the query string. If you supply <code>true</code>                as the second argument, i.e., <code>url.parse(req.url, true)</code>, the query string will be parsed. The result of parsing the query string is a map from names to values, which is available via the
+                <code>query</code> property on the result of the parsing. Note that the request path under certain circumstances the path the server receives contain
+                <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent-encoded</a> characters. To be able to properly use such paths you must decode them before use. This can be done using the <code>decodeURIComponent</code> on the request path
+                after decoding the url.
+            </p>
+
             <pre><code class="language-javascript">let reqURL = url.parse(req.url, true);
 let path = decodeURIComponent(reqURL.pathname);</code></pre>
-        </div>
 
 
-        <h3>Exercise 4: generated content</h3><a name="exercise4"></a>
-        <p>
-            The goal of this exercise is to create a web application that displays information about the request
-            it received. For simplicity, we will only display the method, the path and the query parameters.
-        </p>
 
-        <img src="lab1-exercise4.png" class="img-responsive">
-
-        <p>
-            Extend the web server of <a href="#exercise2">exercise 2</a> with routing by allowing the association of a
-            method and path to a handling function.
-            When a request is received use the method and the path to find the associated function. If such a function
-            exists call it providing the request and the response objects. If no function is associated with the request
-            use the static web server to respond to the request. This is needed in order to keep serving the static
-            parts of the
-            web application.
-        </p>
-
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: routing table</h4>
             <p>
-                I suggest that you create a routing table that associates a path with a handler function together
-                with a simple routing function, <code>function route(req, res)</code>, that tries to find the
-                appropriate
-                handler, falling back on the static server if no handler is found.
+                Start and test the server by connecting to
+                <a href="http://localhost:8000/information">http://localhost:8000/information</a>. It should behave similarly to the <a href="https://dva446.herokuapp.com/lab1/exercise4/information?q1=v1&q2=v2">example solution</a>. Try accessing the
+                application with different query strings.
             </p>
-        </div>
 
-        <p>
-            Associate the path <code>/information</code> for any request method to a function that generates a
-            reply
-            based on an <a href="information.template">html template</a>, where <code>{{name}}</code> marks named holes.
-            Download and place
-            this template into a <em>template</em> directory in your web application, giving the following application
-            structure.
-        </p>
 
-        <table class="table table-borderless">
-            <thead>
-            <tr>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>public/</td>
-                <td>Directory with static files served by the static fallback.</td>
-            </tr>
-            <tr>
-                <td><strong>templates/</strong></td>
-                <td><strong>Directory with template files. Used to render HTML responses.</strong></td>
-            </tr>
-            <tr>
-                <td>httpd.js</td>
-                <td>The web server implementation.</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>
-            The intention is to generate
-            the response by loading the template as a string, replace the named holes with the appropriate information
-            using the String method
-            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace">replace</a>
-            and return the result as the response. Replace the placeholders as follows.
-        </p>
-
-        <ul>
-            <li>replace <code>{{method}}</code> with the
-                request method
-            </li>
-            <li> replace
-                <code>{{path}}</code> with the request path
-            </li>
-            <li> replace
-                <code>{{query}}</code> with the query string
-            </li>
-            <li> replace <code>{{queries}}</code>
-                with a sequence of two column table rows, one for each query parameter.
-            </li>
-        </ul>
-
-        <p>
-            You can
-            use <a
-                href="https://nodejs.org/docs/latest/api/url.html#url_url_parse_urlstring_parsequerystring_slashesdenotehost">url.parse</a>
-            function to parse the url to get the request path and the query string. If you supply <code>true</code>
-            as the second argument, i.e., <code>url.parse(req.url, true)</code>, the query string will be parsed. The
-            result of parsing the query string is a map from names to values, which is available via the
-            <code>query</code> property on the result of the parsing.
-        </p>
-
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: handler functions</h4>
-            <p>
-                Let the handler function take the request and response object as parameters, e.g.,
-                <code>function information(req, res) { ... }</code>. This way the handler has access to the
-                full request and is able to generate an appropriate answer using the response object.
-            </p>
         </div>
 
 
-        <p>
-            Start and test the server by connecting to
-            <a href="http://localhost:8000/information">http://localhost:8000/information</a>. It should behave
-            similarly to the <a
-                href="https://dva446.herokuapp.com/lab1/exercise4/information?q1=v1&q2=v2">example solution</a>. Try
-            accessing the application with different query strings.
-        </p>
 
 
-    </div>
-
-
-    <div class="page-header nobreak">
-        <h2>Final product</h2>
-        <p>
-            The final product of this is a web application that displays information about the request it received.
-        </p>
-
-        <img src="lab1-exercise4.png" class="img-responsive">
-
-        <p>
-            The application should be similar to the <a href="https://dva446.herokuapp.com/lab1/exercise4/information?q1=v1&q2=v2">example solution</a>.
-        </p>
-
-    </div>
-
-<script src="../js/prism.js"></script>
+        <script src="../js/prism.js"></script>
 
 </body>
+
 </html>
