@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,493 +22,388 @@
 
 <body>
 
-<!-- Begin page content -->
-<div class="container">
-    <div class="page-header nobreak">
-        <h2>My first authenticated web application, @home</h2>
+    <!-- Begin page content -->
+    <div class="container">
+        <div class="page-header nobreak">
+            <h2>My first authenticated web application, @home</h2>
 
-        <p>
-            In this laboration you will create a minimal mock-up home monitor web application with rudimentary
-            authentication and authorization.
-        </p>
-
-        <p>
-            The laboration is built up by two parts. In the first part, we build the core
-            application that allows us to read the temperature and control the lights.
-            In the second part, we add authentication to prevent unauthorized access to the application.
-        </p>
-
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Warning!</h4>
             <p>
-                The final product of this is a web application intended to be open to attacks. The material presented in
-                this laboration should not be seen as suggestions on how to build secure web applications. On the
-                contrary, we have deliberately chosen some elements to make sure that the application contains security
-                flaws!
+                In this laboration you will create a minimal mock-up home monitor web application with rudimentary authentication and authorization.
+            </p>
+
+            <p>
+                The laboration is built up by two parts. In the first part, we build the core application that allows us to read the temperature and control the lights. In the second part, we add authentication to prevent unauthorized access to the application.
+            </p>
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Warning!</h4>
+                <p>
+                    The final product of this is a web application intended to be open to attacks. The material presented in this laboration should not be seen as suggestions on how to build secure web applications. On the contrary, we have deliberately chosen some elements
+                    to make sure that the application contains security flaws!
+                </p>
+            </div>
+
+            <p>
+                After completion of the exercises you are expected to have a working, but flawed, authenticated web application.
             </p>
         </div>
 
-        <p>
-            After completion of the exercises you are expected to have a working, but flawed, authenticated web
-            application.
-        </p>
-    </div>
+        <div class="page-header nobreak">
 
-    <div class="page-header nobreak">
+            <h2>Creating the unauthenticated @home app</h2>
 
-        <h2>Creating the unauthenticated @home app</h2>
-
-        <p>
-            The initial application consists of a single page displaying the temperature of the different rooms, the
-            status of the different lights in the rooms, and some means of controlling the light.
-            Your task is to create a web application that behaves similarly to the <a
-                href="https://dva446.herokuapp.com/lab2/exercise1">example application</a>.
-        </p>
-
-
-        <img src="exercise1/athome-main.png" class="img-responsive">
-
-        <p>
-            In the example application,
-            the temperature is displayed as a <a href="https://getbootstrap.com/docs/4.1/components/badge/">badge</a> on
-            the
-            header displaying the room name, and the lights are represented as <a
-                href="https://getbootstrap.com/docs/4.1/components/buttons/">buttons</a>, where the color of the button
-            indicates whether the light is on or off. Clicking the light buttons
-            should toggle the light state.
-        </p>
-
-        <p>
-            The application consists of the server, the program running on the server side, and the client,
-            the content downloaded and displayed or executed by the browser. To increase
-            the responsiveness of the application, the client part contains code that asks the server for the state of
-            the temperature
-            sensors and lights at regular intervals, rather than just having the server embed this information when
-            loading the
-            app.
-        </p>
-
-
-        <h3>The server</h3>
-
-        <p>
-            Base the application on the final product of laboration 1, which has the following application structure
-            on the file system.
-        </p>
-
-        <table class="table table-borderless">
-            <thead>
-            <tr>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>public/</td>
-                <td>Directory with static files served by the static fallback.</td>
-            </tr>
-            <tr>
-                <td>templates/</td>
-                <td>Directory with template files. Used to render HTML responses.</td>
-            </tr>
-            <tr>
-                <td>httpd.js</td>
-                <td>The web application implementation.</td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <h4>Routing and application paths</h4>
-        <p>
-            This time
-            around the routing is a bit more complex since we need to route based on both the request method as well
-            as the request path. Since we cannot work with actual devices we will use a mock-up
-            data model containing the states of the various devices.
-        </p>
-        <p>
-            The application relies on the following paths in addition to the static routing. The application main page
-            is associated with the <code>/</code> path and is generated from a template to include the current status
-            of all the sensors. The client should regularly update the status of the lights and the values of the
-            temperature sensors by sending
-            <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX">AJAX</a> GET requests to
-            <code>/:room/lights/:light</code>, where <code>:room</code> represents the room name, and
-            <code>:light</code>
-            represents the light name, and similarly for <code>/:room/temperature</code>. The response to such requests
-            is a
-            <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON">JSON</a> encoding of
-            the sensor state. To switch the light on and off the client sends
-            <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX">AJAX</a> POST requests to
-            <code>/:room/lights/:light</code>. The response to such requests
-            is a
-            <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON">JSON</a> encoding of
-            the new sensor state.
-
-        </p>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Method</th>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>GET</td>
-                <td>/</td>
-                <td>Application main page</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/kitchen/lights/stove</td>
-                <td>Status of stove light in kitchen</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/kitchen/lights/ceiling</td>
-                <td>Status of ceiling light in kitchen</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/livingroom/lights/sofa</td>
-                <td>Status of sofa light in living room</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/livingroom/lights/ceiling</td>
-                <td>Status of ceiling light in living room</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/bedroom/lights/bed</td>
-                <td>Status of bed light in bedroom</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/bedroom/lights/ceiling</td>
-                <td>Status of ceiling light in bedroom</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/kitchen/temperature</td>
-                <td>Temperature of kitchen</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/livingroom/temperature</td>
-                <td>Temperature of living room</td>
-            </tr>
-            <tr>
-                <td>GET</td>
-                <td>/bedroom/temperature</td>
-                <td>Temperature of bedroom</td>
-            </tr>
-            <tr>
-                <td>POST</td>
-                <td>/kitchen/lights/stove</td>
-                <td>Switches stove light in kitchen</td>
-            </tr>
-            <tr>
-                <td>POST</td>
-                <td>/kitchen/lights/ceiling</td>
-                <td>Switches ceiling light in kitchen</td>
-            </tr>
-            <tr>
-                <td>POST</td>
-                <td>/livingroom/lights/sofa</td>
-                <td>Switches sofa light in living room</td>
-            </tr>
-            <tr>
-                <td>POST</td>
-                <td>/livingroom/lights/ceiling</td>
-                <td>Switches ceiling light in living room</td>
-            </tr>
-            <tr>
-                <td>POST</td>
-                <td>/bedroom/lights/bed</td>
-                <td>Switches bed light in bedroom</td>
-            </tr>
-            <tr>
-                <td>POST</td>
-                <td>/bedroom/lights/ceiling</td>
-                <td>Switches ceiling light in bedroom</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h4>Responding to requests</h4>
-        <p>
-            GET requests to the corresponding
-            application paths listed above should return a <a
-                href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON">JSON</a> encoding of
-            the device state as defined by the data model. You can use the <a
-                href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify</a>
-            function to create a JSON string from a JavaScript value.
-        </p>
-
-        <p>
-            POST request to the corresponding light paths listed above should flip the state of the light in the data
-            model
-            and return a JSON encoding of the new state of the light, used by the client to
-            update its display.
-        </p>
-
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: routing tables</h4>
             <p>
-                Use two routing tables: one for GET requests and one for POST requests and select the appropriate
-                routing table based on the method.
+                The initial application consists of a single page displaying the temperature of the different rooms, the status of the different lights in the rooms, and some means of controlling the light. Your task is to create a web application that behaves similarly
+                to the <a href="https://dva446.herokuapp.com/lab2/exercise1">example application</a>.
             </p>
-        </div>
 
-        <p>
-            After the correct routing table has been selected based on the request method we need to select the
-            appropriate
-            routing method based on the path of the request. The simplest way of doing this would be to map each of the
-            above paths to its own routing function responsible for getting and, for the lights, setting the values.
-            Whether an appropriate solution or not depends on how the actual communication with the temperature sensors
-            and the lights is performed.
-            The details of the mapping between the routing
-            table
-            and the data model are left to your discretion, but the following routing extension present in many web
-            application frameworks.
-        </p>
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: route parameters</h4>
+            <img src="exercise1/athome-main.png" class="img-responsive">
+
             <p>
-                Allow for named URL segments, <code>:[a-zA-Z_]+</code>, in the paths in the routing table. The names
-                are used to create a parameter mapping from the given identifiers and the corresponding parts of the
-                request path.
-                For instance, matching the request path <code>/kitchen/lights/stove</code> with the route path
-                <code>/:room/lights/:light</code> would be successful and create the mapping:
-                <code>{ "room" : "kitchen", "light" : "stove" }</code>. This allows for the association of any number
-                of similar paths to one handler with the parameters passed by storing the parameters in the
-                <em>params</em>
-                property on the request object.
+                In the example application, the temperature is displayed as a <a href="https://getbootstrap.com/docs/4.1/components/badge/">badge</a> on the header displaying the room name, and the lights are represented as <a href="https://getbootstrap.com/docs/4.1/components/buttons/">buttons</a>,
+                where the color of the button indicates whether the light is on or off. Clicking the light buttons should toggle the light state.
             </p>
-        </div>
 
-        <p>
-            Using route parameters its easy to map request paths to a mock-up data model and deliver the right response.
-        </p>
-
-
-        <!-- client -->
-
-        <h3>The client</h3>
-        <p>
-            The web application is accessed using the <code>/</code> request path. This serves the applications
-            main page. In the <a href="https://dva446.herokuapp.com/lab2/exercise1">example</a>,
-            the temperature is displayed as a <a href="https://getbootstrap.com/docs/4.1/components/badge/">badge</a> on
-            the
-            header displaying the room name, and the lights are represented as <a
-                href="https://getbootstrap.com/docs/4.1/components/buttons/">buttons</a>, where the color of the button
-            indicates whether the light is on or off.
-        </p>
-
-        <div class="alert alert-warning" role="alert">
             <p>
-                Feel free to reuse the example design, or experiment with
-                <a href="https://getbootstrap.com/">Bootstrap</a> to create your own rendition.
+                The application consists of the server, the program running on the server side, and the client, the content downloaded and displayed or executed by the browser. To increase the responsiveness of the application, the client part contains code that asks
+                the server for the state of the temperature sensors and lights at regular intervals, rather than just having the server embed this information when loading the app.
             </p>
-        </div>
 
-        <h4>GETing the values of the temperature sensors and the lights</h4>
-        <p>
-            In addition to HTML content, the page contains JavaScript used to communicate with the server. The example
-            solution uses a <code>refresh</code>
-            function that is set to be called every 5 seconds. The <code>refresh</code> function uses
-            two tables that map element identifiers of the controls to the associated
-            paths. For each identifier a GET request to the corresponding path, which results in a JSON
-            encoding of the value of the device.
-        </p>
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: JQuery getJSON</h4>
+            <h3>The server</h3>
+
             <p>
-                While you can use <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a>
-                to perform the GET and <a
-                    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse">JSON.parse</a>
-                to parse the result, you can consider using <a href="https://jquery.com/">JQuery</a> to perform both
-                actions in one,
-                in particular <a href="https://api.jquery.com/jquery.getjson/">jQuery.getJSON()</a>.
+                Base the application on the final product of laboration 1, which has the following application structure on the file system.
             </p>
-        </div>
 
-        <h4>POSTing to the lights</h4>
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Path</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>public/</td>
+                        <td>Directory with static files served by the static fallback.</td>
+                    </tr>
+                    <tr>
+                        <td>templates/</td>
+                        <td>Directory with template files. Used to render HTML responses.</td>
+                    </tr>
+                    <tr>
+                        <td>httpd.js</td>
+                        <td>The web application implementation.</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <p>
-            In the example solution, the <code>click</code> event is handled by the <code>clickLight</code> handler
-            passing the identifier of the element as parameter. The <code>clickLight</code> handler uses the identifier
-            to find the corresponding path and POSTs an empty request. The server handles the POST request and responds
-            with the new state of the light, used by the client to update the display.
-        </p>
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: JQuery post</h4>
+            <h4>Routing and application paths</h4>
             <p>
-                While you can use <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a>
-                to perform the POST, you can consider using <a
-                    href="https://api.jquery.com/jquery.post/">JQuery.post()</a>
-                to perform it.
+                This time around the routing is a bit more complex since we need to route based on both the request method as well as the request path. As we cannot work with actual devices we will use a mock-up data model containing the states of the various devices.
+            </p>
+            <p>
+                The application relies on the following paths in addition to the static routing. The application main page is associated with the <code>/</code> path and is generated from a template to include the current status of all the sensors. The
+                client should regularly update the status of the lights and the values of the temperature sensors by sending
+                <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX">AJAX</a> GET requests to
+                <code>/:room/lights/:light</code>, where <code>:room</code> represents the room name, and
+                <code>:light</code> represents the light name, and similarly for <code>/:room/temperature</code>. The response to such requests is a
+                <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON">JSON</a> encoding of the sensor state. To switch the light on and off the client sends
+                <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX">AJAX</a> POST requests to
+                <code>/:room/lights/:light</code>. The response to such requests is a
+                <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON">JSON</a> encoding of the new sensor state.
 
             </p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Method</th>
+                        <th scope="col">Path</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GET</td>
+                        <td>/</td>
+                        <td>Application main page</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/kitchen/lights/stove</td>
+                        <td>Status of stove light in kitchen</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/kitchen/lights/ceiling</td>
+                        <td>Status of ceiling light in kitchen</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/livingroom/lights/sofa</td>
+                        <td>Status of sofa light in living room</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/livingroom/lights/ceiling</td>
+                        <td>Status of ceiling light in living room</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/bedroom/lights/bed</td>
+                        <td>Status of bed light in bedroom</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/bedroom/lights/ceiling</td>
+                        <td>Status of ceiling light in bedroom</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/kitchen/temperature</td>
+                        <td>Temperature of kitchen</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/livingroom/temperature</td>
+                        <td>Temperature of living room</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/bedroom/temperature</td>
+                        <td>Temperature of bedroom</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/kitchen/lights/stove</td>
+                        <td>Switches stove light in kitchen</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/kitchen/lights/ceiling</td>
+                        <td>Switches ceiling light in kitchen</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/livingroom/lights/sofa</td>
+                        <td>Switches sofa light in living room</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/livingroom/lights/ceiling</td>
+                        <td>Switches ceiling light in living room</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/bedroom/lights/bed</td>
+                        <td>Switches bed light in bedroom</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/bedroom/lights/ceiling</td>
+                        <td>Switches ceiling light in bedroom</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Responding to requests</h4>
+            <p>
+                GET requests to the corresponding application paths listed above should return a <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON">JSON</a> encoding of the device state as defined by the data model. You can
+                use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify</a> function to create a JSON string from a JavaScript value.
+            </p>
+
+            <p>
+                POST request to the corresponding light paths listed above should flip the state of the light in the data model and return a JSON encoding of the new state of the light, used by the client to update its display.
+            </p>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Suggestion: routing tables</h4>
+                <p>
+                    Use two routing tables: one for GET requests and one for POST requests and select the appropriate routing table based on the method.
+                </p>
+            </div>
+
+            <p>
+                After the correct routing table has been selected based on the request method we need to select the appropriate routing method based on the path of the request. The simplest way of doing this would be to map each of the above paths to its own routing
+                function responsible for getting and, for the lights, setting the values. Whether an appropriate solution or not depends on how the actual communication with the temperature sensors and the lights is performed. The details of the mapping
+                between the routing table and the data model are left to your discretion, but the following routing extension is present in many web application frameworks.
+            </p>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Suggestion: route parameters</h4>
+                <p>
+                    Allow for named URL segments, <code>:[a-zA-Z_]+</code>, in the paths in the routing table. The names are used to create a parameter mapping from the given identifiers and the corresponding parts of the request path. For instance, matching
+                    the request path <code>/kitchen/lights/stove</code> with the route path
+                    <code>/:room/lights/:light</code> would be successful and create the mapping:
+                    <code>{ "room" : "kitchen", "light" : "stove" }</code>. This allows for the association of any number of similar paths to one handler with the parameters passed by storing the parameters in the
+                    <em>params</em> property on the request object.
+                </p>
+            </div>
+
+            <p>
+                Using route parameters its easy to map request paths to a mock-up data model and deliver the right response.
+            </p>
+
+
+            <!-- client -->
+
+            <h3>The client</h3>
+            <p>
+                The web application is accessed using the <code>/</code> request path. This serves the applications main page. In the <a href="https://dva446.herokuapp.com/lab2/exercise1">example</a>, the temperature is displayed as a <a href="https://getbootstrap.com/docs/4.1/components/badge/">badge</a>                on the header displaying the room name, and the lights are represented as <a href="https://getbootstrap.com/docs/4.1/components/buttons/">buttons</a>, where the color of the button indicates whether the light is on or off.
+            </p>
+
+            <div class="alert alert-warning" role="alert">
+                <p>
+                    Feel free to reuse the example design, or experiment with
+                    <a href="https://getbootstrap.com/">Bootstrap</a> to create your own rendition.
+                </p>
+            </div>
+
+            <h4>GETing the values of the temperature sensors and the lights</h4>
+            <p>
+                In addition to HTML content, the page contains JavaScript used to communicate with the server. The example solution uses a <code>refresh</code> function that is set to be called every 5 seconds. The <code>refresh</code> function uses two
+                tables that map element identifiers of the controls to the associated paths. For each identifier a GET request to the corresponding path, which results in a JSON encoding of the value of the device.
+            </p>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Suggestion: JQuery getJSON</h4>
+                <p>
+                    While you can use <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a> to perform the GET and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse">JSON.parse</a>                    to parse the result, you can consider using <a href="https://jquery.com/">JQuery</a> to perform both actions in one, in particular <a href="https://api.jquery.com/jquery.getjson/">jQuery.getJSON()</a>.
+                </p>
+            </div>
+
+            <h4>POSTing to the lights</h4>
+
+            <p>
+                If you look at the client code of the example solution, you will see that the <code>click</code> event is handled by the <code>clickLight</code> handler passing the identifier of the element as parameter. The <code>clickLight</code> handler
+                uses the identifier to find the corresponding path and POSTs an empty request. The server handles the POST request and responds with the new state of the light, used by the client to update the display.
+            </p>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Suggestion: JQuery post</h4>
+                <p>
+                    While you can use <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a> to perform the POST, you can consider using <a href="https://api.jquery.com/jquery.post/">JQuery.post()</a> to perform it.
+
+                </p>
+            </div>
+
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Observe: JQuery slim</h4>
+
+                <p>
+                    The JQuery included with Bootstrap is JQuery <em>slim</em>, which excludes AJAX. Hence, if you want to use JQuery you need to replace it with the full JQuery release. See <a href="https://jquery.com/download/">Downloading
+                JQuery</a> for more information.
+                </p>
+            </div>
+
+            <h4>Updating the client display</h4>
+
+            <p>
+                After having received a response from the server from a GET or a POST request, the client should update the display of the device associated with the path, i.e., the HTML element identified by the identifier in the example solution. This element can be
+                fetched by
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById">Document.getElementByID</a> and updated accordingly.
+            </p>
+
+            <div class="alert alert-warning" role="alert">
+                <p>
+                    Instead of Document.getElementByID, the example solution uses the jQuery <a href="https://api.jquery.com/id-selector/">ID Selector</a> to get the element associated with an identifier. To set the text on the <code>span</code> displaying
+                    the temperature the jQuery <a href="http://api.jquery.com/text/">.text()</a> function is used, and to change the status of the lights the class of the <code>button</code> representing the light is changed using the jQuery <a href="http://api.jquery.com/attr/">.attr()</a>                    function.
+                </p>
+            </div>
+
         </div>
 
 
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Observe: JQuery slim</h4>
+        <div class="page-header nobreak">
+
+            <h2>Adding authentication and authorization</h2>
 
             <p>
-                The JQuery
-                included with Bootstrap is JQuery <em>slim</em>, which excludes AJAX. Hence, if you want to use JQuery
-                you need to replace it with the full JQuery release. See <a href="https://jquery.com/download/">Downloading
-                JQuery</a>
-                for more information.
+                The @home application we have created thus far contains no authentication. If we were to make this application available online anyone could use it to read the status of the home and even control it. This is clearly not a good idea!
             </p>
-        </div>
 
-        <h4>Updating the client display</h4>
-
-        <p>
-            After having received a response from the server from a GET or a POST request, the client should update the
-            display of the
-            device associated with the path, i.e., the HTML element identified by the identifier in the example
-            solution.
-            This element can be fetched by
-            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById">Document.getElementByID</a>
-            and updated accordingly.
-        </p>
-
-        <div class="alert alert-warning" role="alert">
             <p>
-                Instead of Document.getElementByID, the
-                example solution uses the jQuery <a href="https://api.jquery.com/id-selector/">ID Selector</a> to
-                get the element associated
-                with an identifier. To set the text on the <code>span</code> displaying the
-                temperature the jQuery <a href="http://api.jquery.com/text/">.text()</a> function is used, and
-                to change the status of the lights the class of the <code>button</code> representing the
-                light is changed using the jQuery <a href="http://api.jquery.com/attr/">.attr()</a> function.
+                To remedy the situation we need to add authentication (and authorization) to our application. Authentication is the process of establishing the identity of the user, while authorization is the process of verifying that a user is allowed to perform a certain
+                action. Your task is to create a web application that behaves similarly to the <a href="https://dva446.herokuapp.com/lab2/exercise2">example application</a>.
             </p>
-        </div>
 
-    </div>
+            <p>
+                In this exercise, we will attempt to craft our own authentication and authorization mechanism adhering to the following authentication and authorization flow:
+            </p>
+            <ul>
+                <li>All resources apart from the login page should only be available to authenticated users.</li>
+                <li>All resources should be available to all users, simplifying authorization to verifying that a user is authenticated.
+                </li>
+                <li>Failed authorization should forward the client to the login page.</li>
+                <li>The login page should allow the user to authenticate by providing a username and password pair.</li>
+                <li>Successful authentication should result in the creation of a new session identified by a unique session identifier.
+                </li>
+                <li>The server should keep enough session state to be able to authorize access, i.e., in this case, it suffices to record that the session is valid.
+                </li>
+                <li>The session identifier should be sent back to the client and passed to the server in subsequent requests, acting as a form of authentication token.
+                </li>
+                <li>On the reception of a session identifier as part of a request, the server should grant access to the resource if the session identifier belongs to a valid session.
+                </li>
+                <li>It should be possible to log out. Logging out should invalidate the active session as identified by the request.
+                </li>
 
+            </ul>
 
-    <div class="page-header nobreak">
+            <h3>Protecting the communication</h3>
 
-        <h2>Adding authentication and authorization</h2>
+            <p>
+                Similar to the Basic HTTP authorization we will send the authentication information and session information in clear text to the server. This means that we will have to rely on some means to protect the communication with the server, e.g., SSL/TLS.
+            </p>
 
-        <p>
-            The @home application we have created thus far contains no authentication. If we were to make this
-            application
-            available online anyone could use it to read the status of the home and even control it. This is clearly not
-            a good idea!
-        </p>
-
-        <p>
-            To remedy the situation we need to add authentication (and authorization) to our application. Authentication
-            is the process of establishing the identity of the user, while authorization is the process of verifying
-            that a user is allowed to perform a certain action. Your task is to create a web application that behaves similarly to the <a
-                href="https://dva446.herokuapp.com/lab2/exercise2">example application</a>.
-        </p>
-
-        <p>
-            In this exercise, we will attempt to craft our own authentication and authorization mechanism
-            adhering to
-            the following authentication and authorization flow:
-        </p>
-        <ul>
-            <li>All resources apart from the login page should only be available to authenticated users.</li>
-            <li>All resources should be available to all users, simplifying authorization to verifying that a user is
-                authenticated.
-            </li>
-            <li>Failed authorization should forward the client to the login page.</li>
-            <li>The login page should allow the user to authenticate by providing a username and password pair.</li>
-            <li>Successful authentication should result in the creation of a new session identified by a unique session
-                identifier.
-            </li>
-            <li>The server should keep enough session state to be able to authorize access, i.e., in this case, it
-                suffices to record that
-                the session is valid.
-            </li>
-            <li>The session identifier should be sent back to the client and passed to the server in subsequent
-                requests,
-                acting as a form of authentication token.
-            </li>
-            <li>On the reception of a session identifier as part of a request, the server should grant access to the
-                resource if the
-                session identifier belongs to a valid session.
-            </li>
-            <li>It should be possible to log out. Logging out should invalidate the active session as identified by the
-                request.
-            </li>
-
-        </ul>
-
-        <h3>Protecting the communication</h3>
-
-        <p>
-            Similar to the Basic HTTP authorization we will send the authentication information and session information
-            in clear text to the server. This means that we will have to rely on some means to protect the communication
-            with the server, e.g., SSL/TLS.
-        </p>
-
-        <h4>Creating an HTTPS server</h4>
+            <h4>Creating an HTTPS server</h4>
 
 
-        <p>
-            Creating an HTTPS server in node.js is relatively easy: all that is required is to import <code>https</code>
-            instead of <code>http</code> and provide the server with a signed certificate and a private key. To obtain
-            a signed certificate one has to create a Certificate Signing Request (CSR) and pass it to a
-            Certificate Authority (CA) for signing. In our situation, however, this is not possible: CAs only sign
-            proper domain names and not local unroutable
-            addresses such as localhost (127.0.0.1) which we use to run web applications. The solution is a
-            self-signed certificate, where we use our own private key to sign the CSR. <a
-                href="https://www.heroku.com/">Heroku</a> provides a
-            <a href="https://devcenter.heroku.com/articles/ssl-certificate-self">short howto</a> detailing how to create
-            self-signed certificates. The generated secret key <code>server.key</code> and certificate
-            <code>server.crt</code>
-            are both in <em>.pem</em> format and can be given as options to the server on start. We add those to a
-            <code>cert</code> directory creating the following application structure.
-        </p>
+            <p>
+                Creating an HTTPS server in node.js is relatively easy: all that is required is to import <code>https</code> instead of <code>http</code> and provide the server with a signed certificate and a private key. To obtain a signed certificate
+                one has to create a Certificate Signing Request (CSR) and pass it to a Certificate Authority (CA) for signing. In our situation, however, this is not possible: CAs only sign proper domain names and not local unroutable addresses such as
+                localhost (127.0.0.1) which we use to run web applications. The solution is a self-signed certificate, where we use our own private key to sign the CSR. <a href="https://www.heroku.com/">Heroku</a> provides a
+                <a href="https://devcenter.heroku.com/articles/ssl-certificate-self">short howto</a> detailing how to create self-signed certificates. The generated secret key <code>server.key</code> and certificate
+                <code>server.crt</code> are both in <em>.pem</em> format and can be given as options to the server on start. We add those to a
+                <code>cert</code> directory creating the following application structure.
+            </p>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>cert/</strong></td>
-                <td><strong>SSL certificate and secret key.</strong></td>
-            </tr>
-            <tr>
-                <td>public/</td>
-                <td>Directory with static files served by the static fallback.</td>
-            </tr>
-            <tr>
-                <td>templates/</td>
-                <td>Directory with template files. Used to render HTML responses.</td>
-            </tr>
-            <tr>
-                <td>httpd.js</td>
-                <td>The web application implementation.</td>
-            </tr>
-            </tbody>
-        </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Path</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>cert/</strong></td>
+                        <td><strong>SSL certificate and secret key.</strong></td>
+                    </tr>
+                    <tr>
+                        <td>public/</td>
+                        <td>Directory with static files served by the static fallback.</td>
+                    </tr>
+                    <tr>
+                        <td>templates/</td>
+                        <td>Directory with template files. Used to render HTML responses.</td>
+                    </tr>
+                    <tr>
+                        <td>httpd.js</td>
+                        <td>The web application implementation.</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <p>
-            Once we have the certificate and the private key we can create an HTTPS server as follows.
-        </p>
+            <p>
+                Once we have the certificate and the private key we can create an HTTPS server as follows.
+            </p>
 
-        <pre><code class="language-javascript">const https = require('https');
+            <pre><code class="language-javascript">const https = require('https');
 const fs = require('fs');
 
 const options = {
@@ -520,271 +416,230 @@ https.createServer(options, (req, res) => {
 }).listen(8000);</code></pre>
 
 
-        <p>
-            Note that since the certificate is self-signed it's not going to be trusted by the browser, which will
-            complain about an
-            untrusted site. You can bypass this warning to continue to load the page. The exact way of doing this
-            depends on the browser - in Chrome it is under <em>ADVANCED</em>. After you have bypassed the warning, reloading the page should not trigger it again
-            (but, e.g., closing the tab or the window most likely will). Note that Chrome warns that the connection is
-            <em>Not Secure</em>, since the certificate cannot be verified.
-        </p>
+            <p>
+                Note that since the certificate is self-signed it's not going to be trusted by the browser, which will complain about an untrusted site. You can bypass this warning to continue to load the page. The exact way of doing this depends on the browser - in
+                Chrome it is under <em>ADVANCED</em>. After you have bypassed the warning, reloading the page should not trigger it again (but, e.g., closing the tab or the window will likely cause the it to reappear on the next visit).
+                Note that Chrome warns that the connection is
+                <em>Not Secure</em>, since the certificate cannot be verified.
+            </p>
 
-        <img src="exercise2/not-private.png" class="img-responsive">
+            <img src="exercise2/not-private.png" class="img-responsive">
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Tip: Let's Encrypt</h4>
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Tip: Let's Encrypt</h4>
+
+                <p>
+                    If you are working with a proper domain name you can get a free certificate for that domain via, e.g.,
+                    <a href="https://letsencrypt.org/">Let's Encrypt</a>. Let's Encrypt will require you to prove you are the rightful owner of the domain, and the result is a certificate that is trusted by the browsers.
+                </p>
+            </div>
+
+
+            <h3>Session handling</h3>
+            <p>
+                As is common, we will use HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">Cookies</a> to carry the session information.Cookies are a form of simple client-side storage associating a name with a value. We will use
+                a cookie <code>athome-session</code> to carry the session information for the @home application.
+            </p>
+            <p>
+                Cookies are set by a special <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie">Set-Cookie</a> response header and are automatically sent back by the client as a special
+                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie">Cookie</a> request header in each subsequent request to the same server (subject to domain, path and time restrictions). This makes cookies a simple choice for
+                implementing rudimentary session-based authentication and authorization.
+            </p>
 
             <p>
-                If you are working with a proper domain name you can get a free certificate for that domain via, e.g.,
-                <a href="https://letsencrypt.org/">Let's Encrypt</a>. Let's Encrypt will require you to prove you are
-                the rightful owner of the domain, and the result is a certificate that is trusted by the browsers.
+                On successful login, a new session unique session identifier is allocated. This can be done in several ways with different pros and cons. In this exercise we will select the simplest possible and let the server use consecutive session identifiers, starting
+                from one and incrementing by one for each new session. On allocation, the session identifiers are stored in the memory of the server for use in subsequent authorizations.
             </p>
+
+
+            <h3>Authorization</h3>
+
+            <p>
+                When a protected resource is accessed the server looks for the <code>athome-session</code> cookie in the cookie header of the request. If the cookie is found and contains a valid session identifier access is granted. Otherwise, access
+                is denied and the client should be forwarded to the login page.
+            </p>
+
+            <p>
+                Forwarding to a login page can be done by crafting a response using the
+                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/302">302</a> response code containing a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location">Location</a> header pointing to the target page. In
+                our case we want to forward to <code>/login</code>, which returns the login page.
+            </p>
+
+            <p>
+                To find the <code>athome-session</code> cookie the server needs to parse the cookie header, which is available as <code>headers.cookie</code> on the request object. Parsing of the cookie can be done by using the node.js <a href="https://www.npmjs.com/package/cookie">cookie</a>                library. This library contains a <code>parse</code> function that takes the contents of the cookie header and gives back an object representing the parsed cookies. Adding the cookie library to the application with <a href="https://www.npmjs.com/">NPM</a>                creates the following application structure.
+            </p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Path</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>cert/</td>
+                        <td>SSL certificate and secret key.</td>
+                    </tr>
+                    <tr>
+                        <td>public/</td>
+                        <td>Directory with static files served by the static fallback.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>node_modules/</strong></td>
+                        <td><strong>Directory with installed libraries. Contains cookie if installed.</strong></td>
+                    </tr>
+                    <tr>
+                        <td>templates/</td>
+                        <td>Directory with template files. Used to render HTML responses.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>package-lock.json</strong></td>
+                        <td><strong>Automatically generated by NPM. <a href="https://docs.npmjs.com/files/package-lock.json">A
+                    manifestation of the manifest</a>.</strong></td>
+                    </tr>
+                    <tr>
+                        <td>httpd.js</td>
+                        <td>The web application implementation.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>What to protect?</h4>
+
+            <p>
+                Which application endpoints should be protected? It depends. Clearly, the main page and the sensor endpoints should be protected, while the <code>/login</code> endpoint must not be protected (otherwise, we can't log in!). This entails
+                that (some of) the static files under <em>public</em> must also not be protected since the
+                <code>/login</code> endpoint makes use of them. For simplicity, we let all the files in public be unprotected - indeed, if we want to serve protected static files we better put them in a different directory and modify the static server
+                accordingly. In summary, below follows an overview of the protection status of the different endpoints.
+            </p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Endpoints</th>
+                        <th scope="col">Protection status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>static files</td>
+                        <td>Unprotected</td>
+                    </tr>
+                    <tr>
+                        <td>/, /kitchen/*, /livingroom/*, /bedroom/*, /logout</td>
+                        <td>Protected</td>
+                    </tr>
+
+                    <tr>
+                        <td>/login</td>
+                        <td>Unprotected</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>The implementation details of the endpoint protection are left to your discretion.</p>
+
+
+            <h3>Logging in</h3>
+
+            <p>
+                We add a GET handler for <code>/login</code> to serve the login page, which contains an HTML form with an input for the username and one for the password in addition to a login button. We set the form to POST the content to <code>/login</code>.
+            </p>
+
+            <img src="exercise2/athome-login.png" class="img-responsive">
+
+            <p>
+                To handle the login requests we add a POST handler for <code>/login</code> on the server. The POST handler reads the credentials from the body of the request and verifies it against its own records. If the credentials match, the server
+                responds with a <code>302</code> redirect to <code>/</code> passing
+                <code>Set-Cookie</code> header that sets <code>athome-session</code> to the fresh session identifier. If the credentials don't match, the server returns a version of the login page, where an error message is displayed.
+            </p>
+
+
+            <img src="exercise2/athome-login-failed.png" class="img-responsive">
+
+
+            <h4>Storing user credentials</h4>
+
+            <p>
+                In order for the server to be able to verify a login request, the server needs access to user credentials. For simplicity, we store the username, password pairs as properties in an object, where each property corresponds to a username and stores the password,
+                e.g.,
+                <code>{ 'daniel' : 'fisksoppa' }</code>. We store the credentials object JSON encoded in the <code>passwd</code> file, creating the following application structure.
+            </p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Path</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>cert/</td>
+                        <td>SSL certificate and secret key.</td>
+                    </tr>
+                    <tr>
+                        <td>public/</td>
+                        <td>Directory with static files served by the static fallback.</td>
+                    </tr>
+                    <tr>
+                        <td>node_modules/</td>
+                        <td>Directory with installed libraries. Contains cookie if installed.</td>
+                    </tr>
+                    <tr>
+                        <td>templates/</td>
+                        <td>Directory with template files. Used to render HTML responses.</td>
+                    </tr>
+                    <tr>
+                        <td>package-lock.json</td>
+                        <td>Automatically generated by NPM.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>passwd</strong></td>
+                        <td><strong>JSON encoded user information.</strong></td>
+                    </tr>
+                    <tr>
+                        <td>httpd.js</td>
+                        <td>The web application implementation.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <h3>Logging out</h3>
+
+            <p>
+                Compared to exercise 1 we modify the application main page to contain a logout button with an associated <code>onclick</code> handler that POSTs an empty message to <code>/logout</code>. Logout looks up the session cookie <code>athome-session</code>                in the request and extracts the session identifier. Thereafter the session is invalidated by removing the session identifier from the collection of active sessions. When the POST request has finished the user is logged out and the client
+                forwards to the
+                <code>/login</code> page.
+            </p>
+
+            <img src="exercise2/athome-logged-in.png" class="img-responsive">
+
         </div>
 
+        <div class="page-header nobreak">
+            <h2>Final product</h2>
+            <p>
+                The final product of this is an authenticated web application that allows a user to log in to access the main application.
+            </p>
 
-        <h3>Session handling</h3>
-        <p>
-            As is common, we will use HTTP <a
-                href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">Cookies</a>
-            to carry the session information.Cookies are a form of simple client-side storage associating a name
-            with a value. We will use a cookie <code>athome-session</code> to carry
-            the session information for the @home application.
-        </p>
-        <p>
-            Cookies are set by
-            a special <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie">Set-Cookie</a>
-            response
-            header and are automatically sent back by the client as a special
-            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie">Cookie</a> request header in
-            each subsequent request to the same server
-            (subject to domain, path and time restrictions). This makes cookies a simple choice
-            for implementing rudimentary session-based authentication and authorization.
-        </p>
+            <img src="exercise2/athome-login.png" class="img-responsive">
 
-        <p>
-            On successful login, a new session unique session identifier is allocated. This can be done in several ways
-            with different pros and cons. In this exercise we will select the simplest possible and let the
-            server use consecutive session identifiers, starting from one and incrementing by one for each
-            new session. On allocation, the session identifiers are stored in the memory of the server for use in
-            subsequent authorizations.
-        </p>
+            <p>
+                When logged in the user is presented with a set of temperature sensors and lights and has the option of logging out.
+            </p>
 
+            <img src="exercise2/athome-logged-in.png" class="img-responsive">
 
-        <h3>Authorization</h3>
+            <p>
+                The application should be similar to the <a href="https://dva446.herokuapp.com/lab2/exercise2">example application</a> and should follow the structure mandated by this document.
+            </p>
 
-        <p>
-            When a protected resource is accessed the server looks for the <code>athome-session</code> cookie in the
-            cookie header of the request. If the cookie is found and contains a valid session identifier access is
-            granted. Otherwise, access is denied and the client should be forwarded to the login page.
-        </p>
-
-        <p>
-            Forwarding to a login page can be done by crafting a response using the
-            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/302">302</a> response code
-            containing a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location">Location</a>
-            header pointing to the target page. In our case we want to forward to <code>/login</code>, which returns
-            the login page.
-        </p>
-
-        <p>
-            To find the <code>athome-session</code> cookie the server needs to parse the cookie header, which is
-            available as <code>headers.cookie</code> on the request object. Parsing of the cookie can be done by using
-            the node.js <a href="https://www.npmjs.com/package/cookie">cookie</a> library. This library contains
-            a <code>parse</code> function that takes the contents of the cookie header and gives back an object
-            representing the parsed cookies. Adding the cookie library to the application with <a
-                href="https://www.npmjs.com/">NPM</a> creates the
-            following application structure.
-        </p>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>cert/</td>
-                <td>SSL certificate and secret key.</td>
-            </tr>
-            <tr>
-                <td>public/</td>
-                <td>Directory with static files served by the static fallback.</td>
-            </tr>
-            <tr>
-                <td><strong>node_modules/</strong></td>
-                <td><strong>Directory with installed libraries. Contains cookie if installed.</strong></td>
-            </tr>
-            <tr>
-                <td>templates/</td>
-                <td>Directory with template files. Used to render HTML responses.</td>
-            </tr>
-            <tr>
-                <td><strong>package-lock.json</strong></td>
-                <td><strong>Automatically generated by NPM. <a href="https://docs.npmjs.com/files/package-lock.json">A
-                    manifestation of the manifest</a>.</strong></td>
-            </tr>
-            <tr>
-                <td>httpd.js</td>
-                <td>The web application implementation.</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h4>What to protect?</h4>
-
-        <p>
-            Which application endpoints should be protected? It depends. Clearly, the main page and the sensor endpoints
-            should be protected, while the <code>/login</code> endpoint must not be protected (otherwise, we can't log in!).
-            This entails that (some of) the static files under <em>public</em> must also not be protected since the
-            <code>/login</code> endpoint makes use of them. For simplicity, we let all the files in public be unprotected -
-            indeed, if we want to serve protected static files we better put them in a different directory and modify
-            the static server accordingly. In summary, below follows an overview of the protection status of the
-            different endpoints.
-        </p>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Endpoints</th>
-                <th scope="col">Protection status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>static files</td>
-                <td>Unprotected</td>
-            </tr>
-            <tr>
-                <td>/, /kitchen/*, /livingroom/*, /bedroom/*, /logout</td>
-                <td>Protected</td>
-            </tr>
-
-            <tr>
-                <td>/login</td>
-                <td>Unprotected</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>The implementation details of the endpoint protection are left to your discretion.</p>
-
-
-        <h3>Logging in</h3>
-
-        <p>
-            We add a GET handler for <code>/login</code> to serve the login page, which contains an HTML form with an
-            input for the username and one for the password in addition to a login button. We set the form to POST
-            the content to <code>/login</code>.
-        </p>
-
-        <img src="exercise2/athome-login.png" class="img-responsive">
-
-        <p>
-            To handle the login requests we add a POST handler for <code>/login</code> on the server. The POST handler
-            reads the credentials from the body of the request and verifies it against its own records. If the
-            credentials match, the server responds with a <code>302</code> redirect to <code>/</code> passing
-            <code>Set-Cookie</code> header that sets <code>athome-session</code> to the fresh session identifier.
-            If the credentials don't match, the server returns a version of the login page, where an error message is
-            displayed.
-        </p>
-
-
-        <img src="exercise2/athome-login-failed.png" class="img-responsive">
-
-
-        <h4>Storing user credentials</h4>
-
-        <p>
-            In order for the server to be able to verify a login request, the server needs access to user credentials.
-            For simplicity, we store the username, password pairs as properties in an object, where each property
-            corresponds to a username and stores the password, e.g.,
-            <code>{ 'daniel' : 'fisksoppa' }</code>.
-            We store the credentials object JSON encoded in the <code>passwd</code> file,
-            creating the following application structure.
-        </p>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>cert/</td>
-                <td>SSL certificate and secret key.</td>
-            </tr>
-            <tr>
-                <td>public/</td>
-                <td>Directory with static files served by the static fallback.</td>
-            </tr>
-            <tr>
-                <td>node_modules/</td>
-                <td>Directory with installed libraries. Contains cookie if installed.</td>
-            </tr>
-            <tr>
-                <td>templates/</td>
-                <td>Directory with template files. Used to render HTML responses.</td>
-            </tr>
-            <tr>
-                <td>package-lock.json</td>
-                <td>Automatically generated by NPM.</td>
-            </tr>
-            <tr>
-                <td><strong>passwd</strong></td>
-                <td><strong>JSON encoded user information.</strong></td>
-            </tr>
-            <tr>
-                <td>httpd.js</td>
-                <td>The web application implementation.</td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <h3>Logging out</h3>
-
-        <p>
-            Compared to exercise 1 we modify the application main page to contain a logout button with an
-            associated <code>onclick</code> handler that POSTs an empty message to <code>/logout</code>.
-            Logout looks up the session cookie <code>athome-session</code> in the request and extracts the
-            session identifier. Thereafter the session is invalidated by removing the session identifier from the
-            collection of active
-            sessions. When the POST request has finished the user is logged out and the client forwards to the
-            <code>/login</code> page.
-        </p>
-
-        <img src="exercise2/athome-logged-in.png" class="img-responsive">
-
+        </div>
     </div>
-
-    <div class="page-header nobreak">
-        <h2>Final product</h2>
-        <p>
-            The final product of this is an authenticated web application that allows a user to log in to access the
-            main application.
-        </p>
-
-        <img src="exercise2/athome-login.png" class="img-responsive">
-
-        <p>
-            When logged in the user is presented with a set of temperature sensors and lights and has the option of
-            logging out.
-        </p>
-
-        <img src="exercise2/athome-logged-in.png" class="img-responsive">
-
-        <p>
-            The application should be similar to the <a
-                href="https://dva446.herokuapp.com/lab2/exercise2">example application</a> and should follow the structure
-            mandated by this document.
-        </p>
-
-    </div>
-</div>
-<script src="../js/prism.js"></script>
+    <script src="../js/prism.js"></script>
 </body>
+
 </html>

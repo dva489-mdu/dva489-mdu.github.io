@@ -63,8 +63,8 @@ $ npm -v
         <div class="page-header nobreak">
             <h2>Creating a web server</h2>
 
-            <p>For this lab we will be using the <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html">HTTP</a> library that provides support for both HTTP servers and HTTP clients. Implementing support for HTTP/1.1 is complex and error-prone.
-                In particular, the library provides support for
+            <p>For this lab we will be using the <a href="https://nodejs.org/api/http.html">HTTP</a> library that provides support for both HTTP servers and HTTP clients. Implementing support for HTTP/1.1 is complex and error-prone. In particular, the library
+                provides support for
             </p>
             <ul>
                 <li>Keepalive session</li>
@@ -74,9 +74,9 @@ $ npm -v
 
 
             <p>The following program creates a server. The
-                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html#http_http_createserver_options_requestlistener">createServer</a> method takes a callback, a request listener, that is given the incoming request message, <code>req</code>,
-                and the server response, <code>res</code>. The request listener is invoked for every
-                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html#http_event_request">request</a> event.
+                <a href="https://nodejs.org/api/http.html#http_http_createserver_options_requestlistener">createServer</a> method takes a callback, a request listener, that is given the incoming request message, <code>req</code>, and the server response,
+                <code>res</code>. The request listener is invoked for every
+                <a href="https://nodejs.org/api/http.html#http_event_request">request</a> event.
             </p>
 
             <pre><code class="language-javascript">var http = require('http');
@@ -107,7 +107,7 @@ GET / 1.1</pre>
             <a name="exercise1"></a>
             <p>
                 Modify the server to return a "Hello World" page using the
-                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/http.html#http_class_http_serverresponse">server
+                <a href="https://nodejs.org/api/http.html#http_class_http_serverresponse">server
                 response</a>
                 <code>res</code>. Make sure you set the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type">Content-Type</a> type to <code>text/html</code> and the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">response status code</a>                to
                 <code>200</code>. When done your web server should behave similarly to the <a href="https://dva446.herokuapp.com/lab1/exercise1">example
@@ -278,7 +278,7 @@ GET / 1.1</pre>
             <p>
                 Now modify the static web server to print method, url, content type, and request body on the console. The method and the url are directly accessible on request object, while the request body has to be read from the request object using the fact that it
                 implements
-                <a href="https://nodejs.org/dist/latest-v14.x/docs/api/stream.html#stream_class_stream_readable">Readable
+                <a href="https://nodejs.org/api/stream.html#stream_class_stream_readable">Readable
                 Stream</a> with a <em>data</em> and an <em>end</em> event.
             </p>
 

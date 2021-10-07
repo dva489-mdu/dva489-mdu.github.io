@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,72 +21,64 @@
 
 <body>
 
-<!-- Begin page content -->
-<div class="container">
-    <div class="page-header nobreak">
-    <h2>Attack: session hijacking</h2>
+    <!-- Begin page content -->
+    <div class="container">
+        <div class="page-header nobreak">
+            <h2>Attack: session hijacking</h2>
 
-        <p>
-            <a href="https://www.owasp.org/index.php/Session_Prediction">Session prediction</a> is a type of
-            <a href="https://www.owasp.org/index.php/Session_hijacking_attack">session hijacking attack</a>,
-            that allows an attacker to get access to the application by guessing valid session information.
-            <a href="my_first_authenticated_web_app.html#exercise2">My first authenticated web application</a> is
-            particularly vulnerable to session hijacking since
-        </p>
+            <p>
+                <a href="https://owasp.org/www-community/attacks/Session_Prediction">Session prediction</a> is a type of
+                <a href="https://owasp.org/www-community/attacks/Session_hijacking_attackk">session hijacking attack</a>, that allows an attacker to get access to the application by guessing valid session information.
+                <a href="my_first_authenticated_web_app.html#exercise2">My first authenticated web application</a> is particularly vulnerable to session hijacking since
+            </p>
 
-        <ul>
-            <li>it uses an easily guessable, running session identifier starting from 1 at server start</li>
-            <li>it used to be vulnerable to a path traversal attack that would have allowed the attacker access to the source code, making session prediction even easier</li>
-            <li>sessions never expire unless users actively log out</li>
-        </ul>
+            <ul>
+                <li>it uses an easily guessable, running session identifier starting from 1 at server start</li>
+                <li>it used to be vulnerable to a path traversal attack that would have allowed the attacker access to the source code, making session prediction even easier</li>
+                <li>sessions never expire unless users actively log out</li>
+            </ul>
 
 
-        <h3>The attack</h3>
-        <p>
-            Your first task is to perform a session hijacking attack on your web application. The attack is performed
-            by following the steps below
-        </p>
+            <h3>The attack</h3>
+            <p>
+                Your first task is to perform a session hijacking attack on your web application. The attack is performed by following the steps below
+            </p>
 
-        <ol>
-            <li>Start <em>My first authenticated web application</em></li>
-            <li>Use, e.g., Chrome, go to <a href="https://localhost:8000">https://localhost:8000</a> which will redirect you to
-                the login page</li>
-            <li>Log in to the web application to generate a valid session on the server</li>
-            <li>Start, e.g., Firefox and go to <a href="https://localhost:8000">https://localhost:8000</a> which, again, should
-            redirect you to the login page</li>
-            <li>Set a valid session identifier using <code>document.cookie</code> in the JavaScript console</li>
-            <li>Reload <a href="https://localhost:8000">https://localhost:8000</a>, which should give you access to the application.</li>
-        </ol>
+            <ol>
+                <li>Start <em>My first authenticated web application</em></li>
+                <li>Use, e.g., Chrome, go to <a href="https://localhost:8000">https://localhost:8000</a> which will redirect you to the login page</li>
+                <li>Log in to the web application to generate a valid session on the server</li>
+                <li>Start, e.g., Firefox and go to <a href="https://localhost:8000">https://localhost:8000</a> which, again, should redirect you to the login page</li>
+                <li>Set a valid session identifier using <code>document.cookie</code> in the JavaScript console</li>
+                <li>Reload <a href="https://localhost:8000">https://localhost:8000</a>, which should give you access to the application.</li>
+            </ol>
 
 
-        <h3>Protecting the application</h3>
+            <h3>Protecting the application</h3>
 
-        <p>
-            Your second task is to protect the web application from session hijacking via session prediction. You should
-            deploy two countermeasures.
-        </p>
+            <p>
+                Your second task is to protect the web application from session hijacking via session prediction. You should deploy two countermeasures.
+            </p>
 
-        <ol>
-            <li>To improve the quality of the session identifier it should be randomized. Follow the suggestions given by
-                the OWASP cheat sheet on <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-properties">session ID properties</a>.
-                You can use the node.js <a href="https://nodejs.org/dist/latest-v8.x/docs/api/crypto.html">crypto</a>
-                library to generate the session identifier.
-            </li>
-            <li>
-                To reduce the attack window sessions should expire. Implement some kind of session expiration following
-                the OWASP cheat sheet on <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-expiration">session expiration</a>.
-                Server-side session expiration is the most important!
-            </li>
-        </ol>
+            <ol>
+                <li>To improve the quality of the session identifier it should be randomized. Follow the suggestions given by the OWASP cheat sheet on <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-properties">session ID properties</a>.
+                    You can use the node.js <a href="https://nodejs.org/api/crypto.html">crypto</a> library to generate the session identifier.
+                </li>
+                <li>
+                    To reduce the attack window sessions should expire. Implement some kind of session expiration following the OWASP cheat sheet on <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-expiration">session expiration</a>.
+                    Server-side session expiration is the most important!
+                </li>
+            </ol>
 
-        <h3>Attack report</h3>
+            <h3>Attack report</h3>
 
-        <p>
-            Write a short attack report detailing the attack and your countermeasures.
-        </p>
+            <p>
+                Write a short attack report detailing the attack and your countermeasures.
+            </p>
 
+        </div>
     </div>
-</div>
 
 </body>
+
 </html>
