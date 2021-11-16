@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,12 +19,11 @@
     <![endif]-->
 </head>
 
-<body
-">
+<body ">
 
 <!-- Begin page content -->
-<div class="container">
-    <div class="page-header nobreak">
+<div class="container ">
+    <div class="page-header nobreak ">
         <h2>My first social media web application: Squeak!</h2>
 
         <p>
@@ -33,8 +33,8 @@
         </p>
 
 
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Warning!</h4>
+        <div class="alert alert-danger " role="alert ">
+            <h4 class="alert-heading ">Warning!</h4>
             <p>
                 The final product of this is a web application intended to be open to attacks. The material presented in
                 this laboration should not be seen as suggestions on how to build secure web applications. On the
@@ -49,27 +49,27 @@
         </p>
     </div>
 
-    <div class="page-header nobreak">
+    <div class="page-header nobreak ">
         <h2>Creating the social media web application</h2>
 
         <p>
-            <a href="https://dva446.herokuapp.com/lab3/">Squeak!</a> works like a bulletin board where registered users can squeak their hearts desires. As we can see
+            <a href="https://dva446.herokuapp.com/lab3/ ">Squeak!</a> works like a bulletin board where registered users can squeak their hearts desires. As we can see
             below,
-            <a href="https://en.wikipedia.org/wiki/Alonzo_Church">Alonzo Church</a> enquires if the others like
-            his brainchild. Also present are <a href="https://en.wikipedia.org/wiki/Haskell_Curry">Haskell B. Curry</a>
-            and <a href="https://en.wikipedia.org/wiki/Moses_Sch%C3%B6nfinkel">Moses Sch&ouml;nfinkel</a>.
+            <a href="https://en.wikipedia.org/wiki/Alonzo_Church ">Alonzo Church</a> enquires if the others like
+            his brainchild. Also present are <a href="https://en.wikipedia.org/wiki/Haskell_Curry ">Haskell B. Curry</a>
+            and <a href="https://en.wikipedia.org/wiki/Moses_Sch%C3%B6nfinkel ">Moses Sch&ouml;nfinkel</a>.
         </p>
 
-        <img src="squeak-squeaking.png" class="img-responsive">
+        <img src="squeak-squeaking.png " class="img-responsive ">
 
         <p>
             Unlike the previous two laborations, this time we will work with an existing web application framework,
-            <a href="https://expressjs.com/">Express.js</a>. The framework provides convenient routing functions
-            and a notion of <a href="https://expressjs.com/en/guide/using-middleware.html">middleware</a>
+            <a href="https://expressjs.com/ ">Express.js</a>. The framework provides convenient routing functions
+            and a notion of <a href="https://expressjs.com/en/guide/using-middleware.html ">middleware</a>
             that makes it easy to introduce new functionality in the routing process.
         </p>
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Warning: do not use!</h4>
+        <div class="alert alert-danger " role="alert ">
+            <h4 class="alert-heading ">Warning: do not use!</h4>
             <p>
                 There is a lot of different middlewares and other utilities available for Express.js. You are <strong>not</strong>
                 allowed to use any
@@ -77,12 +77,12 @@
 
             <ul>
                 <li>authentication and authorization middleware such as <a
-                        href="http://www.passportjs.org/">Passport.js</a>,
+                        href="http://www.passportjs.org/ ">Passport.js</a>,
                 </li>
-                <li>session handling middleware such as <a href="https://www.npmjs.com/package/express-session">express-session</a>,
+                <li>session handling middleware such as <a href="https://www.npmjs.com/package/express-session ">express-session</a>,
                     or
                 </li>
-                <li>any templating engines such as <a href="https://mustache.github.io/">Mustache</a>.</li>
+                <li>any templating engines such as <a href="https://mustache.github.io/ ">Mustache</a>.</li>
             </ul>
 
         </div>
@@ -93,11 +93,11 @@
             it. To install Express.js type <code>npm install express</code> in the application directory.
         </p>
 
-        <div class="alert alert-warning" role="alert">
-            <h4 class="alert-heading">Observe!</h4>
+        <div class="alert alert-warning " role="alert ">
+            <h4 class="alert-heading ">Observe!</h4>
             <p>
                 Since this is the third web application you develop (in this course), the instructions are a little
-                more sparse. As before, feel free to reverse engineer the <a href="">example solution</a>, and
+                more sparse. As before, feel free to reverse engineer the <a href=" ">example solution</a>, and
                 take inspiration or reuse what you want. Note that signing up and squeaking (posting) are disabled in the
                 example solutions for obvious reasons.
             </p>
@@ -117,11 +117,11 @@
             The server should follow the structure of laboration 2 with some additions.
         </p>
 
-        <table class="table">
+        <table class="table ">
             <thead>
             <tr>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
+                <th scope="col ">Path</th>
+                <th scope="col ">Description</th>
             </tr>
             </thead>
             <tbody>
@@ -164,12 +164,12 @@
             The server should provide the following paths:
         </p>
 
-        <table class="table">
+        <table class="table ">
             <thead>
             <tr>
-                <th scope="col">Method</th>
-                <th scope="col">Path</th>
-                <th scope="col">Description</th>
+                <th scope="col ">Method</th>
+                <th scope="col ">Path</th>
+                <th scope="col ">Description</th>
             </tr>
             </thead>
             <tbody>
@@ -206,7 +206,7 @@
 
         <p>
             <code>/signin</code> and <code>/signup</code> accept a JSON encoded username and password, e.g.,
-            <code>{ "username" : "daniel", "password" : "skaldjur" }</code>,
+            <code>{ "username " : "daniel ", "password " : "skaldjur " }</code>,
             while <code>/squeak</code> accepts an <em>application/x-www-form-urlencoded</em> squeak. The rationale
             is that we want to use AJAX for signing in and signing up in order to not trigger page reloads and, for
             simplicity,
@@ -215,24 +215,24 @@
             of a form to submit.
         </p>
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: POSTing and receiving JSON</h4>
+        <div class="alert alert-success " role="alert ">
+            <h4 class="alert-heading ">Suggestion: POSTing and receiving JSON</h4>
             <p>
-                To receive JSON on the server-side use the <a href="https://expressjs.com/en/api.html#express.json">express.json()</a>
+                To receive JSON on the server-side use the <a href="https://expressjs.com/en/api.html#express.json ">express.json()</a>
                 middleware. This middleware decodes the body and stores the result in <code>req.body</code> if
                 the content type of the request is set to <em>application/json</em>. This means that you have
                 to make sure that the client request sets this header properly (<a
-                    href="https://api.jquery.com/jquery.post/">jQuery.post</a>
+                    href="https://api.jquery.com/jquery.post/ ">jQuery.post</a>
                 defaults to <em>application/x-www-form-urlencoded</em>) otherwise the middleware will fail to decode the
                 body for you!
             </p>
         </div>
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: receiving <em>application/x-www-form-urlencoded</em></h4>
+        <div class="alert alert-success " role="alert ">
+            <h4 class="alert-heading ">Suggestion: receiving <em>application/x-www-form-urlencoded</em></h4>
             <p>
                 To receive <em>application/x-www-form-urlencoded</em> on the server-side use the
-                <a href="https://expressjs.com/en/api.html#express.urlencoded">express.urlencoded()</a>
+                <a href="https://expressjs.com/en/api.html#express.urlencoded ">express.urlencoded()</a>
                 middleware.
             </p>
         </div>
@@ -248,7 +248,7 @@
             <li>Authentication is username and password based.</li>
             <li>Passwords are stored salted and hashed.</li>
             <li>Authorization is session based using a session cookie <code>squeak-session</code> containing a JSON
-                object with the session identifier and the username, e.g., <code>{ "sessionid" : "...", "username" : "A. Church" }</code>
+                object with the session identifier and the username, e.g., <code>{ "sessionid " : "... ", "username " : "A. Church " }</code>
             </li>
             <li>Successfully signing in creates a new session.</li>
             <li>Session identifiers are randomly generated.</li>
@@ -269,16 +269,16 @@
             the session information (the identifier and the username)
             in <code>req.session</code>. This way protected end-points can simply look for the presence of <code>req.session</code>
             and use the information contained there in to authorize. See the express.js guide on
-            <a href="https://expressjs.com/en/guide/writing-middleware.html">writing middleware</a> for information on
+            <a href="https://expressjs.com/en/guide/writing-middleware.html ">writing middleware</a> for information on
             how to write middleware.
         </p>
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Suggestion: decoding cookies</h4>
+        <div class="alert alert-success " role="alert ">
+            <h4 class="alert-heading ">Suggestion: decoding cookies</h4>
             <p>
-                To automatically decode cookies, use the <a href="https://www.npmjs.com/package/cookie-parser">cookie-parser</a>
+                To automatically decode cookies, use the <a href="https://www.npmjs.com/package/cookie-parser ">cookie-parser</a>
                 middleware for all application paths via <a
-                    href="https://expressjs.com/en/api.html#app.use">app.use()</a>.
+                    href="https://expressjs.com/en/api.html#app.use ">app.use()</a>.
                 To install cookie-parser type <code>npm install cookie-parser</code> in the application directory.
             </p>
         </div>
@@ -294,14 +294,14 @@
             is presented with a combined sign in and sign up page.
         </p>
 
-        <img src="squeak-login.png" class="img-responsive">
+        <img src="squeak-login.png " class="img-responsive ">
 
 
         <h3>Signing in</h3>
 
         <p>
             To sign in a user enters his credentials and presses the sign in button. The credentials are sent to the
-            server using the <a href="https://api.jquery.com/jquery.post/">jQuery.post</a> method. The server checks the
+            server using the <a href="https://api.jquery.com/jquery.post/ ">jQuery.post</a> method. The server checks the
             credentials against its user database and responds with a JSON encoded boolean that indicates if the
             operation
             was successful or not. In addition, in case of a successful sign in, a new random session identifier is
@@ -310,21 +310,21 @@
         </p>
 
         <p>
-            If the client receives <code>"false"</code> the sign in failed, which is communicated to the user by
+            If the client receives <code>"false "</code> the sign in failed, which is communicated to the user by
             setting the color of the border of the username and password fields to red. This is done by adding the CSS
             class
             <code>is-invalid</code> to the input element. See the Boostrap description of
-            <a href="https://getbootstrap.com/docs/4.0/components/forms/#server-side">server-side form validation</a>
+            <a href="https://getbootstrap.com/docs/4.0/components/forms/#server-side ">server-side form validation</a>
             for more information.
         </p>
 
-        <img src="squeak-failed-login.png" class="img-responsive">
+        <img src="squeak-failed-login.png " class="img-responsive ">
 
         <p>
-            If the client receives <code>"true"</code> the sign in was successful and the page should be reloaded.
+            If the client receives <code>"true "</code> the sign in was successful and the page should be reloaded.
             Refreshing
             the page in the context of a new valid session results in the main page being rendered. To reload the
-            page using JavaScript use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Location/reload">location.reload()</a>.
+            page using JavaScript use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Location/reload ">location.reload()</a>.
         </p>
 
         <h3>Signing up</h3>
@@ -350,7 +350,7 @@
             username that was the culprit. The client uses this information to signal the error using the form.
         </p>
 
-        <img src="squeak-invalid-username.png" class="img-responsive">
+        <img src="squeak-invalid-username.png " class="img-responsive ">
 
         <p>
             <strong>Checking the password.</strong>
@@ -359,7 +359,7 @@
             <code>username</code>
             and the password is in the variable <code>password</code> use the following code to verify the password
         </p>
-        <pre><code class="language-javascript">let validPassword = password !== undefined && password.length >= 8;
+        <pre><code class="language-javascript ">let validPassword = password !== undefined && password.length >= 8;
 
 if (validPassword) {
   let nameregex = new RegExp(username);
@@ -371,7 +371,7 @@ if (validPassword) {
             The client uses this information to signal the error using the form.
         </p>
 
-        <img src="squeak-invalid-password.png" class="img-responsive">
+        <img src="squeak-invalid-password.png " class="img-responsive ">
 
         <p>
             The structure of the server response is unimportant as long as the client is able to differentiate between
@@ -383,7 +383,7 @@ if (validPassword) {
             If the operation succeeds, the sign up creates a new user and stores it in its user database both in memory
             and on disk. The password should be stored salted and hashed! Thereafter a new random session identifier is
             and sent back using the <code>squeak-session</code> cookie. As with a successful sign in, the client should
-            reload the page using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Location/reload">location.reload()</a>.
+            reload the page using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Location/reload ">location.reload()</a>.
         </p>
 
 
@@ -397,53 +397,53 @@ if (validPassword) {
             squeaker, the time of the squeak and the squeak itself.
         </p>
 
-        <img src="squeak-squeaking.png" class="img-responsive">
+        <img src="squeak-squeaking.png " class="img-responsive ">
 
         <p>
             After having typed in the next squeak the user can either press the <em>Squeak!</em> button or press enter.
             This will cause the form to be submitted to the server. On reception, the server checks the session
             information provided by the session middleware. If no valid session is present the server simply drops the
-            squeak and end the request. Otherwise, a new squeak is created (containing the username, the time for the
-            squeak and the contents of the squeak) and stored in memory and on disk. The server then responds
+            squeak and ends the request. Otherwise, a new squeak is created (containing the username, the time for the
+            squeak and the contents of the squeak) and is stored in memory and on disk. The server then responds
             with a <code>302</code> redirect to <code>Location : /</code> to trigger a reload of the page without
             modifying the URL.
         </p>
 
 
-        <img src="squeak-squeaking-done.png" class="img-responsive">
+        <img src="squeak-squeaking-done.png " class="img-responsive ">
 
 
         <h3>Signing out</h3>
 
         <p>
             The application main page contains a sign out button that invalidates the session by removing the session
-            identifier from the list of valid sessions. The button uses <a href="https://api.jquery.com/jquery.post/">jQuery.post</a>
+            identifier from the list of valid sessions. The button uses <a href="https://api.jquery.com/jquery.post/ ">jQuery.post</a>
             to post to <code>/signout</code> and then reloads the page using
-            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Location/reload">location.reload()</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Location/reload ">location.reload()</a>
             to display the sign in page. It would have been equally possible to use the button to submit the form, but
             then the server would have had to respond with a <code>302</code> redirect to <code>Location : /</code>.
         </p>
 
     </div>
 
-    <div class="page-header nobreak">
+    <div class="page-header nobreak ">
         <h2>Final product</h2>
         <p>
             The final product of this is an authenticated social media
             web application, that allows a user to sign up, and sign in.
         </p>
 
-        <img src="squeak-login.png" class="img-responsive">
+        <img src="squeak-login.png " class="img-responsive ">
 
         <p>
             When signed in users can post messages.
         </p>
 
-        <img src="squeak-squeaking.png" class="img-responsive">
+        <img src="squeak-squeaking.png " class="img-responsive ">
 
         <p>
             The application should be similar to the <a
-                href="https://dva446.herokuapp.com/lab3">example application</a> and should follow the structure
+                href="https://dva446.herokuapp.com/lab3 ">example application</a> and should follow the structure
             mandated by this document. If you want to try it out you can log in using the names of the participants in
             the screenshots (mind the spaces! and password <code>12345678</code>! Notice that, for security reasons, squeaking and user
             registration are disabled in the example application.
@@ -453,6 +453,6 @@ if (validPassword) {
 
 </div>
 
-<script src="../js/prism.js"></script>
+<script src="../js/prism.js "></script>
 </body>
 </html>
