@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA446</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+    <link href="../css/prism.css" rel="stylesheet">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <!-- Begin page content -->
+    <div class="container">
+        <div class="page-header nobreak">
+            <h2>Excursion: Content Security Policy</h2>
+
+            <p>
+                In <a href="../lab1/my_first_web_app.html">My first web application</a> and in
+                <a href="../lab3/my_first_social_media_app.html">My first social media app</a> we met two variants of XSS and saw how to protect against them using various forms of sanitization. While it is important to strive to remove all vulnerabilities
+                in an application it is also very demanding, in particular as the application grows.
+            </p>
+
+            <p>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">Content Security Policy (CSP)</a> is a security mechanism that can be used to prevent the exploitation of injection attacks by, e.g., constraining valid script sources and
+                preventing unsafe inline scripts.
+            </p>
+
+            <p>
+                Your task is to use CSP to protect both <a href="../lab1/my_first_web_app.html">My first web
+                    application</a> and
+                <a href="../lab3/my_first_social_media_app.html">My first social media app</a> using CSP. Base your experimentation on the unpatched versions and show that your policy, indeed, protects the application from the attacks. Writing CSP policies
+                for large web application is not an easy task as illustrated by <a href="https://research.google/pubs/pub45542/">CSP
+                    Is Dead, Long Live
+                    CSP! On the Insecurity of Whitelists and the Future of Content Security Policy</a>. Follow the guidelines in the
+                <a href="https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html">Content Security Policy Cheat Sheet</a>.
+
+
+            </p>
+            <h3>Excursion Result</h3>
+            <p>
+                The intended result of this excustion is two CSP policies and an attack report that shows how the policies protect from the reflected and stored XSS attacks.
+            </p>
+
+
+
+        </div>
+
+
+</body>
+
+</html>
