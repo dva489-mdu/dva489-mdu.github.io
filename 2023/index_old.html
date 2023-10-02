@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DVA489</title>
+    <title>DVA446</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -17,12 +17,6 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        mark { 
-          background-color: yellow;
-          color: black;
-        }
-    </style>    
 </head>
 
 <body>
@@ -147,27 +141,178 @@
 
 
         <div class="page-header nobreak">
-            <ul style="list-style-type:square;">
-                <li> <h3>Exercise 1: My first web application</h3>
-                    <a href="assignments/exercise1.html" class="list-group-item"> 
-                        <p class="list-group-item-text">
-                            <ul style="list-style-type:circle;">
-                                <li>"GO TO Unauthenticated web application"</li>
-                              </ul>
-                        </p>
-                    </a>
-                <br>
+            <h3>Exercise 1: My first web application</h3>
+            <a href="exercise1.html" class="list-group-item"> 
+                <p class="list-group-item-text">
+                    HTTP server creation, serving static content, passing information to the server, creating a
+                    simple web application.
+                </p>
+            </a>
+            <br>
+            <div class="list-group">
 
-                </li> <h3> <mark>[NEW] </mark> Exercise 2: My first authenticated web application </h3>
-                <a href="assignments/exercise2.html" class="list-group-item"> 
+                <a href="lab1/my_first_web_app.html" class="list-group-item">
+                    <span class="date">Development</span>
+
+                    <h4 class="list-group-item-heading">My first web application</h4>
+
                     <p class="list-group-item-text">
-                        <ul style="list-style-type:circle;">
-                            <li>"GO TO Authenticated web application"</li>
-                          </ul>
+                        HTTP server creation, serving static content, passing information to the server, creating a
+                        simple web application.
                     </p>
+
+                    <br>
+
+
                 </a>
-                <br>
-            </ul>
+
+                <div class="list-group-item">
+                    <br>
+
+                    <dl class="dl-horizontal">
+                        <dt>The Tangled Web</dt>
+                        <dd>Chapter 1: Security in the world of web applications</dd>
+                        <dd>Chapter 2 (23 - 36]: It starts with a URL</dd>
+                        <dd>Chapter 3 (41 - 58]: HyperText Transfer Protocol</dd>
+
+                    </dl>
+
+                    <dl class="dl-horizontal">
+                        <dt>Tutorials</dt>
+                        <dd><a href="https://javascript.info/">The Modern JavaScript Tutorial</a> (javascript.info)</dd>
+                        <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML">Introduction
+                                to HTML</a> (MDN)
+                        </dd>
+                        <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS">Learn to style HTML using
+                                CSS</a> (MDN)
+                        </dd>
+                        <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript">JavaScript</a> (MDN)
+                        </dd>
+
+                        <dd><a href="https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/">Anatomy of an
+                                HTTP
+                                Transaction
+                            </a> (node.js)
+                        </dd>
+                    </dl>
+
+
+                    <dl class="dl-horizontal">
+                        <dt>References</dt>
+                        <dd><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">Standard
+                                built-in objects</a> (MDN)
+                        </dd>
+
+                    </dl>
+                </div>
+
+            </div>
+
+            <div class="list-group">
+
+
+                <a href="lab1/denial_of_service.html" class="list-group-item">
+                    <span class="date">Attack</span>
+
+                    <h4 class="list-group-item-heading">Denial of Service</h4>
+
+                    <p class="list-group-item-text">
+                        Trying to crash the web application.
+                    </p>
+
+                </a>
+
+                <div class="list-group-item">
+                    <br>
+                    <dl class="dl-horizontal">
+                        <dt>Resources</dt>
+                        <dd><a href="https://www.owasp.org/index.php/Denial_of_Service">Denial of Service</a> (OWASP)
+                        </dd>
+                    </dl>
+                </div>
+
+            </div>
+
+            <div class="list-group">
+
+
+                <a href="lab1/reflected_xss.html" class="list-group-item">
+                    <span class="date">Attack</span>
+
+                    <h4 class="list-group-item-heading">Reflected XSS</h4>
+
+                    <p class="list-group-item-text">
+                        Non-persistent XSS. Remote code execution.
+                    </p>
+
+                </a>
+
+                <div class="list-group-item">
+                    <br>
+
+                    <dl class="dl-horizontal">
+                        <dt>The Tangled Web</dt>
+                        <dd>Chapter 4 (69 - 80]: HyperText Markup Language</dd>
+                        <dd>Chapter 6: Browser-Side Scripts</dd>
+                    </dl>
+
+
+                    <dl class="dl-horizontal">
+                        <dt>Videos</dt>
+                        <dd><a href="https://www.youtube.com/watch?v=M_nIIcKTxGk">What is Cross Site Scritping</a>
+                        </dd>
+                        <dd>
+                            <a href="https://www.youtube.com/watch?v=dFci82qwXA0">Non Persistent XSS</a>
+                        </dd>
+                    </dl>
+
+                </div>
+
+
+            </div>
+
+            <div class="list-group">
+
+
+                <a href="lab1/reflected_xss.html" class="list-group-item">
+                    <span class="date">Attack</span>
+
+                    <h4 class="list-group-item-heading">Example application</h4>
+
+                    <p class="list-group-item-text">
+                        Try to perform as many attacks as possible on the example application.
+                    </p>
+
+                </a>
+
+               
+
+
+            </div>
+            <div class="list-group">
+
+                <div class="list-group-item">
+                    <span class="date">Hand in</span>
+
+                    <h4 class="list-group-item-heading">Submission 1</h4>
+
+                    <p class="list-group-item-text">
+                        Submission 1 consists of two attack reports that should be handed in together with the
+                        corresponding code.
+                    </p>
+
+
+                    <ul>
+                        <li>The source code of <em>My first web application</em></li>
+                        <li>The report of the <a href="lab1/denial_of_service.html">Denial of Service</a> attack</li>
+                        <li>The report of the <a href="lab1/reflected_xss.html">Reflected XSS</a> attack</li>
+                        <li>The report of the attacks on the example application</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
         </div>
 
         <!-- 
