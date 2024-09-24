@@ -336,13 +336,12 @@
                 In this exercise, we will attempt to craft our own authentication and authorization mechanism adhering to the following authentication and authorization flow:
             </p>
             <ul>
-                <li>All resources apart from the login page should only be available to authenticated users.</li>
+                <li>All resources apart from the login page (and public resources used by the login page) should only be available to authenticated users.</li>
                 <li>All resources should be available to all users, simplifying authorization to verifying that a user is authenticated.
                 </li>
                 <li>Failed authorization should forward the client to the login page.</li>
                 <li>The login page should allow the user to authenticate by providing a username and password pair.</li>
-                <li>Successful authentication should result in a valid session using a session identifier. 
-                </li>
+                <li>Authorization should be based on a session identifier stored as a cookie.</li>      
             </ul>
             <p>A common way to do this is to use pre-sessions, i.e., let the login page set a session cookie using
                 a new session identifier and upgrade that session identifier to an authorized session on successful login. 
@@ -456,9 +455,9 @@ https.createServer(options, (req, res) => {
 
             <p>
                 When serving the login page a pre-session identifier is generated and stored in a cookie as part of the 
-                response fromt he server. This cookie will travel back to 
+                response from the server. This cookie will travel back to 
                 the server when the user tries to login. If the credentials are correct, the provided pre-session identifier is upgraded by the 
-                server to an active session by storing it in the memory of the server for use in subsequent authorizations.
+                server to an active session by storing it in the internal session state. The session state should associate valid session identifiers to the corresponding user.
 
                 Generation of pre-session 
                 identifiers can be done in several ways. In this exercise it should be done by keeping track of the next free
