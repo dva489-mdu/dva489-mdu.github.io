@@ -33,24 +33,19 @@
             </p>
 
             <ul>
-                <li>it uses an easily guessable, running session identifier starting from 1 at server start</li>
-                <li>it used to be vulnerable to a path traversal attack that would have allowed the attacker access to the source code, making session prediction even easier</li>
+                <li>it uses a running session identifier easily obtainable from the pre-session information</li>
                 <li>sessions never expire unless users actively log out</li>
             </ul>
 
 
-            <h3>The attack</h3>
+            <h3>The attacks</h3>
             <p>
-                Your first task is to perform a session hijacking attack on your web application. The attack is performed by following the steps below
+                Your first task is to perform a session hijacking attack on your web application. There are two ways to perform the attack.
             </p>
 
             <ol>
-                <li>Start <em>My first authenticated web application</em></li>
-                <li>Use, e.g., Chrome, go to <a href="https://localhost:8000">https://localhost:8000</a> which will redirect you to the login page</li>
-                <li>Log in to the web application to generate a valid session on the server</li>
-                <li>Start, e.g., Firefox and go to <a href="https://localhost:8000">https://localhost:8000</a> which, again, should redirect you to the login page</li>
-                <li>Set a valid session identifier using <code>document.cookie</code> in the JavaScript console</li>
-                <li>Reload <a href="https://localhost:8000">https://localhost:8000</a>, which should give you access to the application.</li>
+                <li>Simultanous login: clients that arrive at the same time to the login page obtain the same pre-session. Use this access the page from one browser without logging in on that browser. </li>
+                <li>The pre-session gives away the next free sessions identifier. Use this as a starting point and search backwards for active sessions. You can inspect and set the cookie from the JavaScript console via <code>document.cookie</code> </li>
             </ol>
 
 

@@ -223,7 +223,7 @@
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">Suggestion: routing tables</h4>
                 <p>
-                    Use two routing tables: one for GET requests and one for POST requests and select the appropriate routing table based on the method.
+                    Use two routing tables: one for GET requests and one for POST requests and select the appropriate routing table based on the method. You can use JavaScript objects to implement the tables.
                 </p>
             </div>
 
@@ -341,11 +341,19 @@
                 </li>
                 <li>Failed authorization should forward the client to the login page.</li>
                 <li>The login page should allow the user to authenticate by providing a username and password pair.</li>
-                <li>Successful authentication should result in the creation of a new session identified by a unique session identifier.
+                <li>Successful authentication should result in a valid session using a session identifier. 
                 </li>
-                <li>The server should keep enough session state to be able to authorize access, i.e., in this case, it suffices to record that the session is valid.
-                </li>
-                <li>The session identifier should be sent back to the client and passed to the server in subsequent requests, acting as a form of authentication token.
+            </ul>
+            <p>A common way to do this is to use pre-sessions, i.e., let the login page set a session cookie using
+                a new session identifier and upgrade that session identifier to an authorized session on successful login. 
+                This can be done in the following way:
+            </p>
+<ul>
+                <li>Let the login page store the next session identifier, the pre-session, in a cookie when accessed. This session 
+                    identifier will be passed back when trying to login.
+                <li>
+                    On successful login, the pre-session gets upgraded to a session, i.e., the server stores the session identifier, and the associated user in its internal session storage
+                    for future requests.
                 </li>
                 <li>On the reception of a session identifier as part of a request, the server should grant access to the resource if the session identifier belongs to a valid session.
                 </li>
@@ -447,8 +455,14 @@ https.createServer(options, (req, res) => {
             </p>
 
             <p>
-                On successful login, a new session unique session identifier is allocated. This can be done in several ways with different pros and cons. In this exercise we will select the simplest possible and let the server use consecutive session identifiers, starting
-                from one and incrementing by one for each new session. On allocation, the session identifiers are stored in the memory of the server for use in subsequent authorizations.
+                When serving the login page a pre-session identifier is generated and stored in a cookie as part of the 
+                response fromt he server. This cookie will travel back to 
+                the server when the user tries to login. If the credentials are correct, the provided pre-session identifier is upgraded by the 
+                server to an active session by storing it in the memory of the server for use in subsequent authorizations.
+
+                Generation of pre-session 
+                identifiers can be done in several ways. In this exercise it should be done by keeping track of the next free
+                session identifier, which is then incremented by one on successful login. 
             </p>
 
 
@@ -566,6 +580,12 @@ https.createServer(options, (req, res) => {
                 e.g.,
                 <code>{ 'daniel' : 'fisksoppa' }</code>. We store the credentials object JSON encoded in the <code>passwd</code> file, creating the following application structure.
             </p>
+
+            <div class="alert alert-warning" role="danger">
+                <p>
+                    Please ensure that your solution contain the above user to make it easier for us to grade. Failure to do so might result in the assignment being failed.
+                </p>
+            </div>
 
             <table class="table">
                 <thead>
