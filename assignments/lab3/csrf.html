@@ -60,7 +60,15 @@
         <p>
             Your first task is to try to craft a homepage that performs a CSRF attack against authenticated Squeak!
             users. When visiting the page an authenticated Squeak! users should involuntarily post a link to the
-            attack page. The attack is illustrated below. First, <em>M. Sch&ouml;nfinkel</em> signs in to Squeak! (left).
+            attack page. 
+        </p>
+        <p>    
+            <em>Observe!</em> you cannot host the attack page using your web applicaiton, since then
+            the attack would not be cross-origin! Either write a specialized attack server or use the <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server</a> 
+            extension of <a href="https://code.visualstudio.com/">Visual Studio Code</a> or similar.
+        </p>    
+        <p>
+            The attack is illustrated below. First, <em>M. Sch&ouml;nfinkel</em> signs in to Squeak! (left).
             Second, <em>M. Sch&ouml;nfinkel</em> is tricked into visiting a malicious site while signed in to Squeak! (mid).
             Third, the malicious site has successfully used posted as <em>M. Sch&ouml;nfinkel</em> in Squeak! (right). The post
             contains a link to the malicious site. If any other user clicks the link they, too, become victims of the

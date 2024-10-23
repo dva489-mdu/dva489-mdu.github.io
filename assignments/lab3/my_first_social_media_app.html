@@ -39,7 +39,8 @@
                 The final product of this is a web application intended to be open to attacks. The material presented in
                 this assignment should not be seen as suggestions on how to build secure web applications. On the
                 contrary, we have deliberately chosen some elements to make sure that the application contains security
-                flaws!
+                flaws! Bear in mind, though, that all of the questionable choices are choices that have occurred or even still occur 
+                in the wild.
             </p>
         </div>
 
@@ -47,6 +48,16 @@
             After completion of the exercises you are expected to have a working, but flawed, authenticated social media
             web  application.
         </p>
+
+        <div class="alert alert-warning " role="alert ">
+            <h4 class="alert-heading ">Observe!</h4>
+            <p>
+                Since this is the third web application you develop (in this course), the instructions are a little
+                more sparse. As before, feel free to reverse engineer the <a href=" ">example solution</a>, and
+                take inspiration or reuse what you want. Note that signing up and squeaking (posting) are disabled in the
+                example solutions for obvious reasons.
+            </p>
+        </div>
     </div>
 
     <div class="page-header nobreak ">
@@ -67,12 +78,26 @@
             <a href="https://expressjs.com/ ">Express.js</a>. The framework provides convenient routing functions
             and a notion of <a href="https://expressjs.com/en/guide/using-middleware.html ">middleware</a>
             that makes it easy to introduce new functionality in the routing process.
+            Using Express.js allows us to develop an understanding and
+            appreciation for how the design of the framework imposes a certain structure on our solution that together
+            with the provided functionality helps us avoiding many common mistakes. Use the excellent <em>Getting started</em>
+            tutorial and the <em>Guide</em> provided on the Express.js homepage for more information.
         </p>
+
         <div class="alert alert-danger " role="alert ">
-            <h4 class="alert-heading ">Warning: do not use!</h4>
+            <h4 class="alert-heading ">Warning: do not use any non-sanctioned libraries!</h4>
+            <p>
+                While Express.js is allowed no other 3rd party libraries are allowed. Using other libraries will cause the 
+                assignment to be rejected without further comments.
+            </p>
+        </div>
+
+        <div class="alert alert-danger " role="alert ">
+            <h4 class="alert-heading ">Warning: do not use any non-sanctioned middleware!</h4>
             <p>
                 There is a lot of different middlewares and other utilities available for Express.js. You are <strong>not</strong>
-                allowed to use any
+                allowed to use any middleware that is not explicitly allowed on this page. In particular, you are not to allowed to 
+                use any of the following middlewares:
             </p>
 
             <ul>
@@ -87,29 +112,27 @@
 
         </div>
 
+
+
         <p>
             Express.js will not appear
             entirely unfamiliar; many of the design choices of the previous assignments were borrowed from
             it. To install Express.js type <code>npm install express</code> in the application directory.
         </p>
 
-        <div class="alert alert-warning " role="alert ">
-            <h4 class="alert-heading ">Observe!</h4>
-            <p>
-                Since this is the third web application you develop (in this course), the instructions are a little
-                more sparse. As before, feel free to reverse engineer the <a href=" ">example solution</a>, and
-                take inspiration or reuse what you want. Note that signing up and squeaking (posting) are disabled in the
-                example solutions for obvious reasons.
-            </p>
-        </div>
+
 
 
         <h3>The server</h3>
 
         <p>
-            We are going to base the social media application on the HTML of assignment 2, while the code will have
-            to be developed anew in the Express.js framework. Follow the excellent <em>Getting started</em>
-            tutorial available on the Express.js homepage to learn the basics.
+
+        </p>
+        <p>
+            Base your server implementation on the authentication and session management of assignment 2, but phrase the authorization 
+            in terms of an Express.js middleware. It is strongly suggested you familiarize yourselves with the <a href="https://expressjs.com/en/guide/routing.html">Routing</a>,
+            the <a href="https://expressjs.com/en/guide/writing-middleware.html">Writing middleware</a> and the 
+            <a href="https://expressjs.com/en/guide/using-middleware.html">Using middleware</a> guides before creating your applications.
         </p>
 
 
@@ -147,7 +170,7 @@
             </tr>
             <tr>
                 <td>passwd</td>
-                <td>JSON encoded user information.<em> Passwords should be stored salted and hashed.</em></td>
+                <td>JSON encoded user information (user name and password).</td>
             </tr>
             <tr>
                 <td><strong>squeaks</strong></td>
@@ -183,12 +206,12 @@
             <tr>
                 <td>POST</td>
                 <td>/signin</td>
-                <td>Accepts a JSON encoded username and password, and creates a new session.</td>
+                <td>Accepts a JSON encoded username and password, and valides the session.</td>
             </tr>
             <tr>
                 <td>POST</td>
                 <td>/signup</td>
-                <td>Accepts a JSON encoded username and password, adds the user and creates a new session.</td>
+                <td>Accepts a JSON encoded username and password, adds the user if not present. </td>
             </tr>
             <tr>
                 <td>POST</td>
@@ -240,27 +263,19 @@
         <h3>Authentication and authorization flow</h3>
 
         <p>
-            The authentication and authorization flow follows the one of assignment 2 after the required security
-            patches.
+            The authentication and authorization flow follows the one of assignment 2, with some additions. The flow is described in 
+            brief below; see assignment 2 for the details if needed.
         </p>
 
         <ul>
             <li>Authentication is username and password based.</li>
-            <li>Passwords are stored salted and hashed.</li>
             <li>Authorization is session based using a session cookie <code>squeak-session</code> containing a JSON
                 object with the session identifier and the username, e.g., <code>{ "sessionid " : "... ", "username " : "A. Church " }</code>
             </li>
-            <li>Successfully signing in creates a new session.</li>
-            <li>Session identifiers are randomly generated.</li>
+            <li>Successfully signing in validates upgrades the pre-session to a valid session.</li>
             <li>The server keeps track of valid sessions.</li>
             <li>Sessions are terminated if the user signs out or if the session expires.</li>
         </ul>
-
-        <p>
-            The reason we chose to store the user in the cookie together with the session identifier instead of in the server
-            session state is that we want to keep the latter minimal, i.e., only a collection of valid session identifiers.
-            The enables a simpler future transition to a more RESTful API.
-        </p>
 
         <p>
             To handle authorization it's very convenient to create your own session middleware. This middleware
