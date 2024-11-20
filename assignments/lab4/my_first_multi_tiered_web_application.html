@@ -32,7 +32,8 @@
                     href="../lab3/my_first_social_media_app.html">Squeak!</a> by adding proper storage for credentials,
                 sessions, and squeaks. We will connect the application to the popular <a
                     href="https://www.mongodb.com/">MongoDB</a>,
-                since MongoDB offers a free experimental tier with easy setup and excellent documentation.
+                since MongoDB offers a free experimental tier with easy setup and excellent documentation. If you prefer, you 
+                can, of course, run MongDB locally on you own machine.
             </p>
 
 
@@ -107,6 +108,10 @@
                     free
                     tier cluster</a>. Follow the guide and the dashboard guidance to create a project to install the
                 MongoDB driver and a get a connection string for driver 3.6 or later.
+            </p>
+
+            <p>
+                If you prefer you can also run MongDB locally. See <a href="https://www.mongodb.com/docs/manual/self-managed-deployments/">Self Managed Deployments></a> for more information.
             </p>
 
             <p>
@@ -225,14 +230,14 @@ mongo().catch(console.dir);</code></pre>
             </p>
 
             <div class="alert alert-warning" role="alert">
-                <h4 class="alert-heading">Observe!</h4>
+                <h4 class="alert-heading">Credential storage</h4>
                 <p>
-                    To diversify the NoSQL injection attacks we will not store the passwords in a secure way in MongoDB.
-                    Instead, the credentials will be stored as username/password pairs, e.g.,
-                <pre><code class="language-javascript">{ username : "daniel", password : "fisksoppa"}</code></pre> While
-                this might feel counter-intuitive now that we have already addressed this issue it serves to illustrate
-                how different vulnerabilities
-                work together to enable an attacker to compromise the application.
+                    A colleague of yours suggest that now that the passwords are stored in a secure database there is no need to
+                    store them hashed. Indeed, he says, if they are stored in plaintext you can even regularly scan them to 
+                    find insecure passwords! Based on his suggestion you decide to  store the credentials as 
+                    username/password pairs, e.g.,
+                <pre><code class="language-javascript">{ username : "daniel", password : "fisksoppa"}</code></pre>
+
                 </p>
             </div>
 
@@ -275,8 +280,7 @@ mongo().catch(console.dir);</code></pre>
             <p>
                 To migrate the session handling we need to change the code for <em>signin</em>, <em>signup</em> and
                 <em>signout</em>. Similar to <a href="../lab3/my_first_social_media_app.html">assignment 3</a> we store
-                only the valid session identifiers
-                in the server state. This allows for a simpler future transition to a more RESTful API.
+                only the valid session identifiers in the server state and keep all other user information in the cookie.
             </p>
             <pre><code class="language-javascript">async function findSession(sessionid) {
   return await sessions.findOne({id: sessionid});
