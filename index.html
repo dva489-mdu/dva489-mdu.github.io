@@ -76,16 +76,16 @@
             <h4>How the assignments work</h4>
 
             <p>
-                Two different applications are involved in every assignment, and it is worth keeping them apart:
-                the application <strong>you build</strong>, and the <strong>example application</strong> we give
-                you to attack. You are not expected to attack the application you just wrote &mdash; you attack
-                the example application, and you patch your own.
+                You build one application per assignment, and you attack that same application &mdash; the one
+                you just wrote yourself. An online example solution is also provided for each assignment, but it
+                is there for inspiration and reference only (see Example solutions below), not as a separate
+                target to attack.
             </p>
 
             <ol>
                 <li><strong>Build your application.</strong> Follow the assignment guide to implement the assigned web application yourself.</li>
                 <li><strong>Study the relevant vulnerability.</strong> Understand how and why the vulnerability class arises.</li>
-                <li><strong>Attack the provided example application.</strong> Use what you learned to find and exploit the vulnerability in the example application we provide.</li>
+                <li><strong>Attack your own application.</strong> Use what you learned to find and exploit the vulnerability in the application you built.</li>
                 <li><strong>Produce a proof of attack.</strong> Document your successful attack &mdash; this is what you hand in.</li>
                 <li><strong>Patch your own application.</strong> Apply and justify appropriate protections in the application you built.</li>
                 <li><strong>Explain and submit your work.</strong> Hand in your reports and code as described under Submission requirements below.</li>
@@ -235,10 +235,10 @@
             <h4>Submission requirements</h4>
 
             <p>
-                Hand in attack reports and other documentation as separate PDF files, and all source code in one
-                ZIP file. Include both the original code, to allow us to replicate your attacks, and the patched
-                source code, to allow us to verify your protection mechanism and hunt for more ways to attack
-                your code.
+                All submissions are handed in on Canvas. Hand in attack reports and other documentation as
+                separate PDF files, and all source code in one ZIP file. Include both the original code, to allow
+                us to replicate your attacks, and the patched source code, to allow us to verify your protection
+                mechanism and hunt for more ways to attack your code.
             </p>
 
             <div class="row">
@@ -258,13 +258,6 @@
                         <li><input type="checkbox" disabled> Attack reports as separate PDF files</li>
                         <li><input type="checkbox" disabled> Proof of successful attacks</li>
                         <li><input type="checkbox" disabled> Explanation of protections</li>
-                    </ul>
-
-                    <strong>Git</strong>
-                    <ul class="list-unstyled">
-                        <li><input type="checkbox" disabled> Separate commit for each security fix</li>
-                        <li><input type="checkbox" disabled> Clear commit messages</li>
-                        <li><input type="checkbox" disabled> No single large commit containing all changes</li>
                     </ul>
                 </div>
             </div>
