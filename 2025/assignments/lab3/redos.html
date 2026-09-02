@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVA446</title>
+
+    <!-- Bootstrap -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet">
+    <link href="../../css/print.css" rel="stylesheet" media="print">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header nobreak">
+        <h2>RegExp Denial of Service</h2>
+
+        <p>
+            <a href="https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS">RegExp Denial of Service (ReDoS)</a> is a relatively new attack type.
+            The attack relies on using untrusted data
+            to create a regular expression. Regular languages are recognizable in linear time, why it is easy to believe
+            that this should hold also for all regular expression implementations. The problem is, though, that a naive regular expression
+            implementation may exhibit exponential execution time!
+        </p>
+
+        <h3>The attack</h3>
+
+        <p>
+            The password quality checker of Squeak! is vulnerable to a ReDoS attack; it creates a regular expression from
+            the username. Your first task is to use this vulnerability to take the server offline.
+        </p>
+
+        <h3>Protecting the application</h3>
+
+        <p>
+           In this particular case, the best way forward is to use a white list of allowed username characters.
+            See, the OWASP <a href="https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html">Input Validation Cheat Sheet</a>.
+        In general, it might be wise to escape data going into a regular expression. Another possibility is to
+        use some form of regular expression validator, that tries to detect if the regular expression will exhibit
+        bad execution time behavior.
+
+        <h3>Attack report</h3>
+        <p>
+            Write a short attack report detailing the attack and your countermeasures.
+        </p>
+    </div>
+</div>
+
+</body>
+
+
+</html>

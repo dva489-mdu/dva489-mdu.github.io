@@ -23,186 +23,9 @@
 
     <!-- Begin page content -->
     <div class="container">
-
-        <div class="page-header nobreak">
-            <h3>Assignment 1: Web Application Foundations</h3>
-            <p>
-                In this assignment you will first build a simple web application and learn how browsers
-                communicate with a web server. You will then use that understanding to investigate two
-                vulnerabilities: <strong>Denial of Service</strong> and <strong>Reflected XSS</strong>.
-            </p>
-            <p class="text-muted" style="margin-bottom:0;">
-                <strong>1 &middot; Build</strong> &rarr;
-                <strong>2 &middot; Attack (DoS)</strong> &rarr;
-                <strong>3 &middot; Attack (XSS)</strong> &rarr;
-                <strong>4 &middot; Submit</strong>
-            </p>
-
-            <div class="alert alert-warning" role="alert" style="margin-top:15px;">
-                <h4 class="alert-heading">Security principle: never trust data from the client</h4>
-                <p style="margin-bottom:0;">
-                    Anything sent from the browser to the server should be considered untrusted input. The user
-                    controls the browser and can modify the URL, query parameters, form fields, headers, and
-                    request body. Security checks must therefore be enforced by the server, not trusted to the
-                    client. The build exercise below shows you where client-controlled data enters the
-                    application &mdash; the two attacks that follow show why that matters.
-                </p>
-            </div>
-
-            <br>
-            <div class="list-group">
-
-                <a href="lab1/my_first_web_app.html" class="list-group-item">
-                    <span class="date">1 &middot; Build</span>
-
-                    <h4 class="list-group-item-heading">My first web application</h4>
-
-                    <p class="list-group-item-text">
-                        HTTP server creation, serving static content, passing information to the server, creating a
-                        simple web application.
-                    </p>
-
-                    <br>
-
-
-                </a>
-
-                <div class="list-group-item">
-                    <p class="text-muted small" style="margin:0 0 10px 0;"><strong>Further resources</strong> (optional background reading)</p>
-
-                    <dl class="dl-horizontal">
-                        <dt>The Tangled Web</dt>
-                        <dd>Chapter 1: Security in the world of web applications</dd>
-                        <dd>Chapter 2 (23 - 36]: It starts with a URL</dd>
-                        <dd>Chapter 3 (41 - 58]: HyperText Transfer Protocol</dd>
-
-                    </dl>
-
-                    <dl class="dl-horizontal">
-                        <dt>Tutorials</dt>
-                        <dd><a href="https://javascript.info/">The Modern JavaScript Tutorial</a> (javascript.info)</dd>
-                        <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML">Introduction
-                                to HTML</a> (MDN)
-                        </dd>
-                        <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS">Learn to style HTML using
-                                CSS</a> (MDN)
-                        </dd>
-                        <dd><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript">JavaScript</a> (MDN)
-                        </dd>
-
-                        <dd><a href="https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/">Anatomy of an
-                                HTTP
-                                Transaction
-                            </a> (node.js)
-                        </dd>
-                    </dl>
-
-
-                    <dl class="dl-horizontal">
-                        <dt>References</dt>
-                        <dd><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">Standard
-                                built-in objects</a> (MDN)
-                        </dd>
-
-                    </dl>
-                </div>
-
-            </div>
-
-            <div class="list-group">
-
-
-                <a href="lab1/denial_of_service.html" class="list-group-item">
-                    <span class="date">2 &middot; Attack</span>
-
-                    <h4 class="list-group-item-heading">Denial of Service</h4>
-
-                    <p class="list-group-item-text">
-                        Trying to crash the web application.
-                    </p>
-
-                </a>
-
-                <div class="list-group-item">
-                    <p class="text-muted small" style="margin:0 0 10px 0;"><strong>Further resources</strong> (optional background reading)</p>
-                    <dl class="dl-horizontal">
-                        <dt>Resources</dt>
-                        <dd><a href="https://www.owasp.org/index.php/Denial_of_Service">Denial of Service</a> (OWASP)
-                        </dd>
-                    </dl>
-                </div>
-
-            </div>
-
-            <div class="list-group">
-
-
-                <a href="lab1/reflected_xss.html" class="list-group-item">
-                    <span class="date">3 &middot; Attack</span>
-
-                    <h4 class="list-group-item-heading">Reflected XSS</h4>
-
-                    <p class="list-group-item-text">
-                        Non-persistent XSS. Remote code execution.
-                    </p>
-
-                </a>
-
-                <div class="list-group-item">
-                    <p class="text-muted small" style="margin:0 0 10px 0;"><strong>Further resources</strong> (optional background reading)</p>
-
-                    <dl class="dl-horizontal">
-                        <dt>The Tangled Web</dt>
-                        <dd>Chapter 4 (69 - 80]: HyperText Markup Language</dd>
-                        <dd>Chapter 6: Browser-Side Scripts</dd>
-                    </dl>
-
-
-                    <dl class="dl-horizontal">
-                        <dt>Videos</dt>
-                        <dd><a href="https://www.youtube.com/watch?v=M_nIIcKTxGk">What is Cross Site Scritping</a>
-                        </dd>
-                        <dd>
-                            <a href="https://www.youtube.com/watch?v=dFci82qwXA0">Non Persistent XSS</a>
-                        </dd>
-                    </dl>
-
-                </div>
-
-
-            </div>
-
-           
-            <div class="list-group">
-
-                <div class="list-group-item">
-                    <span class="date">4 &middot; Submit</span>
-
-                    <h4 class="list-group-item-heading">Submission 1</h4>
-
-                    <p class="list-group-item-text">
-                        Submission 1 consists of two attack reports that should be handed in together with the
-                        corresponding code.
-                    </p>
-
-
-                    <ul>
-                        <li>The source code of <em>My first web application</em></li>
-                        <li>The report of the <a href="lab1/denial_of_service.html">Denial of Service</a> attack</li>
-                        <li>The report of the <a href="lab1/reflected_xss.html">Reflected XSS</a> attack</li>
-                        <li>The report of the attacks on the example application</li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- 
         <div class="page-header nobreak">
 
-            <h3>Exercise 2: My first authenticated web application</h3>
+            <h3>Assignment 2: My first authenticated web application</h3>
             <br>
 
             <div class="list-group">
@@ -295,7 +118,7 @@
 
                     <dl class="dl-horizontal">
                         <dt>Articles</dt>
-                        <dd><a href="https://lasecwww.epfl.ch/pub/lasec/doc/Oech03.pdf">Making a Faster
+                        <dd><a href="https://www.iacr.org/archive/crypto2003/27290615/27290615.pdf">Making a Faster
                                 Cryptanalytic Time-Memory
                                 Trade-Of</a></dd>
                     </dl>
@@ -307,15 +130,11 @@
                                 Validation Cheat
                                 Sheet</a> (OWASP)
                         </dd>
-                    </dl>
-                    <dl class="dl-horizontal">
-                        <dt>Tutorials</dt>
                         <dd>
-                            <a
-                                href="https://nakedsecurity.sophos.com/2013/11/20/serious-security-how-to-store-your-users-passwords-safely/">Serious
-                                Security: How to store your users&apos; passwords safely</a>
+                            <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">Password Storage Cheat Sheet</a>
                         </dd>
                     </dl>
+                    
 
 
                 </div>
@@ -426,7 +245,7 @@
             </div>
 
         </div>
-
+    <!-- 
         <div class="page-header nobreak">
 
             <h3>Exercise 3: My first social media web application</h3>

@@ -8,9 +8,9 @@
     <title>DVA446</title>
 
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/custom.css" rel="stylesheet">
-    <link href="../css/print.css" rel="stylesheet" media="print">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/print.css" rel="stylesheet" media="print">
 
 
     <!--[if lt IE 9]>
@@ -25,35 +25,134 @@
     <div class="container">
 
         <div class="page-header nobreak">
-            <h3>Assignment 1: Web Application Foundations</h3>
+            <h2>DVA489 - Web security </h2>
+
             <p>
-                In this assignment you will first build a simple web application and learn how browsers
-                communicate with a web server. You will then use that understanding to investigate two
-                vulnerabilities: <strong>Denial of Service</strong> and <strong>Reflected XSS</strong>.
-            </p>
-            <p class="text-muted" style="margin-bottom:0;">
-                <strong>1 &middot; Build</strong> &rarr;
-                <strong>2 &middot; Attack (DoS)</strong> &rarr;
-                <strong>3 &middot; Attack (XSS)</strong> &rarr;
-                <strong>4 &middot; Submit</strong>
+                The course is split into two parts. The first part consists of
+                practical application development, attacks and analysis. The second part consists of an excursion into
+                future protection mechanisms.
             </p>
 
-            <div class="alert alert-warning" role="alert" style="margin-top:15px;">
-                <h4 class="alert-heading">Security principle: never trust data from the client</h4>
-                <p style="margin-bottom:0;">
-                    Anything sent from the browser to the server should be considered untrusted input. The user
-                    controls the browser and can modify the URL, query parameters, form fields, headers, and
-                    request body. Security checks must therefore be enforced by the server, not trusted to the
-                    client. The build exercise below shows you where client-controlled data enters the
-                    application &mdash; the two attacks that follow show why that matters.
+            <p> The assignments of the course will be made available in good time before the introductory lecture
+                corresponding to each assignment. </p>
+
+            <p>
+                This course covers a lot of material. Some of it will be introduced in the introductory lectures, but
+                you are required to do a lot of reading on your own. To your aid there will be links to relevant
+                resources and you will have the opportunity to ask questions during our supervision sessions. If your
+                questions cover a larger topic, please contact us in advance to allow us to prepare additional material.
+            </p>
+
+        </div>
+
+        <div class="page-header nobreak">
+            <h2>Part 1: Security Practice</h2>
+            <p>
+                This part consists of five applications with associated attacks. Each of the five parts should be
+                equivalent
+                to roughly 1 credit, corresponding to about 3 days of work. In order to gain full understanding
+                of the attacks its important to understand the workings of the applications. Thus, you are going to
+                develop the applications to
+                attack yourselves. 
+            </p>
+
+        </div>
+
+        <div class="page-header nobreak">
+            <h4>Example solutions</h4>
+
+            To help you on the way
+                there are relatively detailed assignment guides, with online example solutions. You are free to take
+                inspiration from the example solutions
+                in terms of the content they serve, including HTML, CSS, JavaScript, etc. Indeed, the guides expect you
+                to examine and reverse engineer their solutions. Feel free to take inspiration, or reuse and improve!
+            </p>
+
+            <br>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Example solutions</h4>
+                <p>
+                    You are allowed to use any information you can get from the example solutions, including the code if
+                    you manage to successfully exploit them. I've made an effort to secure them, but there are no
+                    guarantees!
                 </p>
             </div>
+        </div>
 
+        <div class="page-header nobreak">
+            <h4>Early protection</h4>
+
+            <p>
+                Since you will be attacking your own web applications there is a risk that the code you write is not
+                vulnerable to attack. The guides try to alleviate this problem by guiding you towards a believable
+                solution containing common security flaws. The intention
+                is that, if you follow the instructions closely without adding additional security measures of your own,
+                you should end up with an application open to selected attacks.
+            </p>
+
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Early protection</h4>
+                <p>
+                    Abstain from prematurely hardening your application! This removes the fun of successfully attacking
+                    the application!
+                </p>
+            </div>
+        </div>
+
+        <div class="page-header nobreak">
+            <h4>Use of 3rd party libraries</h4>
+
+            <p>
+                To ensure a detailed understanding of the inner workings of the vulnerabilities, and the protection mechanisms it is important you implement things yourselves. Thus, any use of NPMs that are not explicitly allowed is forbidden and will result in the rejection of the assignment.
+            </p>
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">3rd party libraries</h4>
+                <p>
+                    Inclusion of libraries that are not part of the core nodejs runtime will result rejection of the assignment!
+                </p>
+            </div>
+        </div>
+
+        <div class="page-header nobreak">
+            <h4>Submission requirements</h4>
+
+            <p>
+                This course uses GitHub Classroom for all assignments. Thus, you hand in by creating a pull request from your working branch into you main branch. Instructions on how to do this are available in the GIT repository of each assignment.
+            </p>
+
+            <p>
+                The GIT repository should contain you attack reports in addition to the source code of your application as a proper NPM package. This means that there should be a <code>package.json</code> file that describes the package and (for the assignments that makes use of 3rd party NPMs) lists all included NPMs. Do not pollute the GIT repo with the <code>node_modules</code> directory. See <a href="https://nodejs.dev/en/learn/an-introduction-to-the-npm-package-manager/">An introduction to the NPM pakcage manager</a> for more information.
+            </p>
+
+            <p>
+                Furthermore, the changes made to protect agains each attack should be commited in its own commit with a clear commit message. Repositories that only contain one big commit will be rejected.
+            </p>
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Malformed submissions</h4>
+                <p>
+                    Failure to adhere to the above will lead to rejection of the assignment.
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="page-header nobreak">
+            <h3>Exercise 1: My first web application</h3>
+            <a href="exercise1.html" class="list-group-item"> 
+                <p class="list-group-item-text">
+                    HTTP server creation, serving static content, passing information to the server, creating a
+                    simple web application.
+                </p>
+            </a>
             <br>
             <div class="list-group">
 
                 <a href="lab1/my_first_web_app.html" class="list-group-item">
-                    <span class="date">1 &middot; Build</span>
+                    <span class="date">Development</span>
 
                     <h4 class="list-group-item-heading">My first web application</h4>
 
@@ -68,7 +167,7 @@
                 </a>
 
                 <div class="list-group-item">
-                    <p class="text-muted small" style="margin:0 0 10px 0;"><strong>Further resources</strong> (optional background reading)</p>
+                    <br>
 
                     <dl class="dl-horizontal">
                         <dt>The Tangled Web</dt>
@@ -113,7 +212,7 @@
 
 
                 <a href="lab1/denial_of_service.html" class="list-group-item">
-                    <span class="date">2 &middot; Attack</span>
+                    <span class="date">Attack</span>
 
                     <h4 class="list-group-item-heading">Denial of Service</h4>
 
@@ -124,7 +223,7 @@
                 </a>
 
                 <div class="list-group-item">
-                    <p class="text-muted small" style="margin:0 0 10px 0;"><strong>Further resources</strong> (optional background reading)</p>
+                    <br>
                     <dl class="dl-horizontal">
                         <dt>Resources</dt>
                         <dd><a href="https://www.owasp.org/index.php/Denial_of_Service">Denial of Service</a> (OWASP)
@@ -138,7 +237,7 @@
 
 
                 <a href="lab1/reflected_xss.html" class="list-group-item">
-                    <span class="date">3 &middot; Attack</span>
+                    <span class="date">Attack</span>
 
                     <h4 class="list-group-item-heading">Reflected XSS</h4>
 
@@ -149,7 +248,7 @@
                 </a>
 
                 <div class="list-group-item">
-                    <p class="text-muted small" style="margin:0 0 10px 0;"><strong>Further resources</strong> (optional background reading)</p>
+                    <br>
 
                     <dl class="dl-horizontal">
                         <dt>The Tangled Web</dt>
@@ -172,11 +271,28 @@
 
             </div>
 
-           
+            <div class="list-group">
+
+
+                <a href="lab1/reflected_xss.html" class="list-group-item">
+                    <span class="date">Attack</span>
+
+                    <h4 class="list-group-item-heading">Example application</h4>
+
+                    <p class="list-group-item-text">
+                        Try to perform as many attacks as possible on the example application.
+                    </p>
+
+                </a>
+
+               
+
+
+            </div>
             <div class="list-group">
 
                 <div class="list-group-item">
-                    <span class="date">4 &middot; Submit</span>
+                    <span class="date">Hand in</span>
 
                     <h4 class="list-group-item-heading">Submission 1</h4>
 

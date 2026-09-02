@@ -28,41 +28,15 @@
             <h2>My first web application</h2>
 
             <p>
-                To secure a web application &mdash; or find weaknesses in one &mdash; you first need to
-                understand how it works. This exercise builds that understanding from the ground up, using
-                <a href="https://nodejs.org/en/">node.js</a>: how a browser and a server talk to each other, how to
-                serve static files, how to send information back to the server using
-                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET">GET</a> and
-                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a>, and finally how
-                those pieces come together into a minimal web application.
+                This exercise introduces modern web development with <a href="https://nodejs.org/en/">node.js</a>. We
+                will cover the following topics: how to serve static files, how to send information back to the server
+                using <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET">GET</a> and <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a>, and finally, how to
+                build a minimal web application.
             </p>
 
 
-                        <div class="well" style="margin-bottom:20px;">
-                <strong>The mental model for this lab</strong>
-                <pre style="background:transparent;border:none;margin:10px 0 0;">  Browser  ---  HTTP request  --->  node.js web server
-     ^                                        |
-     |                                   routing / handler
-     |                                        |
-     +---------  HTTP response  <-------------+</pre>
-                <p style="margin:10px 0 0;">
-                    You will build this system yourself, one exercise at a time. Each exercise adds one capability
-                    to the application, and each one connects to a concept you will need later when you start attacking
-                    applications instead of building them.
-                </p>
-            </div>
-
-            <div class="alert alert-info" role="alert">
-                <h4 class="alert-heading">Why build a deliberately vulnerable application?</h4>
-                <p style="margin-bottom:0;">
-                    To find a weakness in a web application you first need to understand how it processes a
-                    request. Over the course of this lab you will progressively build a small web application, and
-                    in later labs you will see how seemingly ordinary design decisions &mdash; the ones you are
-                    about to make &mdash; can create real security vulnerabilities.
-                </p>
-            </div>
-
-<div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert">
                 <h4 class="alert-heading">Warning!</h4>
                 <p>
                     The final product of this is a web application intended to be open to attacks. The material
@@ -79,82 +53,10 @@
         </div>
 
 
-
-                <div class="page-header nobreak">
-            <h3>What you will learn</h3>
-            <p>By the end of this lab you should be able to:</p>
-            <ul>
-                <li>explain the basic HTTP request/response cycle</li>
-                <li>build a simple node.js HTTP server</li>
-                <li>serve static resources and understand MIME types</li>
-                <li>distinguish URL paths from query parameters</li>
-                <li>explain the difference between <code>GET</code> and <code>POST</code></li>
-                <li>inspect HTTP requests and responses using the browser's developer tools</li>
-                <li>implement basic request routing</li>
-                <li>generate dynamic HTML responses</li>
-                <li>identify where user-controlled input enters a web application</li>
-            </ul>
-            <p style="margin-bottom:0;">
-                Each part below follows the same pattern: a short <strong>concept</strong>, something to
-                <strong>observe</strong>, an <strong>exercise</strong> to build, and sometimes a question that
-                connects what you just built to a security idea you will meet again later in the course.
-            </p>
-        </div>
-
-            <div class="alert alert-warning" role="alert">
-                <h4 class="alert-heading">Security principle: never trust data from the client</h4>
-                <p>
-                    Everything sent from the browser to the server should be considered untrusted input. A user
-                    can modify the URL, query parameters, form fields, HTTP method, headers, and request body
-                    before the request reaches the server. The server must therefore validate and safely process
-                    all client-supplied data rather than assuming it is correct or safe.
-                </p>
-                <pre style="background:#fff;border:1px solid #ddd;">    GET /search?q=hello
-                 ^
-           client-controlled</pre>
-                <p>
-                    The server should treat <code>q=hello</code> as untrusted data &mdash; a user could just as
-                    easily change it to something unexpected or malicious.
-                </p>
-                <p style="margin-bottom:0;">
-                    <strong>Key idea:</strong> the browser is controlled by the user. Security decisions must
-                    therefore be enforced by the server.
-                </p>
-            </div>
-
-<div class="panel panel-default nobreak" id="toc">
-            <div class="panel-heading"><strong>On this page</strong></div>
-            <div class="panel-body">
-                <ol style="margin-bottom:0;">
-                    <li><a href="#setting-up">Getting ready</a></li>
-                    <li><a href="#creating-a-web-server">Stage 1 &middot; From browser to server</a>
-                        <ol type="a">
-                            <li><a href="#exercise1">Exercise 1: Hello World</a></li>
-                        </ol>
-                    </li>
-                    <li><a href="#serving-content">Stage 2 &middot; Serving static resources</a>
-                        <ol type="a">
-                            <li><a href="#exercise2">Exercise 2: a static web server</a></li>
-                        </ol>
-                    </li>
-                    <li><a href="#sending-information">Stage 3 &middot; Receiving data from the browser</a>
-                        <ol type="a">
-                            <li><a href="#exercise3">Exercise 3: experimenting with request methods</a></li>
-                        </ol>
-                    </li>
-                    <li><a href="#creating-a-web-application">Stage 4 &middot; From web server to web application</a>
-                        <ol type="a">
-                            <li><a href="#exercise4">Exercise 4: generated content</a></li>
-                        </ol>
-                    </li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="page-header nobreak" id="setting-up">
+        <div class="page-header nobreak">
             <h2>Setting up</h2>
             <p>
-                Download and install <a href="https://nodejs.org/en/">node.js</a>. Make sure you are using a recent version of node.js &mdash; either the Current or the LTS version should work fine. Make sure <code>node</code> and <code>npm</code> are available on the command
+                Download and install <a href="https://nodejs.org/en/">node.js</a>. Make sure you are using the a recent version of node.js. Bot the Current version and the LTS version should be fine. Make sure <code>node</code> and <code>npm</code> are available on the command
                 line.
             </p>
             <pre>
@@ -165,12 +67,8 @@ $ npm -v
 
 
         </div>
-        <div class="page-header nobreak" id="creating-a-web-server">
+        <div class="page-header nobreak">
             <h2>Creating a web server</h2>
-            <p class="text-muted" style="margin-top:-10px;"><strong>Stage 1</strong> &middot; Concept: a web server receives an HTTP request and produces an HTTP response.</p>
-
-            <div class="well">
-                <p class="text-muted" style="margin:0 0 8px;"><strong>Under the hood</strong> &mdash; you do not need to memorise this, but it explains why the API looks the way it does.</p>
 
             <p>For this lab we will be using the <a href="https://nodejs.org/api/http.html">HTTP</a> library that
                 provides support for both HTTP servers and HTTP clients. Implementing support for HTTP/1.1 is complex
@@ -184,9 +82,7 @@ $ npm -v
             </ul>
 
 
-            </div>
-
-            <p><strong>Observe</strong> &mdash; the following program creates a server. The
+            <p>The following program creates a server. The
                 <a
                     href="https://nodejs.org/api/http.html#http_http_createserver_options_requestlistener">createServer</a>
                 method takes a callback, a request listener, that is given the incoming request message,
@@ -217,25 +113,15 @@ server.listen(8000);</code></pre>
 $ node httpd.js
 GET / 1.1</pre>
 
-                        <div class="well">
-                <strong>Reflect</strong>
-                <ul style="margin-bottom:0;">
-                    <li>Which part of this output came from the browser, and which part did your code produce?</li>
-                    <li><code>GET / 1.1</code> is the first line of the HTTP request &mdash; the <em>request
-                        line</em>. What do you expect the other two parts of a request to represent?</li>
-                </ul>
-                <p class="text-muted" style="margin:8px 0 0;">You do not need to submit your answers, unless your teacher tells you otherwise.</p>
-            </div>
-
-<div class="alert alert-warning" role="alert">
+            <div class="alert alert-warning" role="alert">
                 <p>
                     Please use port 8000 in your web application - it makes grading easier if everyone uses the same
                     port.
                 </p>
             </div>
 
-            <h3>Exercise 1 &mdash; Hello World</h3>
-            <a name="exercise1" id="exercise1"></a>
+            <h3>Part 1: Hello World</h3>
+            <a name="exercise1"></a>
             <p>
                 Modify the server to return a "Hello World" page using the
                 <a href="https://nodejs.org/api/http.html#http_class_http_serverresponse">server
@@ -257,57 +143,20 @@ GET / 1.1</pre>
                 <a href="http://localhost:8000/does/the/path/matter">http://localhost:8000/does/the/path/matter</a>.
             </p>
 
-            <div class="well">
-                <strong>Explore</strong>
-                <p>Try a few different paths against your server:</p>
-                <ul>
-                    <li><a href="http://localhost:8000/">http://localhost:8000/</a></li>
-                    <li><a href="http://localhost:8000/test">http://localhost:8000/test</a></li>
-                    <li><a href="http://localhost:8000/hello/world">http://localhost:8000/hello/world</a></li>
-                </ul>
-                <p style="margin-bottom:0;">Then answer, for yourself:</p>
-                <ol style="margin-bottom:0;">
-                    <li>Does the server return the same response for each of them?</li>
-                    <li>What, if anything, changes in the server's console output?</li>
-                    <li>Which part of the HTTP request line carries the path?</li>
-                </ol>
-                <p class="text-muted" style="margin:8px 0 0;">You do not need to submit your answers, unless your teacher tells you otherwise.</p>
-            </div>
-
-            <div class="well">
-                <strong>Peek at DevTools</strong>
-                <p style="margin-bottom:0;">
-                    Open your browser's <strong>Developer Tools</strong> (usually <kbd>F12</kbd>) and look at
-                    the <strong>Network</strong> tab while you load the page. Find the request for
-                    <code>/</code> and look at its request line and status code &mdash; the same fields you
-                    just saw printed in the server console. You will use this tool properly in Exercise 3.
-                </p>
-            </div>
-
-            <div class="alert alert-success" role="alert">
-                <strong>Checkpoint</strong> &mdash; Exercise 1 is complete when:
-                <ul style="margin-bottom:0;">
-                    <li><code>http://localhost:8000/</code> returns &quot;Hello World&quot;</li>
-                    <li>the response status code is <code>200</code></li>
-                    <li>the response <code>Content-Type</code> is <code>text/html</code></li>
-                    <li><code>/test</code> (or any other path) produces the same response</li>
-                </ul>
-            </div>
-
 
         </div>
 
 
 
-        <div class="page-header nobreak" id="serving-content">
+        <div class="page-header nobreak">
 
             <h2>Serving content</h2>
-            <p class="text-muted" style="margin-top:-10px;"><strong>Stage 2</strong> &middot; Concept: URL &rarr; file &rarr; response.</p>
             <p>
                 The most basic functionality of a web server is to serve content. To request a resource from a web
                 server the <code>GET</code> method is used together with a URL that locates the resource on the server. As we saw above, the request URL is accessible from the request object via the <code>url</code> property.
-                In its simplest form, a static web server translates the URL into a file in the file
-                system, which is then returned as the result of the request.
+                In
+                the most simple form, a static web
+                server translates the URL to a file in the file system that is returned as the result of the request.
             </p>
 
             <p>
@@ -345,8 +194,8 @@ GET / 1.1</pre>
                 </tbody>
             </table>
 
-            <h3>Exercise 2 &mdash; Build a Static Web Server</h3>
-            <a name="exercise2" id="exercise2"></a>
+            <h3>Part 2: a static web server</h3>
+            <a name="exercise2"></a>
             <p>
                 In this exercise, we will create a web server that serves files from a dedicated directory called
                 <em>public</em>. The file system structure of the web server will be as follows.
@@ -372,9 +221,9 @@ GET / 1.1</pre>
             </table>
 
             <p>
-                Populate the <em>public</em> directory using the <a
+                Populate the <em>public</em> directory using the following using the <a
                     href="../resources/public.zip">public.zip</a> archive that contains a <a
-                    href="http://getbootstrap.com">Bootstrap</a> based page, which we will use as the basis for
+                    href="http://getbootstrap.com">Boostrap</a> based page, which we will use as the basis for
                 further development in addition to a few selected pictures of Icelandic volcanoes. Visiting the web server should render the page below. 
             </p>
 
@@ -391,32 +240,18 @@ GET / 1.1</pre>
             </ul>
 
             <p>
-                Letting the server render a directory listing with links allows us to use the web server as a simple file server. This is a fairly common feature of many web servers, e.g. the Apache web server. As an example, use the following link to search for images matching the search term <a href="https://www.google.com/search?sca_esv=561614363&hl=en&sxsrf=AB5stBhVoS8eCp2RtlI4rA5YyX1YMBOTdw:1693485583406&q=apache+directory+listing&tbm=isch&source=lnms&sa=X&ved=2ahUKEwj07YW19YaBAxVRYPEDHdepBMgQ0pQJegQIDhAB&biw=1427&bih=827&dpr=2">"apache directory listing"</a>. 
+                Letting the server render a directory listing with link allows us to use the web server as a simple file server. This is a relatively feature of many web servers, e.g. the Apache web server. For examples use the following link to search for images matching the search term <a href="https://www.google.com/search?sca_esv=561614363&hl=en&sxsrf=AB5stBhVoS8eCp2RtlI4rA5YyX1YMBOTdw:1693485583406&q=apache+directory+listing&tbm=isch&source=lnms&sa=X&ved=2ahUKEwj07YW19YaBAxVRYPEDHdepBMgQ0pQJegQIDhAB&biw=1427&bih=827&dpr=2">"apache directory listing"</a>. 
             </p>
 
-            <div class="alert alert-info" role="alert">
-                <strong>Security connection</strong> &mdash; information disclosure
-                <p style="margin-bottom:0;">
-                    What information might a directory listing reveal that the site owner did not intend to
-                    expose? Keep this question in mind &mdash; you will revisit it later in the course.
-                </p>
-            </div>
-
-            <p>
-            <strong>Security connection:</strong> URLs may contain
-            <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent-encoded</a> characters. When
-            interpreting a URL, an application must parse it into its components and decode each component
-            appropriately before using its value. Be careful about decoding a value and then using it
-            directly as a filesystem path &mdash; this distinction becomes important later in the course,
-            when we discuss path traversal. For now, you can decode the request path using
+            Note that the URL the server receives may contain 
+            <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent-encoded</a> characters. To be able to
+            properly use such URLs you must decode them before use. This can be done using the
             <code>decodeURIComponent</code>.
         </p>
 
         <pre><code class="language-javascript">let path = decodeURIComponent(req.url);</code></pre>
         <p>
-            In this simple example, we know that the URL only contains the path to the requested object. More generally, a URL can contain several
-                different components, each of which should be decoded separately after parsing (as indicated by the
-                name of the decode function).
+            In this simple example, we know that the url only contains the path to the requested object. More generally, the URL can contain several different things, and decoding would be done on the various URL components after parsing the URL (as indicated by the name of the decode function). 
         </p>
 
             <p>
@@ -425,30 +260,10 @@ GET / 1.1</pre>
                     solution</a>. Make sure that you can list all the <a href="http://localhost:8000/">http://localhost:8000/icelandic volcanoes/</a> and view the pictures by clicking the links.
             </p>
 
-            <div class="alert alert-success" role="alert">
-                <strong>Checkpoint</strong> &mdash; Exercise 2 is complete when:
-                <ul style="margin-bottom:0;">
-                    <li>your server returns the bundled page from <code>public/</code> at <code>/</code></li>
-                    <li>requesting a directory without an <code>index.html</code> returns a directory listing</li>
-                    <li>you can browse the Icelandic volcano pictures via the directory listing links</li>
-                    <li>a request path containing percent-encoded characters is handled correctly</li>
-                </ul>
-            </div>
-
         </div>
         <!-- -->
-        <div class="page-header nobreak" id="sending-information">
+        <div class="page-header nobreak">
             <h2>Sending information to the server</h2>
-            <p class="text-muted" style="margin-top:-10px;"><strong>Stage 3</strong> &middot; Concept: <code>GET</code> puts data in the URL, <code>POST</code> puts data in the request body.</p>
-
-            <div class="well">
-<pre style="background:transparent;border:none;margin:0;">GET  /search?q=nodejs HTTP/1.1
-     |_____ query string _____|
-data travels in the URL
-
-POST /login HTTP/1.1
-data travels in the request body, e.g. username=...&amp;password=...</pre>
-            </div>
 
             <p>
                 The <code>GET</code> method is intended to be used to retrieve a resource from the server, e.g., and
@@ -459,7 +274,7 @@ data travels in the request body, e.g. username=...&amp;password=...</pre>
             <p> In addition to the requested resource, the URL of a <code>GET</code> request may pass information about
                 the request in terms of the query parameters. The query parameters follow a ? at the end of the URL and
                 consists of a &amp; separated sequence
-                of name=value pairs, and is sent as part of the request target (the URL itself) &mdash; not a header.
+                of name=value pairs and is sent as part of the request header.
             </p>
             <pre>http://localhost:8000/index.html?parameter1=value1&amp;parameter2=value2</pre>
 
@@ -473,11 +288,9 @@ data travels in the request body, e.g. username=...&amp;password=...</pre>
             <p>
                 The <code>POST</code> method is intended to be used to send information to the server, e.g., submitting
                 a form, placing an order or posting a comment. The main difference between <code>POST</code> and
-                <code>GET</code> is that <code>POST</code> is not supposed to be idempotent: submitting it
-                twice may perform the action twice (e.g., placing an order twice). Because of this, browsers
-                will not silently resubmit a <code>POST</code> automatically the way they do a
-                <code>GET</code> &mdash; instead, a browser will typically ask the user to confirm before
-                resubmitting a form.
+                <code>GET</code> is that <code>POST</code> is not supposed to be idempotent and will not be
+                automatically resent by the browser. Instead, the browser typically asks the user if the form should
+                resubmitted or not.
             </p>
 
             <p>
@@ -485,8 +298,8 @@ data travels in the request body, e.g. username=...&amp;password=...</pre>
                 ways, including being split up into multiple chunks sent one by one.
             </p>
 
-            <h3>Exercise 3 &mdash; Experimenting with Request Methods</h3>
-            <a name="exercise3" id="exercise3"></a>
+            <h3>Part 3: experimenting with request methods</h3>
+            <a name="exercise3"></a>
 
             <p>
                 To experiment with sending and receiving information, we are going to add a form to <code>POST</code>
@@ -516,7 +329,7 @@ data travels in the request body, e.g. username=...&amp;password=...</pre>
                 When submitted the form sends the values of its <em>named</em> input and button elements to the location
                 specified by the <code>action</code> attribute. If no method and enctype is specified
                 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a> is used and the
-                information is transferred as <code>application/x-www-form-urlencoded</code>, i.e., as a sequence of
+                information is transferred <code>application/x-www-form-urlencoded</code>i.e., as a sequence of
                 key/value pairs stored in the body. Forms
                 are submitted when an <em>input</em> or <em>button</em> element of type
                 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit">submit</a> is clicked.
@@ -552,53 +365,26 @@ data travels in the request body, e.g. username=...&amp;password=...</pre>
                 <li>...</li>
             </ul>
 
-            <div class="well">
-                <strong>Investigate with the browser's developer tools</strong>
-                <p>
-                    Open your browser's <strong>Developer Tools</strong> (usually <kbd>F12</kbd>, or right-click
-                    &rarr; Inspect) and select the <strong>Network</strong> tab. Submit your form, then find the
-                    request it generated and identify:
-                </p>
-                <ul>
-                    <li>the request method and URL</li>
-                    <li>the query parameters</li>
-                    <li>the request headers</li>
-                    <li>the request body</li>
-                    <li>the response status, headers and body</li>
-                </ul>
-                <p style="margin-bottom:0;">
-                    Where does each piece of information appear? You will use exactly this workflow &mdash;
-                    reading requests and responses in DevTools &mdash; throughout the rest of the course.
-                </p>
-            </div>
-
-            <div class="alert alert-success" role="alert">
-                <strong>Checkpoint</strong> &mdash; Exercise 3 is complete when:
-                <ul style="margin-bottom:0;">
-                    <li>your server prints method, url, content type and request body for every request</li>
-                    <li>submitting the form performs a <code>POST</code> with the body visible in DevTools</li>
-                    <li>you can explain, for a request you inspected, where the method, path, query string and
-                        body each appear</li>
-                </ul>
-            </div>
-
         </div>
 
 
         <!-- -->
-        <div class="page-header nobreak" id="creating-a-web-application">
+        <div class="page-header nobreak">
             <h2>Creating a web application</h2>
-            <p class="text-muted" style="margin-top:-10px;"><strong>Stage 4</strong> &middot; Concept: a web application decides what happens next, instead of just returning a file.</p>
-
-            <div class="well">
-<pre style="background:transparent;border:none;margin:0;">Static server:      URL ------------------------------> file --> response
-
-Web application:    request --> routing --> handler --> generated response</pre>
-            </div>
             <p>
-                A web application differs from a simple static web server because it can execute application
-                logic in response to a request. Instead of simply mapping a URL to a file, the application can
-                route the request to a handler, process input, and generate a response dynamically.
+                While a simple web server serves static pages, a web application relies on the generation of dynamic
+                content. The generation can be done on the server-side or on the client-side with different benefits.
+                For instance, client-side generation relieves the
+                server from computation, potentially lowering its load, but exposes the content generation and the data
+                needed for the generation. On the other hand, server-side generation allows the application to hide how
+                the content is generated, while
+                potentially imposing a greater load on the server. Further, client-side generation has the benefit of
+                not requiring a reload of the resource to update it to reflect changes - it's simply a matter of
+                updating by querying the data. For this
+                reason, many web applications employ a hybrid of server-side and client-side generation, where the
+                server generates some of the content and the client maintains an updated view of the data by querying
+                the server using, e.g.,
+                <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX">AJAX</a>.
             </p>
 
             <h4>Path routing</h4>
@@ -614,7 +400,7 @@ Web application:    request --> routing --> handler --> generated response</pre>
             <ul>
                 <li>a file system path for serving static files, e.g., style sheets</li>
                 <li>a generating function used to generate the response on the server-side</li>
-                <li>a resource used to dynamically generate (parts of) the application on the client-side</li>
+                <lo>a resource used to dynamically generate (parts of) the application on the client-side</lo>
             </ul>
 
             <p>
@@ -622,8 +408,8 @@ Web application:    request --> routing --> handler --> generated response</pre>
                 request based on the <em>request method</em> and <em>request path</em>.
             </p>
 
-            <h3>Exercise 4 &mdash; Generated Content</h3>
-            <a name="exercise4" id="exercise4"></a>
+            <h3>Part 4: generated content</h3>
+            <a name="exercise4"></a>
             <p>
                 The goal of this exercise is to create a web application that displays information about the request it
                 received. For simplicity, we will only display the method, the path and the query parameters.
@@ -723,13 +509,7 @@ Web application:    request --> routing --> handler --> generated response</pre>
                 function to parse the url to get the request path and the query string. If you supply <code>true</code>
                 as the second argument, i.e., <code>url.parse(req.url, true)</code>, the query string will be parsed.
                 The result of parsing the query string is a map from names to values, which is available via the
-                <code>query</code> property on the result of the parsing. Don't forget to decode components resulting from parsing the URL using <code>decodeURIComponent</code> before using them.
-            </p>
-            <p class="text-muted" style="margin-top:-10px;">
-                <code>url.parse</code> is node's original, callback-era URL parsing API. Newer code often uses
-                the <a href="https://nodejs.org/api/url.html#the-whatwg-url-api">WHATWG URL API</a> instead
-                (<code>new URL(req.url, base)</code>) &mdash; for this exercise, <code>url.parse</code> is fine.
-            </p>
+                <code>query</code> property on the result of the parsing. Don't forget to decode components resulting from parsing the url using <code>decodeURIComponent</code> before using them.
             <p>
                 Start and test the server by connecting to
                 <a href="http://localhost:8000/information">http://localhost:8000/information</a>. It should behave
@@ -738,50 +518,11 @@ Web application:    request --> routing --> handler --> generated response</pre>
                 application with different query strings.
             </p>
 
-            <div class="alert alert-info" role="alert">
-                <h4 class="alert-heading">Security connection: where does user input go?</h4>
-                <p>
-                    Trace the path your <code>/information</code> handler takes: a query parameter arrives in the
-                    URL, your code reads it, and it ends up inside the generated HTML that is sent back to the
-                    browser.
-                </p>
-<pre style="background:transparent;border:none;margin:0 0 10px;">URL query parameter --> server --> template --> HTML --> browser</pre>
-                <p style="margin-bottom:0;">
-                    What would happen if that value were not treated as plain text, but interpreted as HTML or
-                    script by the browser? This is the basic data flow behind <strong>reflected XSS</strong>, which you
-                    will exploit later in this module. Likewise, think back to the static server: what happens if
-                    it is asked to handle far more requests than it can keep up with? That is the seed of a
-                    <strong>denial-of-service</strong> attack.
-                </p>
-            </div>
-
-            <div class="alert alert-success" role="alert">
-                <strong>Checkpoint</strong> &mdash; Exercise 4 is complete when:
-                <ul style="margin-bottom:0;">
-                    <li><code>http://localhost:8000/information</code> returns a page showing the request
-                        method, path and query parameters</li>
-                    <li>the static server from Exercise 2 still works for every other path</li>
-                    <li>your routing table falls back to the static server when no handler matches</li>
-                </ul>
-            </div>
 
         </div>
 
-        <div class="page-header nobreak">
-            <h3>What you should now understand</h3>
-            <ul>
-                <li>how an HTTP request and response are structured</li>
-                <li>how a web server maps a URL to a resource</li>
-                <li>the difference between <code>GET</code> and <code>POST</code>, and where each carries its data</li>
-                <li>how to read a request and a response using the browser's developer tools</li>
-                <li>how a web application differs from a static web server &mdash; routing and handlers</li>
-                <li>where user-controlled input enters an application, and why that matters for security</li>
-            </ul>
-            <p style="margin-bottom:0;">
-                Keep this mental model in mind: the labs that follow will show you what happens when a step in
-                this pipeline is implemented carelessly.
-            </p>
-        </div>
+
+
 
         <script src="../js/prism.js"></script>
 

@@ -31,117 +31,122 @@
     <div class="container">
 
         <div class="page-header nobreak">
-            <h2>DVA489 - Web security </h2>
+            <h2>DVA489 &mdash; Web Security</h2>
 
             <p>
-                Welcome to DVA489! This course is built around a number of assignments, where you develop, analyze, attack and patch your own web application. 
-                The idea is that the interplay between development, attacking and protecting gives a deep understanding for why the attecks are possible, how to exploit them and how to protect against them. 
+                Welcome to DVA489! This course follows a <strong>build&ndash;analyze&ndash;attack&ndash;fix</strong>
+                approach: you will develop web applications, study how they work, attack them, and then implement
+                and evaluate protections against the attacks you just carried out.
             </p>
 
-            <p>
-                After each assignment you will be provided with a link to an example application with a number of related secruity issues. The idea is that you use the knowledge you gained in the exercise to attack the application. Successful attacks will give you a proof of attack, that you hand in. The overall quality of your assignments and the number of successful attacks will be used in determining your ECTS grade.
-            </p>
-
-            <p> OBSERVE! We are currently in the process of revising parts of the course. This means that not all assignments will be available from the get go. 
-                At the latest, the assignments will be made available in conntection to the corresponding introductory lecture.
-             </p>
-
-            <p>
-                This course covers a lot of material. Some of it will be introduced in the introductory lectures, but
-                you are required to do a lot of reading on your own. To your aid there will be links to relevant
-                resources and you will have the opportunity to ask questions during our supervision sessions. If your
-                questions cover a larger topic, please contact us in advance to allow us to prepare additional material.
-            </p>
-
-        </div>
-
-        <div class="page-header nobreak">
-            <p>
-                This part consists of five applications with associated attacks. Each of the five parts should be
-                equivalent
-                to roughly 1 credit, corresponding to about 3 days of work. In order to gain full understanding
-                of the attacks its important to understand the workings of the applications. Thus, you are going to
-                develop the applications to
-                attack yourselves. 
-            </p>
-
-        </div>
-
-        <div class="page-header nobreak">
-            <h4>Example solutions</h4>
-
-            To help you on the way
-                there are relatively detailed assignment guides, with online example solutions. You are free to take
-                inspiration from the example solutions
-                in terms of the content they serve, including HTML, CSS, JavaScript, etc. Indeed, the guides expect you
-                to examine and reverse engineer their solutions. Feel free to take inspiration, or reuse and improve!
-            </p>
-
-            <br>
-
-            <div class="alert alert-success" role="alert">
-                <h4 class="alert-heading">Example solutions</h4>
-                <p>
-                    You are allowed to use any information you can get from the example solutions, including the code if
-                    you manage to successfully exploit them. I've made an effort to secure them, but there are no
-                    guarantees!
-                </p>
+            <div class="well" style="text-align:center; font-weight:bold; letter-spacing:1px;">
+                BUILD &rarr; ANALYZE &rarr; ATTACK &rarr; FIX &rarr; RE-TEST
             </div>
+
+            <p>
+                The interplay between developing, attacking and protecting an application is what gives you a
+                deep understanding of why the attacks are possible, how to exploit them, and how to protect
+                against them.
+            </p>
+
+            <p class="text-muted">
+                This course covers a lot of material. Some of it will be introduced in the introductory lectures,
+                but you are required to do a lot of reading on your own. To your aid there will be links to
+                relevant resources and you will have the opportunity to ask questions during our supervision
+                sessions. If your questions cover a larger topic, please contact us in advance to allow us to
+                prepare additional material.
+            </p>
         </div>
 
         <div class="page-header nobreak">
-            <h4>Early protection</h4>
-
-            <p>
-                Since you will be attacking your own web applications there is a risk that the code you write is not
-                vulnerable to attack. The guides try to alleviate this problem by guiding you towards a believable
-                solution containing common security flaws. The intention
-                is that, if you follow the instructions closely without adding additional security measures of your own,
-                you should end up with an application open to selected attacks.
-            </p>
-
             <div class="alert alert-warning" role="alert">
-                <h4 class="alert-heading">Early protection</h4>
-                <p>
-                    Abstain from prematurely hardening your application! This removes the fun of successfully attacking
-                    the application!
+                <h4 class="alert-heading">A fundamental security principle: never trust the client</h4>
+                <p style="margin-bottom:0;">
+                    Anything sent from a browser to a server should be treated as untrusted input. The user
+                    controls the browser and can modify URLs, parameters, form data, headers, cookies, and
+                    request bodies &mdash; so security decisions must be enforced by the server, not trusted to
+                    the client. This principle runs through the whole course: Assignment 1 demonstrates it with
+                    reflected XSS, Assignment 2 with authentication and session data, Assignment 3 with
+                    user-generated content and CSRF, and Assignment 4 with database input and cookies.
                 </p>
             </div>
         </div>
 
         <div class="page-header nobreak">
-            <h4>Use of 3rd party libraries</h4>
+            <h4>How the assignments work</h4>
 
             <p>
-                To ensure a detailed understanding of the inner workings of the vulnerabilities, and the protection mechanisms it is important you implement things yourselves. Thus, any use of NPMs that are not explicitly allowed is forbidden and will result in the rejection of the assignment.
+                Two different applications are involved in every assignment, and it is worth keeping them apart:
+                the application <strong>you build</strong>, and the <strong>example application</strong> we give
+                you to attack. You are not expected to attack the application you just wrote &mdash; you attack
+                the example application, and you patch your own.
             </p>
 
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">3rd party libraries</h4>
-                <p>
-                    Inclusion of libraries that are not part of the core nodejs runtime will result rejection of the assignment!
-                </p>
-            </div>
+            <ol>
+                <li><strong>Build your application.</strong> Follow the assignment guide to implement the assigned web application yourself.</li>
+                <li><strong>Study the relevant vulnerability.</strong> Understand how and why the vulnerability class arises.</li>
+                <li><strong>Attack the provided example application.</strong> Use what you learned to find and exploit the vulnerability in the example application we provide.</li>
+                <li><strong>Produce a proof of attack.</strong> Document your successful attack &mdash; this is what you hand in.</li>
+                <li><strong>Patch your own application.</strong> Apply and justify appropriate protections in the application you built.</li>
+                <li><strong>Explain and submit your work.</strong> Hand in your reports and code as described under Submission requirements below.</li>
+            </ol>
+
+            <p>
+                The purpose of the assignments is not to test whether you can independently write every line of
+                code from scratch. The purpose is to understand the application, identify vulnerabilities,
+                successfully exploit them, and implement and justify appropriate protections. The overall quality
+                of your assignments and the number and quality of your successful attacks contribute to your
+                final ECTS grade.
+            </p>
         </div>
 
         <div class="page-header nobreak">
-            <h4>Submission requirements</h4>
+            <h4>The five assignments</h4>
 
-            <p>
-                Please hand in attack reports and other documentation as separate pdf files and all source code in one zip file. Include both the original code to allow us to replicate your attacks, and the patched source code to allow us to verify 
-                your protection mechanism and hunt for more ways to attack your code. Do not include the <code>node_modules</code>
-                directory as it might contain binaries and will make the submission unnecessarily large. Instead, make sure to provide a <code>package.json</code> file that
-                describes your project and all needed packages. 
-            </p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Application</th>
+                            <th>Main focus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>My first web application</td>
+                            <td>HTTP, routing, reflected XSS, denial of service</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Authenticated web application</td>
+                            <td>Authentication, sessions, path traversal, session hijacking</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Social media application</td>
+                            <td>Stored XSS, CSRF, ReDoS</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Multi-tiered application</td>
+                            <td>NoSQL databases, injection, cookie integrity</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Security excursions</td>
+                            <td>CSP, SOP, CORS, JWT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <p>
-                Furthermore, the changes made to protect agains each attack should be commited in its own commit with a clear commit message. Repositories that only contain one big commit will be rejected.
-            </p>
-
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Malformed submissions</h4>
-                <p>
-                    Failure to adhere to the above will lead to rejection of the assignment.
+            <div class="alert alert-info" role="alert" style="margin-bottom:0;">
+                <p style="margin-bottom:0;">
+                    <strong>OBSERVE!</strong> We are currently in the process of revising parts of the course, so
+                    not all assignments are available from the start. Assignment 1 is available now; the rest
+                    will be released at the latest in connection with the corresponding introductory lecture.
                 </p>
             </div>
         </div>
@@ -151,26 +156,14 @@
             <div class="list-group">
 
                 <a href="assignments/exercise1.html" class="list-group-item">
+                    <span class="date">Available</span>
 
-                    <h4 class="list-group-item-heading">Assignment 1: My first web application</h4>
-
-                    <p class="list-group-item-text">
-                        HTTP server creation, serving static content, passing information to the server, creating a
-                        simple web application.
-                    </p>
-
-                </a>
-            </div>
-       
-            <div class="list-group">
-
-                <a href="assignments/exercise2.html" class="list-group-item ">
-
-                    <h4 class="list-group-item-heading">Assignment 2: My first authenticated web application</h4>
+                    <h4 class="list-group-item-heading">Assignment 1 &mdash; Web Application Foundations</h4>
 
                     <p class="list-group-item-text">
-                        Creating a home environment monitor, dynamic web applications, authentication and authorization,
-                        session management.                    
+                        Build a web application from scratch and learn HTTP, static resources, GET/POST, query
+                        parameters, routing and dynamic content. Then investigate Denial of Service and
+                        Reflected XSS.
                     </p>
 
                 </a>
@@ -178,44 +171,171 @@
 
             <div class="list-group">
 
-                <a href="assignments/exercise3.html" class="list-group-item ">
+                <div class="list-group-item disabled">
+                    <span class="date">Coming soon</span>
 
-                    <h4 class="list-group-item-heading">Assignment 3: My first social media web application</h4>
-
-                    <p class="list-group-item-text">
-                        Express.js, using and creating middleware, multi-user, user registration, user-created content.
-                    </p>
-
-                </a>
-            </div>
-
-
-            <div class="list-group">
-
-                <a href="assignments/exercise4.html" class="list-group-item ">
-
-                    <h4 class="list-group-item-heading">Assignment 4: My first multi-tiered web application</h4>
+                    <h4 class="list-group-item-heading">Assignment 2 &mdash; Authentication &amp; Sessions</h4>
 
                     <p class="list-group-item-text">
-                        Connecting the backend to 3rd party services; nosql databases. Cookie integrity attacks.
+                        Build an authenticated web application and investigate authentication, authorization,
+                        sessions, path traversal and session hijacking.
                     </p>
 
-                </a>
+                </div>
             </div>
 
             <div class="list-group">
 
-                <a href="assignments/exercise5.html" class="list-group-item" >
+                <div class="list-group-item disabled">
+                    <span class="date">Coming soon</span>
 
-                    <h4 class="list-group-item-heading">Assignment 5: Excursions</h4>
+                    <h4 class="list-group-item-heading">Assignment 3 &mdash; Social Media &amp; User Content</h4>
 
                     <p class="list-group-item-text">
-                        CSP, SOP, CORS, and more.
+                        Build a social media web application with Express.js and investigate Stored XSS,
+                        Cross-Site Request Forgery and Regular Expression Denial of Service.
                     </p>
 
-                </a>
+                </div>
             </div>
 
+            <div class="list-group">
+
+                <div class="list-group-item disabled">
+                    <span class="date">Coming soon</span>
+
+                    <h4 class="list-group-item-heading">Assignment 4 &mdash; Multi-tier Applications</h4>
+
+                    <p class="list-group-item-text">
+                        Connect the backend to a NoSQL database and investigate NoSQL injection and cookie
+                        integrity attacks.
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="list-group">
+
+                <div class="list-group-item disabled">
+                    <span class="date">Coming soon</span>
+
+                    <h4 class="list-group-item-heading">Assignment 5 &mdash; Security Excursions</h4>
+
+                    <p class="list-group-item-text">
+                        Open-ended excursions into Content Security Policy, Same-Origin Policy, CORS and JSON
+                        Web Tokens.
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="page-header nobreak">
+            <h4>Submission requirements</h4>
+
+            <p>
+                Hand in attack reports and other documentation as separate PDF files, and all source code in one
+                ZIP file. Include both the original code, to allow us to replicate your attacks, and the patched
+                source code, to allow us to verify your protection mechanism and hunt for more ways to attack
+                your code.
+            </p>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>Code</strong>
+                    <ul class="list-unstyled">
+                        <li><input type="checkbox" disabled> Original vulnerable code</li>
+                        <li><input type="checkbox" disabled> Patched code</li>
+                        <li><input type="checkbox" disabled> <code>package.json</code> describing your project and its packages</li>
+                        <li><input type="checkbox" disabled> No <code>node_modules/</code> directory</li>
+                        <li><input type="checkbox" disabled> One ZIP file containing the source code</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <strong>Reports</strong>
+                    <ul class="list-unstyled">
+                        <li><input type="checkbox" disabled> Attack reports as separate PDF files</li>
+                        <li><input type="checkbox" disabled> Proof of successful attacks</li>
+                        <li><input type="checkbox" disabled> Explanation of protections</li>
+                    </ul>
+
+                    <strong>Git</strong>
+                    <ul class="list-unstyled">
+                        <li><input type="checkbox" disabled> Separate commit for each security fix</li>
+                        <li><input type="checkbox" disabled> Clear commit messages</li>
+                        <li><input type="checkbox" disabled> No single large commit containing all changes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Malformed submissions</h4>
+                <p style="margin-bottom:0;">
+                    Failure to adhere to the above will lead to rejection of the assignment.
+                </p>
+            </div>
+        </div>
+
+        <div class="page-header nobreak">
+            <h4>Important rules</h4>
+
+            <p>
+                Since you will be attacking your own web applications, there is a risk that the code you write is
+                not vulnerable to attack. The guides try to alleviate this problem by guiding you towards a
+                believable solution containing common security flaws. The intention is that, if you follow the
+                instructions closely, you should end up with an application open to the selected attacks.
+            </p>
+
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Early protection</h4>
+                <p>
+                    Do not add security protections before they are introduced in the assignment. The
+                    vulnerabilities are intentional and are needed for the subsequent attack exercises.
+                </p>
+                <p style="margin-bottom:0;">
+                    You should, however, keep the application confined to the intended course environment and
+                    never deploy the deliberately vulnerable version publicly.
+                </p>
+            </div>
+
+            <p>
+                To ensure a detailed understanding of the inner workings of the vulnerabilities and the
+                protection mechanisms, it is important that you implement things yourself.
+            </p>
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Third-party libraries</h4>
+                <p>
+                    Use only the libraries explicitly permitted in each assignment. Unless an assignment
+                    explicitly permits a third-party package, implement the required functionality using
+                    Node.js built-in APIs.
+                </p>
+                <p style="margin-bottom:0;">
+                    Inclusion of libraries that are not part of the core Node.js runtime, and not explicitly
+                    permitted by the assignment, will result in rejection of the assignment!
+                </p>
+            </div>
+        </div>
+
+        <div class="page-header nobreak">
+            <h4>Example solutions</h4>
+
+            <p>
+                To help you on the way there are relatively detailed assignment guides, with online example
+                solutions. You are free to take inspiration from the example solutions in terms of the content
+                they serve, including HTML, CSS, JavaScript, etc. Indeed, the guides expect you to examine and
+                reverse engineer their solutions. Feel free to take inspiration, or reuse and improve!
+            </p>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Example solutions</h4>
+                <p style="margin-bottom:0;">
+                    You are allowed to use any information you can get from the example solutions, including the
+                    code if you manage to successfully exploit them. I've made an effort to secure them, but
+                    there are no guarantees!
+                </p>
+            </div>
         </div>
 
 
