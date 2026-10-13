@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DVA489 — Lab access link</title>
+<style>
+  :root{color-scheme:light dark}
+  *{box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5;
+    margin:0;padding:2.5rem 1rem;display:flex;justify-content:center;background:Canvas;color:CanvasText}
+  main{width:100%;max-width:34rem}
+  h1{font-size:1.4rem;margin:0 0 .5rem}
+  p{margin:.5rem 0}
+  form{margin-top:1.25rem;display:flex;flex-direction:column;gap:.9rem}
+  label{display:flex;flex-direction:column;gap:.3rem;font-weight:600;font-size:.9rem}
+  input{padding:.6rem .7rem;font-size:1rem;border:1px solid GrayText;border-radius:.5rem;background:Field;color:FieldText}
+  button{padding:.65rem 1rem;font-size:1rem;font-weight:600;border:0;border-radius:.5rem;background:#2b59c3;color:#fff;cursor:pointer}
+  button[disabled]{opacity:.6;cursor:progress}
+  button:hover:not([disabled]){background:#2246a0}
+  .error{color:#c0392b;font-weight:600}
+  .link{word-break:break-all;background:Field;border:1px solid GrayText;border-radius:.5rem;padding:.7rem}
+  .muted{color:GrayText;font-size:.85rem}
+  a{color:#2b59c3}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<main>
+  <section id="form-view">
+    <h1>DVA489 — Get your lab access link</h1>
+    <p>Enter your <strong>university login ID</strong> to receive your personal lab link.</p>
+    <p id="err" class="error hidden"></p>
+    <form id="f">
+      <label>Login ID
+        <input id="loginid" name="loginid" autocomplete="off" autocapitalize="none" spellcheck="false"
+               maxlength="32" required autofocus placeholder="e.g. abc12345">
+      </label>
+      <button id="go" type="submit">Get my link</button>
+    </form>
+    <p class="muted">Your link signs you in as you. Keep it private — do not share it.</p>
+  </section>
+
+  <section id="result-view" class="hidden">
+    <h1 id="greeting"></h1>
+    <p>Here is your personal lab access link:</p>
+    <p class="link"><a id="link" rel="noreferrer noopener"></a></p>
+    <p class="muted">Open it once to sign in. Keep it private — anyone with this link can act as you in the lab.</p>
+    <p><a href="#" id="back">&larr; Back</a></p>
+  </section>
+</main>
+
+<script>
+const DATA = {"salt":"7FcUTwhYXME11JChopnC6A==","iters":600000,"entries":[{"iv":"PBJcl0jgEKkpc+xd","ct":"Gy7b4vcz558KCEN9/GU4Kyy8YSFUTGGzYzN+Ni3tbwiHCH5hVNTLuc/9Mocf1GKyEAnwRsieqNYhMnsixlHJd2zvu5SWY+F5ephfp+T0OPda3+xGK2ZOITM9GVzU43sFS8ttaKJGukZfWOwq+VgTAWIfDIKy3vz7SWf9WriMJHIKYOLR5KsLcKe+9QRvbXs/UQ3szmWlLnr39vWSJ1EmEQjVT0juUmorqoYRwXdqE8NBz0rgyVQrnZRD3tPyYDMkTZ2bI6kbXqRDfa0tahdDOnAKUDIe5w9qBysJcK8DT6uH58KmI1U/3Wpt9l1LdE2EkGGV2/4="},{"iv":"9C5ai6Mis75bVfXy","ct":"WUuP9ZuffH/rkG7dkt71Znb3B9yjoKE84Hd/zFVshV/jyr4+2avmbC7CuMQ+1ubeN9hDcEzxBKfPFXUlvM2gJvy9UkpHJxzu1MYkWun5rXWn5OzYt81lkUKLxJrGnhljEzIVgYbcsr+KiTcdQFVDRFE0XCXbpPs683Up2Kch7Hy/ja0FEl4q5R+jx/geUbxGuRWbZ9gDbveuEUBGr6UQhYWwZuHdahPc57NqPj4r3d8e0o1iugMCrJ5+OtPTLS67MNCTxL/f29M+wA+xYzFn1vPXZC2tG8LuOCrzFhs1ZVTA5PbOgVSTDIPXyYHPIUBg73AraFJWxq6StltA/TPKTWI="},{"iv":"qLU7TQNwEiK/igZK","ct":"1DNkmhpwlRNF+M9RC7i7GKqny8KD7AjpipplG7ZEjj9TBhDNZAWiw1FyjptN+Df1XtjBKPJaKqoje5hC/w8JG/4to3iRMmsyHAWMTf0lMIBVGyd/autyTpS1NQ+Ju8UsycLYj14urXJn6eroCf84PKUyXJk0QjhbSAfI7pajgyHp0nQd1B5nYOMvKyRyyjYIQAhMtK2wCcbvsuadDddPM20UtPiWSX0DOM/Dbd3goES65rlUoobVcfmEPLoUMGbwvtbR7j+QMONCDtS7O6XZIGsC3Oxn9TLYOmcpELXzSZvLUGCOAqbJ3WmO00qBf5kdCx1uYs4x+VGmGFh5flNI"},{"iv":"drVYfTYIVvspiScp","ct":"c//khhF2l51Cxm4bCQGlgVTctzLRZoegdDIBtSPpYVghluY/VIj0s02pg8ssjrzB8T/kxzJEFSm3j351l5t9CmR+3AIyPV6nMY8JC5HT+pjF9lOinsy4iFwPIQMX3Gh6oHxW1ZSQbhgTIkxqqjF6KsQKjw3bWdJndIDINSKIRqmTzfA4F5NXttsZFG9MXT3icZltkav/cXLpSHoAqRkJ8tJ7EUQBay/tWaBLVIF6sXV2raCSNL2naS++yrfEIe+H2N9A35SYQoH6TEMD4JZlj0O9RLiRnN3oAQhusFq1sEok6s86tt1OGhmbnVPX3B/uCnqW9MKGGBrxtH1/"},{"iv":"g/Rui7qZNpQrWpLd","ct":"nqouJ7zT8C8QP4tnHu5hmET+5uW0d2VG0wuHd8IPwVBBwYkGvxup7UwIzN2kpc4hKcF1Y1pA/qoY7glZf5eFMOWTD5tG6eNeWYf5eonnQP4U7oUt62n4xbgt2MGH5LNKN9CzxSgjAa92NY717fqHVkJiJKuV7Ceq2VJ0J3uXMzoaDozrPVRwra1GRy6b1sm1qKYUcUnmdj7oFNe1/dUrXRU04MAEG61DcV5h8cXArQjsuPOsm1YwKpWiWVQMFmYARxy8Ux7tRkTihdwXJd59YZWeOytrS0FYfiMEkfGOd5gyqC9CEqh1NBmRgIW55/kiKxSQTNCbR9IWWQ=="},{"iv":"1I96SaoS38WgW0O+","ct":"R+H9TU3/RlRE8Mgu3Jqslu8Y85jMXpZwufrEyipibzxBP+K8KKz+qijpcGDL0XB2W9/PZF4jWVWP8+huD8pmLrQYSn4MU6enEYMQKve2AsY4rHq+SDOnWwHdlfKb6NTjnOdE9v4SfBPNIqjsfsO+W5d8hdFGxjZKSdR+5ms3tY+Sxhdnz+4xwfuw8TLtpojv6HQL6OOU0sz6/go0TBxdAeaBJ0h7jHaDS8a7hp7n2D1aLJqxBv7VrRM9ujf+vB6fyOl28LaSmqX9Mca318VZ+7FBiPN2Xw1euzNNkkk2TfMWJE78/mg9lVia8wySoHK+V528cU8V40SxOpXurbr4zUs="},{"iv":"8G2iEJOY9Zzdad5z","ct":"t0+MwOKOwKjEunOEdn3r3QHVNOd5NECNZsiB55VMT0su6PYpIWSHMZVa7q/U1/9DnOh9e5YH9gQNHpvZQfYCcl+UG160WN7B+A+kPOQojvcIgHNqWQA/U4Al4ehzKk6Gmubpt4Li7WI8weO0el2dQ5WugZr6sbBljYnWWFieFrfDJUxZAvSECB4HhsE3ju6ThOVmVcbGgG6pKKnLWX3lPPIhFZ4C+LXwpEJDrxd+LQYQo/uplCm3V0u/x0JtqRLvWN+yXWMI5M/dFbLzbOH+w0GfpBoF7bTfR1Hyf+MuXQEfNwP4n1kSBCXhNVoSgd+7+88DRqUAHo9PB7G/"},{"iv":"laXNYGS+jAsk6OJV","ct":"v4NsXG3YFwu1QUcKRnfAEh2zXkz//odfC/iXWHTx+S8R8U1PwPF6dPitmaVw3WeSngifdC2Pins+2VrChdvhTir8Z526k+Qn4pnz0KiRGBaFDjNO1qVOECuVGSHHbJ/XWDzk5tA23kCVO48DeLuvqZNuzuekAQMNAtz/8AutdQATkFfxtcZExhvun25hxmLaMugHfTFZv9GTRhgc6RwR7nd7Mv9HnPM0QvUFVagWF/pWWwxX1e2I10xorID1dJUcEKfl4RYhHBvnPV/urzX/8+0PgpgCdPueryLPCD6r0J30Pt2fvrHw+jcqcaFude280UZtsBZaWOuG9npW6qB/"},{"iv":"ojXH+iDXmW7tdYWM","ct":"IJQu4wbdet/2mVKJy1pAd4frAZLPHRcSNF5Q/rrDTGF7BnB3q0VvzTwReUy5Vb5xNgDITDkAlRC8U2R/Pdo4PO+aOUaxDU9DjsZbTmBiJ3kEudbkFOSQ3U6nasDwZXk4LbqRHzovKzhF1x2/dn2B2rTSoAqiZxFtJZww1QJitvK0x5cTHRPFLpPLhRJbh6GRllLbX6hZaT1KzIAcbVWQerMGhUht6jWp4QHhSFMv7zvp8s6Y//t6MUsxmdFQodA4s2vvIHEDOq7V9XGi8GoY0FY8UWmn6hukWz86HCVeLh9EUJmrnZ8UbpMbcDzBBs4YsgdWOIkv9HNM8TKRbMAaCWE="},{"iv":"3SXFJwefysGaPJVZ","ct":"9n1daXITyuLqh5dEHaCKmoR0Pa8nxz1uG6rAlCh9r2WZwYerIOZRw4fcyGvxFQ34GG2IogH+eclunUYTkcSb9f2V3aGXieyO9GU9Sh6uyoIfVmU0JUDwFxsRe3Hqueq/ZB+9im/QrdqpIOZCJ8fMJ1kkMD4OcYv1FH+2KzYQVt2AXUIX66Ln874066WlHsqRnU0o6WXIwSY+NGFsTSeX1RXieelGupwLhk4HTbmaJFs+6+omW6iv2PK3wEOmBc3biwp4rSsSrhh79OIb8OJS3aDojaILmRYnmsVOEfx4zfz0Yp1bTszslMc4VB4oXEV6RcaYK7cMcZNDoA=="},{"iv":"Ia61/u7qa122Niew","ct":"SLNZ3464a+GKRsfwwoF2R0NjuGdUSaJ0N/Go28WHuOvySrqxgfi4axdlLxzbjyzKXW4f5rLyNEj/tp/509nDhRacmgfmR0/ggsD9vB2cMCnH30KpLUJExLPhkGWgzDDkWU0KSggBsQwv97mgA2FsrsEv+Uln2DEB/7NkRsxaIQ7AEwPN4l2pLw2vsVWlAJRNMsaz/MDM3+dxVp01t+hlhk6CCu7FaOu7Qx4/LaEAmlaRNx8agjsndJZRoh4y1RVd8WqS7u2VdEnB+fJ4P4y9LH9aTmzh0PmuFNrfhqf1g7u+/jeDm1Ju5Y6RJXL52zLyopzctz70dx0="},{"iv":"WE0lrEzyoovNimE/","ct":"QENsLMdNrzxaXUzlGZYwW9nLvJ3phf59ysXwA6rPTBbecfijl9P8UVSqXTsGTXY7TU+5K3PFiMXPz3vVNtxOr3ll8vtOQ+nzozeLjFtrCdt+MFzje6aBJblAx0veN6nYupxabqGxPBBSV8a13l1bJuaxfNY1xwiVZDvb42pbmfk7zDVqaCvW5YmhtAB2BDMlNmBGT7+R+Eq0O999hysFwEw28lXMJOWFnVT0awKTYWlmjBSoEuZHG9w3ofgFIXSRetIEJ1qvDeWRhZH60OOnTRDOJ5myiY973xDwQBzDHCAUU7i1WlYjppzJZNsbhKvXsvNb"},{"iv":"InEDuBqX6v1r7qxV","ct":"/qKDLtn5hew3JkINXfq1CqYk96riGv473qb9B/LGRSpEYWb4s3mTeXGvc86WQW6CU4MzRoFKKjH0OdnkJNcwEaPOU/E3OL122VVcxLxb2WqE9gv+6VRoAtrIetiYo7h2bCBgvyrKeTC41e/q6g5hgqp2SmYvKAe0dj1FTi5BmdItqpHFdtMzSDevNnIUIEwIV6tsXPpvpF4fVK+fA8d4YigaXiXaozbjbHhV525re9an02ox5dCcFaHH50kxgTR5YocjNezgnok4GKk7P2mQqIXNY/B2acaSsM0UCpqRFO6ftc0jr+xo7eOYmoSS5OwUpjDNzzxSyWE="},{"iv":"lMGo8hmMabvnO0QD","ct":"Ewld5Hv0FBVnl0U3nrqUV7VAzuU/QQg0ibp1oAFWJKiY4vX3zoTbsCa7IlseNx0K9CvsmhMLqUsD90SGas1uwPrrvKlA9wRiODKRzDOmH9Tbougxp4Yf2ANf3AjrIWTxeZtzGiJY+LZy+6IUZBXDFySTD3UeNTROs5M4Xo8rZ3ylYZAN5H8V18+LYVDH0uVXRpScf+D0oFIYNHZNFe33YZr4y45zrZu5juji560osUSECcGD/6u0XodkBOvKs7yXf5DfMmG1CpY6Xpn8THJEidjIwKs+8R50lQ4Neu5NRXRo2/JU8DFY9I30XPeqUazM98aeMiXpQHFhizDfrl0b"},{"iv":"16K6gFDG8WjFjAsL","ct":"FvA9Jy691zFA7nwlv6kp5s+2jh3mlNQN/rzs52ai1hu0KxUXlNM+ZBfHAPRn/KJSfXVd3u1zoOsBIa7NpDWO3JFzkD/4/yUKfSJe0L56yV30W7kBLERXNqNcehpKmNAridbgxaLcnyNxKHnZzznJkz57dh8M/NXEc/9++A7DevWnTokS8HX4JqDitBIgLBpEEfR2QFrV2mTanf7SA3QXle7ckkpPKJV2YHwlc3eCyqdfxDFs0iNXRo/DQzXpgII/GIHh6PA4Y/2lR5hitha0i+FsdaWeB5vBNi0GYV1b6GlVXDVPbEDkcTcfm3AFcLeGRGUUaqPYIrQmKbzNX2uz"},{"iv":"0x/iuJg+gWvtZ1i+","ct":"HT288/DoBoPMYjfLwJvmYR/iD8jwpEYQl/WtzxQmI5ef8PdIO4ETAbzjBB6QO0nzA7Xh9M8PJSJxjy63nEZCyXiXazYk8v3K9e0pfle3MSfg+zl02VJ2rpzb8wrCmvJQFqhE3EWj4hm3tMJ66HwfkxQT6g0GYD5hHypdKA5Y8mfW6oDmiG95Xm8yh/j1X69AjylWA3wriMtR2LF6ZK7fGcrGwFM3PFuIUWEMh/Fazexi/1PzmUHWSX7bo71/yrujA4GL6C10bDfnMWjD+WMFt2wu7mPhLVpzTi6UBuTrvZ5SEPe77s3oD19y9xC27abJXIEhkulBUYe9aA=="},{"iv":"FnX6i2A2lWHgWhtf","ct":"jpE7iWsQ0owmDpbRcZ65YrzR3qq3+aornaQEgm/MWh60H0Hk7ZDFymJaY/dfxsO52reT8CvwYHS8rmPxB+BqwxJS0J9tt2T6o0Ii+P1v0G0CXFJlT9SNKouEB0c9oKVmewFyANqdlYryetrHW+GK8u40nleewRwmNr/ZcbIGBWaRYj6RGVmpOiIuuMFH7fIvlMiqRaLKFAAs4qosC95nTK7ZFbrK4XBuTpTUZj/dup6Z6sMMQXc3j8o2GVeMML3utVJDcSyAdxReXOX8IVkjSFUggb/FetPv8ijE5LdsItMlkWJ/coSwXtfd/SCUu+ZLUZxGSx51Uns="},{"iv":"Vs0UoMpv2x6nOJZM","ct":"7WjglMDPzij5Dsw7Ih7cSbZ791j0HYDwYot/ZG8eapY9T0KKO+M20BtcJgahPidKRJOCm99QqNHEomH/CLwIr+qOcch/mYSHOmu1a7emJwvWMrFy1fT0Fkh6ADAppXs98VktwzABahCrmr4ZOmvaJqCGfIXCZeIGxVqvNIzx/6Vk2fM3cGpP0M2WFdiz0HTOUMcVa2NLuU4T4KSb1addyXutTcODclxcbPB+o1AzLVM4/ncKKn/JuFVeIlTGjFiCYcxc+0jf9/I7CSBkkRA5z5w79tiAoMlV/RMGHkRw3wFd7E3yQJoMVd/zGTdRjdXqqMHdAWMsEOEZPQ=="},{"iv":"X2EzM+1rg9MR/mHM","ct":"EkB1+xzeNmYlom8CJDts9vVAy+dtpiWdHDZrtLuUjyel5QG2deiFLpzj0NrqF4vW1FjyD5Q18yJMS1xdNBDDPACpRZQjIjQz2un/iSHGn1z8yBjb+6ye41DF8DX4KSFzPXckdaFFN1U2Ws/I5OKO3yC4ID9gvU+pyWWqD/QXNGv65B8wG/58lIQuZG75Ce5IsF2UrdAQMYwtBi0F+4qEr1/VXUMD1jdAOJgB4CxF0vTextk53/CFDBZ52zuoQ+8MuxFuJIrpuUvUKHMRHQiv8op8mtQDoxpWwkrNXxZGCxd3p+rrx1VaNWyRlULUiq1jTUrOazKzN5A="},{"iv":"4GfPRhPUqUN7Jr/c","ct":"6YcZ+C/+PnmUlWAEKkMnuXqdKpngh2auTRMx9yPtS7UlGE7VBXJXjTJCwWy55vgp5qCED4Dx4bLELLYonxAynQUdfnTotgkyuTzn2O4T2JOYcPsTDiCTCDc7hLz/ki901NcQXZchAjUGmFQ8I+LoMAGKCP+bi3Og3XRmh1Zsh6xmW2rPTfmSp13fTUIX6qaLOvrwLqfdF22ALq2Vy77pexIGwzj3zaEEYf1rzsu1VFlT7sJIeWgDDE8W1sasiC2NdsZBT519nqvtGt/j/7CNzBHMaAqv9+B7e5xIV14O6Bvdr+9kxgGXvX9pZRJY670XKXfQYUsb9WN2rA=="},{"iv":"R2H2bWy92QN35Qso","ct":"YfPiEBNqm5nbMFRX79DV37fEML01FnCV/vqDz+kaEuRlYH7hjgx9MxisHPtEVrWIicsQu4nG6l0dGCclTz/KHdDCydNHaoYQ9s+Guyd/fQGkNbA6AUfqRm0++YQqhbtqcBQnHdU5m7JdCx4d3jq2zY+lJV6uSTFAE5VivmjZuvL/QwTIqwwjX+flMDAdst30Q1qDM/aKuS3PLii3a+Eyhmb1b2Pygo1vxqaD5SJXpB3+QUJEDh7YfXHy0Zptpo5QgJmPEUPaotpDUDg55H2Xz3D1y7wa8v0ET4SS86Yaz97hEKvTmsRG9j1Y23IcFw4AuyH+GATBc//6LQ=="},{"iv":"oRFBP8WMDPuVOJI9","ct":"GKGitYQhDPYlFnoh7B7M6nPuwQVQ+i6ttgEDDeA5B7+efCyjwyUOmSxxZ67q9ITdkE6mop8gt0GDOqBMKcTpceXBP93C5v96wWFDEUAVllQkShhURuoZxYw3laZ4J4RDEwNfr5Nju6Wcmou/UAlK46lSGLPUUXwHHBD4OTk7QtyI2+6wyPATXarMET0nqodRXSdR+Yxo18FLCx0maPyD7waYPeKomtQE3RsuE9dUOBsTW7EyX4mKnqYid2f0wnC9gUPVKfEGhDZCe38p+KsK9W0t+TKwuYyqSBOIco3Airu7ERhQPf8aIiMa5HxD0ddVB60G8x3GUMshmzbK6F/6uGPlTxiq/w=="},{"iv":"C2+8N/5JFEKv5ol6","ct":"LAE9ZH7VL95HevSQUI+WnCw5H1VPtwtTVSQyJ1t5XVYYc5OT+EWDYNEogvMo1x76ZHpMmFT5zkkIYMJHuHImH5odSX01v1Bc+6U4q0VFXbuiKO2CT3aiErptZddY/ytx/COkJCtLMisbVGQqFGJmmf6h2H6V6Kd/f6FRetF1MgAozCy6dMJ8gSntuZDfmBEdTG2ebYf4Md5sws5ldSLYf0I5WbmUGwvvtjLa7dqJIJo/H6SgkUbkO3iXdhfsxD6wfP/4d6UYMIvZZ2qVC4NcBUfL4/sFoRa7W1f9J68+LadECYGVrJYXw2uSfzHOiR9esytsruFA9qXMN8R2"},{"iv":"Cng3lLgy1316HVvO","ct":"iWruz0+rn6IrhiJEpGpBi8kH87xfNbDS0YBovMee6Mrhqttd2GPWy8vBDQ0ft8lCo3FII2emCFIuaxiqP5hUOX6LAI94TJOPBulG2OzyVtFzZLPhQzHy2p+mlzJTvk6tCi2YH67+XnwmzJDHtRnZmgt4uqyf1Jg1WWCoqho4rZ8ol76QmmTTnrbSEO9v3tt4sEEVRRPpCQMl1EG/iQzMI0lIl7FUQyilUC+KHFjxJPPMyXKB5WvctjNU4lcT4GpRyrHUR2m9AZwMqc7uyGSS3OoE7m//gxiwi2mrv+ipmgP8Ah/pccMIrGMkwCF5G+ibl0J/xdEOaOL5jTXr9jK5fMEEKw=="},{"iv":"NcYt5S/mhK+ensZY","ct":"8UbCjrEQ7WvIwONAG/tpxLs3ksYXE0pIyXqtMjEz4pspT/mn61xEq1R3ZSK78euUTVyV2WS91M9jjHOCEmiI13goyFOwf0svqO3DP/778VHWq5vaLcjpesThmC0NxxU176gTIICdnfFOV0fPrf0+dxE4LyO7KbTzg4BAQHQvURpo1pVAyKm4/n53tLwwmwx6xE6yw4gdjAOnHNwzKWfvZ8NzjuefcTJvwKEo7GJEUFHLwmIZVuO3FKLjybYApgpMFMkqf0tLUF3QWDPyRb89YIr++wCAc3bt0mP34jq4KjilwJKXRu3m6ADDow8umK/of2ekFjmSGLil1HSG"},{"iv":"+zrPS2Officz/bSj","ct":"1xha6F7XYi/cFQSwnefKT6xicYqlEQuZQq1By20LXLruDShCHpiAhin0pp8MXKc465NFKaWJbBaHjzra3ltronZXKrcJ0HyAQp7Pv7oU8KWRtrt/XaQ//YtYLbvNzOaLAs3BrELcAZrMS+cgWFSXNuO3yF2ci17MszWWNrIdfcksEK9GZW2LHiv4eKtBXOm5XupUyNyGvmotZD18S/lHcWpBWGMyqCoBYmRpPQcCfl7cgy96o7mDrpD/uXFRB3oXPo399/XkIbP19kQwzrS6Jw/FpXVzY/gofvdPDxBrDjmuzDyVvh4RMUpVkIcZn75eG0wQlOS7PiJ108oBH35dLCM="}]};
+const enc = new TextEncoder();
+const dec = new TextDecoder();
+
+function b64toBuf(b){ const bin=atob(b); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return u; }
+
+async function deriveKey(id, saltBuf, iters){
+  const km = await crypto.subtle.importKey('raw', enc.encode(id), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt:saltBuf, iterations:iters, hash:'SHA-256' },
+    km, { name:'AES-GCM', length:256 }, false, ['decrypt']);
+}
+
+async function lookup(id){
+  const salt = b64toBuf(DATA.salt);
+  const key = await deriveKey(id, salt, DATA.iters);
+  for (const e of DATA.entries){
+    try {
+      const pt = await crypto.subtle.decrypt({ name:'AES-GCM', iv:b64toBuf(e.iv) }, key, b64toBuf(e.ct));
+      return JSON.parse(dec.decode(pt));
+    } catch(_) { /* wrong key for this entry */ }
+  }
+  return null;
+}
+
+const $ = s => document.querySelector(s);
+const ID_RE = /^[A-Za-z0-9]{3,32}$/;
+
+function showError(msg){ const e=$('#err'); e.textContent=msg; e.classList.remove('hidden'); }
+function clearError(){ $('#err').classList.add('hidden'); }
+
+$('#f').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  clearError();
+  const id = $('#loginid').value.trim();
+  if (!ID_RE.test(id)) { showError('Please enter a valid login ID.'); return; }
+  const btn = $('#go');
+  btn.disabled = true; btn.textContent = 'Checking…';
+  try {
+    const rec = await lookup(id);
+    if (!rec) { showError('That login ID is not on the roster. Check it, or contact the instructor.'); return; }
+    $('#greeting').textContent = 'Hi ' + rec.first + ' 👋';
+    const a = $('#link'); a.textContent = rec.link; a.href = rec.link;
+    $('#form-view').classList.add('hidden');
+    $('#result-view').classList.remove('hidden');
+  } catch(err) {
+    showError('Something went wrong in your browser’s crypto. Try a modern browser over HTTPS.');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Get my link';
+  }
+});
+
+$('#back').addEventListener('click', (ev) => {
+  ev.preventDefault();
+  $('#result-view').classList.add('hidden');
+  $('#form-view').classList.remove('hidden');
+  $('#loginid').value=''; $('#loginid').focus();
+});
+</script>
+</body>
+</html>
